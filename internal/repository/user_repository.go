@@ -32,7 +32,7 @@ func (r *userRepository) Create(user *entity.User) error {
 
 func (r *userRepository) FindByID(id uint) (*entity.User, error) {
 	var user entity.User
-	err := r.db.First(&user, id).Error
+	err := r.db.Preload("Role.Permissions").First(&user, id).Error
 	if err != nil {
 		return nil, err
 	}

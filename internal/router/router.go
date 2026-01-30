@@ -7,6 +7,7 @@ import (
 	"github.com/hadi-projects/xyz-finance-go/config"
 	"github.com/hadi-projects/xyz-finance-go/internal/handler"
 	"github.com/hadi-projects/xyz-finance-go/internal/middleware"
+	"github.com/hadi-projects/xyz-finance-go/internal/repository"
 )
 
 type Router struct {
@@ -14,6 +15,7 @@ type Router struct {
 	AuthHandler  *handler.AuthHandler
 	LimitHandler *handler.LimitHandler
 	UserHandler  *handler.UserHandler
+	UserRepo     repository.UserRepository
 }
 
 func NewRouter(
@@ -21,12 +23,14 @@ func NewRouter(
 	authHandler *handler.AuthHandler,
 	limitHandler *handler.LimitHandler,
 	userHandler *handler.UserHandler,
+	userRepo repository.UserRepository,
 ) *Router {
 	return &Router{
 		Config:       cfg,
 		AuthHandler:  authHandler,
 		LimitHandler: limitHandler,
 		UserHandler:  userHandler,
+		UserRepo:     userRepo,
 	}
 }
 

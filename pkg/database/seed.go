@@ -12,7 +12,7 @@ import (
 
 func SeedRBAC(db *gorm.DB) {
 	seedRole(db, "admin", []entity.Permission{})
-	seedRole(db, "user", []entity.Permission{})
+	seedRole(db, "user", []entity.Permission{{Name: "get-limit"}})
 
 	fmt.Println("✅ RBAC Seeding Completed!")
 }
@@ -24,6 +24,11 @@ func seedRole(db *gorm.DB, roleName string, perms []entity.Permission) {
 		role = entity.Role{Name: roleName, Permissions: perms}
 		if err := db.Create(&role).Error; err != nil {
 			fmt.Printf("Failed to create role %s: %v\n", roleName, err)
+		}
+	} else {
+		// Sync permissions for existing role
+		if err := db.Model(&role).Association("Permissions").Replace(perms); err != nil {
+			fmt.Printf("Failed to update permissions for role %s: %v\n", roleName, err)
 		}
 	}
 }

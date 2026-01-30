@@ -86,7 +86,7 @@ func (app *Application) setupRouter() {
 	limitHandler := handler.NewLimitHandler(limitService)
 	userHandler := handler.NewUserHandler(userRepo)
 
-	appRouter := router.NewRouter(app.Config, authHandler, limitHandler, userHandler)
+	appRouter := router.NewRouter(app.Config, authHandler, limitHandler, userHandler, userRepo)
 	app.Router = appRouter.SetupRoutes()
 
 	log.Println("Router configured successfully")
