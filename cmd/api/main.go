@@ -59,6 +59,7 @@ func (app *Application) initializeDatabase() {
 		&entity.Role{},
 		&entity.Permission{},
 		&entity.User{},
+		&entity.RefreshToken{},
 	); err != nil {
 		log.Fatalf("Failed to migrate database: %v", err)
 	}
@@ -72,7 +73,9 @@ func (app *Application) setupRouter() {
 
 	userRepo := repository.NewUserRepository(app.DB)
 	authService := services.NewAuthService(userRepo)
-	authHandler := handler.NewAuthHandler(authService)
+	refreshTokenRepo := repository.NewRefreshTokenRepository(app.DB)
+	jwtService := services.NewJWTService(app.Config.AppPort, app.Config.JWT.ExpiryHours, refreshTokenRepo)
+	authHandler := handler.NewAuthHandler(authService, jwtService)
 
 	appRouter := router.NewRouter(app.Config, authHandler)
 	app.Router = appRouter.SetupRoutes()

@@ -16,7 +16,7 @@ Response:
     "message":"User registered successfully.",
     "user":{
         "email":"user@example.com",
-        "id":0
+        "id":1
     }
 }
 ```
