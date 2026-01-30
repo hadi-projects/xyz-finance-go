@@ -32,8 +32,6 @@ func NewConfig() (*Config, error) {
 		DBName:     getEnv("DB_NAME", ""),
 	}
 
-	// 2. Validasi (Opsional tapi Recommended)
-	// Pastikan konfigurasi kritikal tidak kosong
 	if cfg.DBHost == "" || cfg.DBPort == "" {
 		return nil, errors.New("database configuration (HOST/PORT) is missing")
 	}

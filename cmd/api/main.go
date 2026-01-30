@@ -13,6 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/hadi-projects/xyz-finance-go/config"
 	"github.com/hadi-projects/xyz-finance-go/internal/entity"
+	"github.com/hadi-projects/xyz-finance-go/internal/router"
 	"github.com/hadi-projects/xyz-finance-go/pkg/database"
 	"gorm.io/gorm"
 )
@@ -28,6 +29,7 @@ func main() {
 	app := &Application{}
 	app.initializeConfig()
 	app.initializeDatabase()
+	app.setupRouter()
 	app.run()
 }
 
@@ -60,37 +62,29 @@ func (app *Application) initializeDatabase() {
 	log.Println("Database migration completed successfully")
 }
 
+// setupRouter initializes all dependencies and configures routes
+func (app *Application) setupRouter() {
+
+	appRouter := router.NewRouter(app.Config)
+	app.Router = appRouter.SetupRoutes()
+
+	log.Println("Router configured successfully")
+}
+
 // run starts the HTTP server and handles graceful shutdown
 func (app *Application) run() {
-	// 3. Init Router
-	r := gin.New()
-	r.Use(gin.Recovery())
-	r.Use(gin.Logger())
-
-	api := r.Group("/api/v1")
-	{
-		api.GET("/health", func(c *gin.Context) {
-			// Cek Ping DB
-			sqlDB, _ := app.DB.DB()
-			status := "UP"
-			if err := sqlDB.Ping(); err != nil {
-				status = "DOWN (DB Error)"
-			}
-
-			c.JSON(http.StatusOK, gin.H{
-				"status":  status,
-				"app":     "XYZ Multifinance",
-				"version": "1.0.0",
-			})
-		})
+	app.Server = &http.Server{
+		Addr:           ":" + app.Config.AppPort,
+		Handler:        app.Router,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20, // 1 MB
 	}
-	app.Router = r
 
 	// Start server in goroutine
 	go func() {
-		serverAddr := fmt.Sprintf(":%s", app.Config.AppPort)
 		fmt.Printf("🚀 Server running on port %s\n", app.Config.AppPort)
-		if err := app.Router.Run(serverAddr); err != nil {
+		if err := app.Server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("❌ Server failed to start: %v", err)
 		}
 	}()
