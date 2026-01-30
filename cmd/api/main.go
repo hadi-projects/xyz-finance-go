@@ -68,6 +68,7 @@ func (app *Application) initializeDatabase() {
 
 	database.SeedRBAC(app.DB)
 	database.SeedUser(app.DB)
+	database.SeedConsumerLimit(app.DB)
 
 }
 

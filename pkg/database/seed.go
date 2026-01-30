@@ -59,25 +59,30 @@ func seedUser(db *gorm.DB, email string, password []byte, roleId uint) {
 	}
 }
 
-// func SeedConsumerLimit(db *gorm.DB) {
-// 	// budi
-// 	seedLimit(db, 2, 1, 100000)
-// 	seedLimit(db, 2, 2, 200000)
-// 	seedLimit(db, 2, 3, 500000)
-// 	seedLimit(db, 2, 6, 700000)
+func SeedConsumerLimit(db *gorm.DB) {
+	// budi
+	seedLimit(db, 2, 1, 100000)
+	seedLimit(db, 2, 2, 200000)
+	seedLimit(db, 2, 3, 500000)
+	seedLimit(db, 2, 6, 700000)
 
-// 	// annisa
-// 	seedLimit(db, 3, 1, 1000000)
-// 	seedLimit(db, 3, 2, 1200000)
-// 	seedLimit(db, 3, 3, 1500000)
-// 	seedLimit(db, 3, 6, 2000000)
+	// annisa
+	seedLimit(db, 3, 1, 1000000)
+	seedLimit(db, 3, 2, 1200000)
+	seedLimit(db, 3, 3, 1500000)
+	seedLimit(db, 3, 6, 2000000)
 
-// 	fmt.Println("Consumer Limit Seeding Completed!")
-// }
+	fmt.Println("Consumer Limit Seeding Completed!")
+}
 
-// func seedLimit(db *gorm.DB, tenor uint64, limitAmount uint64) {
-// 	limit := entity.TenorLimit{TenorMonth: int(tenor), LimitAmount: float64(limitAmount)}
-// 	if err := repository.NewLimitRepository(db).Create(&limit); err != nil {
-// 		fmt.Printf("Failed to create limit %d: %v\n", tenor, err)
-// 	}
-// }
+func seedLimit(db *gorm.DB, userId uint, tenor int, limitAmount float64) {
+	limit := entity.TenorLimit{TenorMonth: tenor, LimitAmount: limitAmount}
+	if err := repository.NewLimitRepository(db).Create(&limit); err != nil {
+		fmt.Printf("Failed to create limit %d: %v\n", tenor, err)
+	}
+
+	// create user has tenor limit
+	if err := repository.NewUserRepository(db).CreateUserHasTenorLimit(userId, tenor); err != nil {
+		fmt.Printf("Failed to update user has tenor limit %d: %v\n", tenor, err)
+	}
+}

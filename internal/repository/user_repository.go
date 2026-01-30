@@ -11,6 +11,7 @@ type UserRepository interface {
 	FindByEmail(email string) (*entity.User, error)
 	Update(user *entity.User) error
 	Delete(id uint) error
+	CreateUserHasTenorLimit(userId uint, tenor int) error
 }
 
 type userRepository struct {
@@ -52,4 +53,22 @@ func (r *userRepository) Update(user *entity.User) error {
 
 func (r *userRepository) Delete(id uint) error {
 	return r.db.Delete(&entity.User{}, id).Error
+}
+
+func (r *userRepository) CreateUserHasTenorLimit(userId uint, tenor int) error {
+	var user entity.User
+	if err := r.db.First(&user, userId).Error; err != nil {
+		panic(err)
+	}
+	var limit entity.TenorLimit
+	if err := r.db.Where("tenor_month = ?", tenor).First(&limit).Error; err != nil {
+		panic(err)
+	}
+
+	err := r.db.Model(&user).Association("TenorLimit").Append(&limit)
+	if err != nil {
+		panic(err)
+	}
+
+	return nil
 }
