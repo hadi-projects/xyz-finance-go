@@ -22,7 +22,7 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 }
 
 func (r *userRepository) Create(user *entity.User) error {
-	return r.db.Create(&entity.User{RoleID: 1}).Error
+	return r.db.Create(&entity.User{RoleID: 1, Email: user.Email, Password: user.Password}).Error
 }
 
 func (r *userRepository) FindByID(id uint) (*entity.User, error) {

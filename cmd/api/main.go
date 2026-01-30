@@ -63,6 +63,8 @@ func (app *Application) initializeDatabase() {
 		log.Fatalf("Failed to migrate database: %v", err)
 	}
 	log.Println("Database migration completed successfully")
+
+	database.SeedRBAC(app.DB)
 }
 
 // setupRouter initializes all dependencies and configures routes
