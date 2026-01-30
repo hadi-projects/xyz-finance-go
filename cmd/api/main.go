@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/hadi-projects/xyz-finance-go/config"
+	"github.com/hadi-projects/xyz-finance-go/internal/entity"
 	"github.com/hadi-projects/xyz-finance-go/pkg/database"
 )
 
@@ -15,7 +16,6 @@ func main() {
 	// 1. load config
 	cfg, err := config.NewConfig()
 	if err != nil {
-		// Fail Fast: Aplikasi tidak boleh jalan jika config error
 		log.Fatalf("Failed to load configuration: %v", err)
 	}
 
@@ -26,7 +26,15 @@ func main() {
 	}
 	fmt.Println("✅ Database connected successfully")
 
-	// 3. Init Router
+	// 3. auto migrate
+	if err := db.AutoMigrate(
+		&entity.Role{},
+		&entity.Permission{},
+	); err != nil {
+		log.Fatalf("❌ Failed to migrate database: %v", err)
+	}
+
+	// 4. Init Router
 	r := gin.New()
 	r.Use(gin.Recovery())
 	r.Use(gin.Logger())
@@ -49,7 +57,7 @@ func main() {
 		})
 	}
 
-	// 6. Run Server
+	// 4. Run Server
 	serverAddr := fmt.Sprintf(":%s", cfg.AppPort)
 	fmt.Printf("🚀 Server running on port %s\n", cfg.AppPort)
 	if err := r.Run(serverAddr); err != nil {
