@@ -13,17 +13,20 @@ type Router struct {
 	Config       *config.Config
 	AuthHandler  *handler.AuthHandler
 	LimitHandler *handler.LimitHandler
+	UserHandler  *handler.UserHandler
 }
 
 func NewRouter(
 	cfg *config.Config,
 	authHandler *handler.AuthHandler,
 	limitHandler *handler.LimitHandler,
+	userHandler *handler.UserHandler,
 ) *Router {
 	return &Router{
 		Config:       cfg,
 		AuthHandler:  authHandler,
 		LimitHandler: limitHandler,
+		UserHandler:  userHandler,
 	}
 }
 

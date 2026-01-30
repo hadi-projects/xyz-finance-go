@@ -12,6 +12,7 @@ type UserRepository interface {
 	Update(user *entity.User) error
 	Delete(id uint) error
 	CreateUserHasTenorLimit(userId uint, tenor int) error
+	GetLimitsByUserID(userID uint) ([]entity.TenorLimit, error)
 }
 
 type userRepository struct {
@@ -31,7 +32,7 @@ func (r *userRepository) Create(user *entity.User) error {
 
 func (r *userRepository) FindByID(id uint) (*entity.User, error) {
 	var user entity.User
-	err := r.db.Preload("Profile").First(&user, id).Error
+	err := r.db.First(&user, id).Error
 	if err != nil {
 		return nil, err
 	}
@@ -71,4 +72,12 @@ func (r *userRepository) CreateUserHasTenorLimit(userId uint, tenor int) error {
 	}
 
 	return nil
+}
+
+func (r *userRepository) GetLimitsByUserID(userID uint) ([]entity.TenorLimit, error) {
+	var limits []entity.TenorLimit
+
+	err := r.db.Model(&entity.User{ID: userID}).Association("TenorLimit").Find(&limits)
+
+	return limits, err
 }

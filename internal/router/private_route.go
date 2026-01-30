@@ -7,13 +7,13 @@ import (
 
 func (r *Router) setupPrivateRoutes(api *gin.Engine) {
 
-	protected := api.Group("")
+	protected := api.Group("/api")
 	protected.Use(middleware.JWTAuth(r.Config.JWT.Secret))
 	{
 		user := protected.Group("/user")
 		{
-			// user.GET("/profile", r.UserHandler.GetProfile).
-			user.GET("/limit", r.LimitHandler.GetConsumerLimit)
+			user.GET("/profile", r.UserHandler.GetProfile)
+			user.GET("/limit", r.UserHandler.GetLimitsByUserID)
 		}
 	}
 }
