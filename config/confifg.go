@@ -3,6 +3,7 @@ package config
 import (
 	"errors"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/joho/godotenv"
@@ -19,6 +20,8 @@ type Config struct {
 }
 
 type SecurityConfig struct {
+	RateLimitRPS         float64
+	RateLimitBurst       int
 	CORSAllowedOrigins   []string
 	CORSAllowCredentials bool
 }
@@ -35,6 +38,8 @@ func NewConfig() (*Config, error) {
 		DBPort:     getEnv("DB_PORT", ""),
 		DBName:     getEnv("DB_NAME", ""),
 		Security: SecurityConfig{
+			RateLimitRPS:         getEnvAsFloat("RATE_LIMIT_RPS", 10),
+			RateLimitBurst:       getEnvAsInt("RATE_LIMIT_BURST", 10),
 			CORSAllowedOrigins:   getEnvAsSlice("CORS_ALLOWED_ORIGINS", []string{"*"}),
 			CORSAllowCredentials: getEnvAsBool("CORS_ALLOW_CREDENTIALS", true),
 		},
@@ -69,4 +74,20 @@ func getEnvAsBool(key string, fallback bool) bool {
 		return fallback
 	}
 	return value == "true"
+}
+
+func getEnvAsFloat(key string, defaultValue float64) float64 {
+	valueStr := getEnv(key, "")
+	if value, err := strconv.ParseFloat(valueStr, 64); err == nil {
+		return value
+	}
+	return defaultValue
+}
+
+func getEnvAsInt(key string, defaultValue int) int {
+	valueStr := getEnv(key, "")
+	if value, err := strconv.Atoi(valueStr); err == nil {
+		return value
+	}
+	return defaultValue
 }

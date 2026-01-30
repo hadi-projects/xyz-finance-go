@@ -27,6 +27,7 @@ func (r *Router) SetupRoutes() *gin.Engine {
 	router := gin.New()
 
 	router.Use(middleware.CORS(r.Config.Security.CORSAllowedOrigins, r.Config.Security.CORSAllowCredentials))
+	router.Use(middleware.RateLimiter(r.Config.Security.RateLimitRPS, r.Config.Security.RateLimitBurst))
 
 	r.setupPublicRoutes(router)
 
