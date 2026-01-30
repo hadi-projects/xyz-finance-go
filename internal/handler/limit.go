@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/hadi-projects/xyz-finance-go/internal/dto"
@@ -53,4 +54,20 @@ func (h *LimitHandler) CreateLimit(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "Limit created successfully",
 	})
+}
+
+func (h *LimitHandler) DeleteLimit(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid limit ID"})
+		return
+	}
+
+	if err := h.limitService.DeleteLimit(uint(id)); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Limit deleted successfully"})
 }

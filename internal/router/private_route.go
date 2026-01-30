@@ -19,6 +19,7 @@ func (r *Router) setupPrivateRoutes(api *gin.Engine) {
 		{
 			limit.GET("/", middleware.PermissionMiddleware(r.UserRepo, "get-limit"), r.LimitHandler.GetLimits)
 			limit.POST("/", middleware.PermissionMiddleware(r.UserRepo, "create-limit"), r.LimitHandler.CreateLimit)
+			limit.DELETE("/:id", middleware.PermissionMiddleware(r.UserRepo, "delete-limit"), r.LimitHandler.DeleteLimit)
 		}
 	}
 }

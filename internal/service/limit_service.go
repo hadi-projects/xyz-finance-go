@@ -9,6 +9,7 @@ import (
 type LimitService interface {
 	GetLimitsByUserID(userId uint) ([]entity.TenorLimit, error)
 	CreateLimit(req dto.CreateLimitRequest) error
+	DeleteLimit(id uint) error
 }
 
 type limitService struct {
@@ -48,4 +49,8 @@ func (s *limitService) CreateLimit(req dto.CreateLimitRequest) error {
 	}
 
 	return nil
+}
+
+func (s *limitService) DeleteLimit(id uint) error {
+	return s.limitRepo.Delete(id)
 }
