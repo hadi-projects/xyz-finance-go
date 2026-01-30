@@ -13,7 +13,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/hadi-projects/xyz-finance-go/config"
 	"github.com/hadi-projects/xyz-finance-go/internal/entity"
+	"github.com/hadi-projects/xyz-finance-go/internal/handler"
+	"github.com/hadi-projects/xyz-finance-go/internal/repository"
 	"github.com/hadi-projects/xyz-finance-go/internal/router"
+	services "github.com/hadi-projects/xyz-finance-go/internal/service"
 	"github.com/hadi-projects/xyz-finance-go/pkg/database"
 	"gorm.io/gorm"
 )
@@ -65,7 +68,11 @@ func (app *Application) initializeDatabase() {
 // setupRouter initializes all dependencies and configures routes
 func (app *Application) setupRouter() {
 
-	appRouter := router.NewRouter(app.Config)
+	userRepo := repository.NewUserRepository(app.DB)
+	authService := services.NewAuthService(userRepo)
+	authHandler := handler.NewAuthHandler(authService)
+
+	appRouter := router.NewRouter(app.Config, authHandler)
 	app.Router = appRouter.SetupRoutes()
 
 	log.Println("Router configured successfully")

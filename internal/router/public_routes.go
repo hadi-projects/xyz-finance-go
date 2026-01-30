@@ -16,4 +16,12 @@ func (r *Router) setupPublicRoutes(router *gin.Engine) {
 		})
 	})
 
+	api := router.Group("/api")
+	{
+		auth := api.Group("/auth")
+		{
+			auth.POST("/register", r.AuthHandler.Register)
+		}
+	}
+
 }
