@@ -60,12 +60,18 @@ func (app *Application) initializeDatabase() {
 		&entity.Permission{},
 		&entity.User{},
 		&entity.RefreshToken{},
+		&entity.TenorLimit{},
+		&entity.Consumer{},
 	); err != nil {
 		log.Fatalf("Failed to migrate database: %v", err)
 	}
 	log.Println("Database migration completed successfully")
 
 	database.SeedRBAC(app.DB)
+	database.SeedUser(app.DB)
+	database.SeedConsumerLimit(app.DB)
+	database.SeedConsumer(app.DB)
+
 }
 
 // setupRouter initializes all dependencies and configures routes
@@ -74,10 +80,15 @@ func (app *Application) setupRouter() {
 	userRepo := repository.NewUserRepository(app.DB)
 	authService := services.NewAuthService(userRepo)
 	refreshTokenRepo := repository.NewRefreshTokenRepository(app.DB)
-	jwtService := services.NewJWTService(app.Config.AppPort, app.Config.JWT.ExpiryHours, refreshTokenRepo)
+	jwtService := services.NewJWTService(app.Config.JWT.Secret, app.Config.JWT.ExpiryHours, refreshTokenRepo)
 	authHandler := handler.NewAuthHandler(authService, jwtService)
 
-	appRouter := router.NewRouter(app.Config, authHandler)
+	limitRepo := repository.NewLimitRepository(app.DB)
+	limitService := services.NewLimitService(limitRepo, userRepo)
+	limitHandler := handler.NewLimitHandler(limitService)
+	userHandler := handler.NewUserHandler(userRepo)
+
+	appRouter := router.NewRouter(app.Config, authHandler, limitHandler, userHandler, userRepo)
 	app.Router = appRouter.SetupRoutes()
 
 	log.Println("Router configured successfully")

@@ -7,20 +7,30 @@ import (
 	"github.com/hadi-projects/xyz-finance-go/config"
 	"github.com/hadi-projects/xyz-finance-go/internal/handler"
 	"github.com/hadi-projects/xyz-finance-go/internal/middleware"
+	"github.com/hadi-projects/xyz-finance-go/internal/repository"
 )
 
 type Router struct {
-	Config      *config.Config
-	AuthHandler *handler.AuthHandler
+	Config       *config.Config
+	AuthHandler  *handler.AuthHandler
+	LimitHandler *handler.LimitHandler
+	UserHandler  *handler.UserHandler
+	UserRepo     repository.UserRepository
 }
 
 func NewRouter(
 	cfg *config.Config,
 	authHandler *handler.AuthHandler,
+	limitHandler *handler.LimitHandler,
+	userHandler *handler.UserHandler,
+	userRepo repository.UserRepository,
 ) *Router {
 	return &Router{
-		Config:      cfg,
-		AuthHandler: authHandler,
+		Config:       cfg,
+		AuthHandler:  authHandler,
+		LimitHandler: limitHandler,
+		UserHandler:  userHandler,
+		UserRepo:     userRepo,
 	}
 }
 
@@ -39,6 +49,7 @@ func (r *Router) SetupRoutes() *gin.Engine {
 	router.Use(middleware.SecureHeaders())
 
 	r.setupPublicRoutes(router)
+	r.setupPrivateRoutes(router)
 
 	return router
 }
