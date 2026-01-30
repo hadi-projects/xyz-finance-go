@@ -36,7 +36,7 @@ func (r *userRepository) FindByID(id uint) (*entity.User, error) {
 
 func (r *userRepository) FindByEmail(email string) (*entity.User, error) {
 	var user entity.User
-	err := r.db.Where("email = ?", email).Preload("Profile").First(&user).Error
+	err := r.db.Where("email = ?", email).First(&user).Error
 	if err != nil {
 		return nil, err
 	}

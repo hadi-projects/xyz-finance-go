@@ -12,6 +12,7 @@ import (
 
 type AuthService interface {
 	Register(email, password string) (*entity.User, error)
+	Login(email, password string) (*entity.User, error)
 }
 
 type authService struct {
@@ -47,6 +48,23 @@ func (s *authService) Register(email, password string) (*entity.User, error) {
 
 	if err := s.userRepo.Create(user); err != nil {
 		return nil, fmt.Errorf("failed to create user: %w", err)
+	}
+
+	return user, nil
+}
+
+func (s *authService) Login(email, password string) (*entity.User, error) {
+	user, err := s.userRepo.FindByEmail(email)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, fmt.Errorf("invalid email or password")
+		}
+		return nil, fmt.Errorf("failed to find user: %w", err)
+	}
+
+	// Verify password
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+		return nil, fmt.Errorf("invalid email or password")
 	}
 
 	return user, nil
