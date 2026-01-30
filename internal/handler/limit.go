@@ -1,6 +1,9 @@
 package handler
 
 import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 	services "github.com/hadi-projects/xyz-finance-go/internal/service"
 )
 
@@ -13,4 +16,23 @@ func NewLimitHandler(limitService services.LimitService) *LimitHandler {
 	return &LimitHandler{
 		limitService: limitService,
 	}
+}
+
+func (h *LimitHandler) GetLimits(c *gin.Context) {
+	// get user id from context
+	userId, exists := c.Get("user_id")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		return
+	}
+
+	limits, err := h.limitService.GetLimitsByUserID(userId.(uint))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Get User Limits",
+		"data":    limits,
+	})
 }

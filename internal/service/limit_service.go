@@ -6,7 +6,7 @@ import (
 )
 
 type LimitService interface {
-	GetConsumerLimit(userId uint) (*entity.TenorLimit, error)
+	GetLimitsByUserID(userId uint) ([]entity.TenorLimit, error)
 }
 
 type limitService struct {
@@ -19,10 +19,10 @@ func NewLimitService(limitRepo repository.LimitRepository) LimitService {
 	}
 }
 
-func (s *limitService) GetConsumerLimit(userId uint) (*entity.TenorLimit, error) {
-	limitData, err := s.limitRepo.FindByUserID(userId)
+func (s *limitService) GetLimitsByUserID(userId uint) ([]entity.TenorLimit, error) {
+	limits, err := s.limitRepo.FindByUserID(userId)
 	if err != nil {
 		return nil, err
 	}
-	return limitData, nil
+	return limits, nil
 }

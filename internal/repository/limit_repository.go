@@ -11,7 +11,7 @@ type LimitRepository interface {
 	FindByEmail(email string) (*entity.TenorLimit, error)
 	Update(user *entity.TenorLimit) error
 	Delete(id uint) error
-	FindByUserID(userId uint) (*entity.TenorLimit, error)
+	FindByUserID(userId uint) ([]entity.TenorLimit, error)
 }
 
 type limitRepository struct {
@@ -52,11 +52,11 @@ func (r *limitRepository) Delete(id uint) error {
 	return r.db.Delete(&entity.TenorLimit{}, id).Error
 }
 
-func (r *limitRepository) FindByUserID(userId uint) (*entity.TenorLimit, error) {
-	var limit entity.TenorLimit
-	err := r.db.Preload("User").First(&limit, "user_id = ?", userId).Error
+func (r *limitRepository) FindByUserID(userId uint) ([]entity.TenorLimit, error) {
+	var limits []entity.TenorLimit
+	err := r.db.Model(&entity.User{ID: userId}).Association("TenorLimit").Find(&limits)
 	if err != nil {
 		return nil, err
 	}
-	return &limit, nil
+	return limits, nil
 }

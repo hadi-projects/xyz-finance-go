@@ -13,7 +13,11 @@ func (r *Router) setupPrivateRoutes(api *gin.Engine) {
 		user := protected.Group("/user")
 		{
 			user.GET("/profile", r.UserHandler.GetProfile)
-			user.GET("/limit", middleware.PermissionMiddleware(r.UserRepo, "get-limit"), r.UserHandler.GetLimitsByUserID)
+		}
+
+		limit := protected.Group("/limit")
+		{
+			limit.GET("/", middleware.PermissionMiddleware(r.UserRepo, "get-limit"), r.LimitHandler.GetLimits)
 		}
 	}
 }
