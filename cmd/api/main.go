@@ -30,6 +30,7 @@ func main() {
 	if err := db.AutoMigrate(
 		&entity.Role{},
 		&entity.Permission{},
+		&entity.User{},
 	); err != nil {
 		log.Fatalf("❌ Failed to migrate database: %v", err)
 	}
