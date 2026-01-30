@@ -17,6 +17,7 @@ type Config struct {
 	DBPort     string
 	DBName     string
 	Security   SecurityConfig
+	JWT        JWTConfig
 }
 
 type SecurityConfig struct {
@@ -25,6 +26,11 @@ type SecurityConfig struct {
 	CORSAllowedOrigins   []string
 	CORSAllowCredentials bool
 	RequestTimeout       int
+}
+
+type JWTConfig struct {
+	Secret      string
+	ExpiryHours int
 }
 
 // NewConfig menerapkan Constructor Pattern.
@@ -44,6 +50,10 @@ func NewConfig() (*Config, error) {
 			CORSAllowedOrigins:   getEnvAsSlice("CORS_ALLOWED_ORIGINS", []string{"*"}),
 			CORSAllowCredentials: getEnvAsBool("CORS_ALLOW_CREDENTIALS", true),
 			RequestTimeout:       getEnvAsInt("REQUEST_TIMEOUT", 10),
+		},
+		JWT: JWTConfig{
+			Secret:      getEnv("JWT_SECRET", ""),
+			ExpiryHours: getEnvAsInt("JWT_EXPIRY_HOURS", 1),
 		},
 	}
 
