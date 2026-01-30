@@ -5,18 +5,22 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/hadi-projects/xyz-finance-go/config"
-	"github.com/hadi-projects/xyz-finance-go/internal/delivery/http/middleware"
+	"github.com/hadi-projects/xyz-finance-go/internal/handler"
+	"github.com/hadi-projects/xyz-finance-go/internal/middleware"
 )
 
 type Router struct {
-	Config *config.Config
+	Config      *config.Config
+	AuthHandler *handler.AuthHandler
 }
 
 func NewRouter(
 	cfg *config.Config,
+	authHandler *handler.AuthHandler,
 ) *Router {
 	return &Router{
-		Config: cfg,
+		Config:      cfg,
+		AuthHandler: authHandler,
 	}
 }
 
