@@ -24,6 +24,7 @@ type SecurityConfig struct {
 	RateLimitBurst       int
 	CORSAllowedOrigins   []string
 	CORSAllowCredentials bool
+	RequestTimeout       int
 }
 
 // NewConfig menerapkan Constructor Pattern.
@@ -42,6 +43,7 @@ func NewConfig() (*Config, error) {
 			RateLimitBurst:       getEnvAsInt("RATE_LIMIT_BURST", 10),
 			CORSAllowedOrigins:   getEnvAsSlice("CORS_ALLOWED_ORIGINS", []string{"*"}),
 			CORSAllowCredentials: getEnvAsBool("CORS_ALLOW_CREDENTIALS", true),
+			RequestTimeout:       getEnvAsInt("REQUEST_TIMEOUT", 10),
 		},
 	}
 
