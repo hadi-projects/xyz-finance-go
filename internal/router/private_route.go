@@ -18,6 +18,7 @@ func (r *Router) setupPrivateRoutes(api *gin.Engine) {
 		limit := protected.Group("/limit")
 		{
 			limit.GET("/", middleware.PermissionMiddleware(r.UserRepo, "get-limit"), r.LimitHandler.GetLimits)
+			limit.POST("/", middleware.PermissionMiddleware(r.UserRepo, "create-limit"), r.LimitHandler.CreateLimit)
 		}
 	}
 }

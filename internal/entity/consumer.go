@@ -6,6 +6,7 @@ import (
 
 type Consumer struct {
 	ID           uint64  `gorm:"primaryKey;autoIncrement" json:"id"`
+	UserID       uint    `gorm:"not null" json:"user_id"`
 	NIK          string  `gorm:"uniqueIndex;type:varchar(16);not null" json:"nik"`
 	FullName     string  `gorm:"type:varchar(100);not null" json:"full_name"`
 	LegalName    string  `gorm:"type:varchar(100);not null" json:"legal_name"`
@@ -14,8 +15,6 @@ type Consumer struct {
 	Salary       float64 `gorm:"type:decimal(15,2)" json:"salary"`
 	KTPImage     string  `gorm:"type:varchar(255)" json:"ktp_image"`
 	SelfieImage  string  `gorm:"type:varchar(255)" json:"selfie_image"`
-
-	Limits []TenorLimit `gorm:"foreignKey:ConsumerID" json:"limits"`
 
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`

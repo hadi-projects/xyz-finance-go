@@ -11,7 +11,7 @@ type UserRepository interface {
 	FindByEmail(email string) (*entity.User, error)
 	Update(user *entity.User) error
 	Delete(id uint) error
-	CreateUserHasTenorLimit(userId uint, tenor int) error
+	CreateUserHasTenorLimit(userId uint, limitID uint) error
 	GetLimitsByUserID(userID uint) ([]entity.TenorLimit, error)
 }
 
@@ -56,13 +56,15 @@ func (r *userRepository) Delete(id uint) error {
 	return r.db.Delete(&entity.User{}, id).Error
 }
 
-func (r *userRepository) CreateUserHasTenorLimit(userId uint, tenor int) error {
+func (r *userRepository) CreateUserHasTenorLimit(userId uint, limitID uint) error {
 	var user entity.User
 	if err := r.db.First(&user, userId).Error; err != nil {
 		panic(err)
 	}
 	var limit entity.TenorLimit
-	if err := r.db.Where("tenor_month = ?", tenor).First(&limit).Error; err != nil {
+	// GORM auto-casts uint to primary key lookup if passed directly or with Where
+	// To be safe and explicit:
+	if err := r.db.First(&limit, limitID).Error; err != nil {
 		panic(err)
 	}
 

@@ -61,6 +61,7 @@ func (app *Application) initializeDatabase() {
 		&entity.User{},
 		&entity.RefreshToken{},
 		&entity.TenorLimit{},
+		&entity.Consumer{},
 	); err != nil {
 		log.Fatalf("Failed to migrate database: %v", err)
 	}
@@ -69,6 +70,7 @@ func (app *Application) initializeDatabase() {
 	database.SeedRBAC(app.DB)
 	database.SeedUser(app.DB)
 	database.SeedConsumerLimit(app.DB)
+	database.SeedConsumer(app.DB)
 
 }
 
@@ -82,7 +84,7 @@ func (app *Application) setupRouter() {
 	authHandler := handler.NewAuthHandler(authService, jwtService)
 
 	limitRepo := repository.NewLimitRepository(app.DB)
-	limitService := services.NewLimitService(limitRepo)
+	limitService := services.NewLimitService(limitRepo, userRepo)
 	limitHandler := handler.NewLimitHandler(limitService)
 	userHandler := handler.NewUserHandler(userRepo)
 

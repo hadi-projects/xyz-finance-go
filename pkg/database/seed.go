@@ -11,7 +11,7 @@ import (
 )
 
 func SeedRBAC(db *gorm.DB) {
-	seedRole(db, "admin", []entity.Permission{})
+	seedRole(db, "admin", []entity.Permission{{Name: "create-limit"}})
 	seedRole(db, "user", []entity.Permission{{Name: "get-limit"}})
 
 	fmt.Println("✅ RBAC Seeding Completed!")
@@ -87,7 +87,42 @@ func seedLimit(db *gorm.DB, userId uint, tenor int, limitAmount float64) {
 	}
 
 	// create user has tenor limit
-	if err := repository.NewUserRepository(db).CreateUserHasTenorLimit(userId, tenor); err != nil {
+	if err := repository.NewUserRepository(db).CreateUserHasTenorLimit(userId, uint(limit.ID)); err != nil {
 		fmt.Printf("Failed to update user has tenor limit %d: %v\n", tenor, err)
+	}
+}
+
+func SeedConsumer(db *gorm.DB) {
+	seedConsumerData(db, 2, "1234567890123456", "Budi Santoso", "Budi Santoso", "Jakarta", "1990-01-01", 10000000)
+	seedConsumerData(db, 3, "6543210987654321", "Annisa Putri", "Annisa Putri", "Bandung", "1992-05-15", 15000000)
+
+	fmt.Println("Consumer Seeding Completed!")
+}
+
+func seedConsumerData(db *gorm.DB, userId uint, nik, fullName, legalName, pob, dob string, salary float64) {
+	consumer := entity.Consumer{
+		UserID:       userId,
+		NIK:          nik,
+		FullName:     fullName,
+		LegalName:    legalName,
+		PlaceOfBirth: pob,
+		DateOfBirth:  dob,
+		Salary:       salary,
+		KTPImage:     "ktp_placeholder.jpg",
+		SelfieImage:  "selfie_placeholder.jpg",
+	}
+
+	var existing entity.Consumer
+	err := db.Where("user_id = ?", userId).First(&existing).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		if err := db.Create(&consumer).Error; err != nil {
+			fmt.Printf("Failed to create consumer for user %d: %v\n", userId, err)
+		}
+	} else {
+		consumer.ID = existing.ID
+		consumer.CreatedAt = existing.CreatedAt
+		if err := db.Save(&consumer).Error; err != nil {
+			fmt.Printf("Failed to update consumer for user %d: %v\n", userId, err)
+		}
 	}
 }

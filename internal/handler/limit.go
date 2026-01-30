@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/hadi-projects/xyz-finance-go/internal/dto"
 	services "github.com/hadi-projects/xyz-finance-go/internal/service"
 )
 
@@ -34,5 +35,22 @@ func (h *LimitHandler) GetLimits(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Get User Limits",
 		"data":    limits,
+	})
+}
+
+func (h *LimitHandler) CreateLimit(c *gin.Context) {
+	var req dto.CreateLimitRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := h.limitService.CreateLimit(req); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"message": "Limit created successfully",
 	})
 }

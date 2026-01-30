@@ -13,6 +13,8 @@ type User struct {
 
 	// Relasi Many-to-Many: Satu Role punya banyak Permission
 	TenorLimit []TenorLimit `gorm:"many2many:user_has_tenor_limit;" json:"tenor_limits"`
+
+	Consumer *Consumer `gorm:"foreignKey:UserID;references:ID" json:"consumer"`
 }
 
 func (User) TableName() string {
