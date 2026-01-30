@@ -32,6 +32,7 @@ func (r *Router) SetupRoutes() *gin.Engine {
 	router.Use(middleware.RateLimiter(r.Config.Security.RateLimitRPS, r.Config.Security.RateLimitBurst))
 	router.Use(middleware.RequestCancellation(time.Duration(r.Config.Security.RequestTimeout) * time.Second))
 	router.Use(middleware.XSSProtection())
+	router.Use(middleware.SecureHeaders())
 
 	r.setupPublicRoutes(router)
 
