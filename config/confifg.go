@@ -3,6 +3,7 @@ package config
 import (
 	"errors"
 	"os"
+	"strings"
 
 	"github.com/joho/godotenv"
 )
@@ -14,13 +15,16 @@ type Config struct {
 	DBHost     string
 	DBPort     string
 	DBName     string
+	Security   SecurityConfig
+}
+
+type SecurityConfig struct {
+	CORSAllowedOrigins   []string
+	CORSAllowCredentials bool
 }
 
 // NewConfig menerapkan Constructor Pattern.
 func NewConfig() (*Config, error) {
-	// 1. Load .env file
-	// Kita tidak panic di sini, karena di production mungkin environment variable sudah di-set di sistem (Docker/K8s)
-	// Jadi jika file .env tidak ada, kita lanjut saja mengecek environment variable sistem.
 	_ = godotenv.Load()
 
 	cfg := &Config{
@@ -30,6 +34,10 @@ func NewConfig() (*Config, error) {
 		DBHost:     getEnv("DB_HOST", ""),
 		DBPort:     getEnv("DB_PORT", ""),
 		DBName:     getEnv("DB_NAME", ""),
+		Security: SecurityConfig{
+			CORSAllowedOrigins:   getEnvAsSlice("CORS_ALLOWED_ORIGINS", []string{"*"}),
+			CORSAllowCredentials: getEnvAsBool("CORS_ALLOW_CREDENTIALS", true),
+		},
 	}
 
 	if cfg.DBHost == "" || cfg.DBPort == "" {
@@ -45,4 +53,20 @@ func getEnv(key, fallback string) string {
 		return value
 	}
 	return fallback
+}
+
+func getEnvAsSlice(key string, fallback []string) []string {
+	value := os.Getenv(key)
+	if value == "" {
+		return fallback
+	}
+	return strings.Split(value, ",")
+}
+
+func getEnvAsBool(key string, fallback bool) bool {
+	value := os.Getenv(key)
+	if value == "" {
+		return fallback
+	}
+	return value == "true"
 }

@@ -3,6 +3,7 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/hadi-projects/xyz-finance-go/config"
+	"github.com/hadi-projects/xyz-finance-go/internal/delivery/http/middleware"
 )
 
 type Router struct {
@@ -24,6 +25,8 @@ func (r *Router) SetupRoutes() *gin.Engine {
 	}
 
 	router := gin.New()
+
+	router.Use(middleware.CORS(r.Config.Security.CORSAllowedOrigins, r.Config.Security.CORSAllowCredentials))
 
 	r.setupPublicRoutes(router)
 
