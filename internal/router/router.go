@@ -10,17 +10,20 @@ import (
 )
 
 type Router struct {
-	Config      *config.Config
-	AuthHandler *handler.AuthHandler
+	Config       *config.Config
+	AuthHandler  *handler.AuthHandler
+	LimitHandler *handler.LimitHandler
 }
 
 func NewRouter(
 	cfg *config.Config,
 	authHandler *handler.AuthHandler,
+	limitHandler *handler.LimitHandler,
 ) *Router {
 	return &Router{
-		Config:      cfg,
-		AuthHandler: authHandler,
+		Config:       cfg,
+		AuthHandler:  authHandler,
+		LimitHandler: limitHandler,
 	}
 }
 
@@ -39,6 +42,7 @@ func (r *Router) SetupRoutes() *gin.Engine {
 	router.Use(middleware.SecureHeaders())
 
 	r.setupPublicRoutes(router)
+	r.setupPrivateRoutes(router)
 
 	return router
 }
