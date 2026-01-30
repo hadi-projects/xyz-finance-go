@@ -44,7 +44,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
-		"message": "User registered successfully. Please check your email for verification code.",
+		"message": "User registered successfully.",
 		"user": gin.H{
 			"id":    user.ID,
 			"email": user.Email,
