@@ -66,7 +66,7 @@
 - [ ] Compress responses > 1KB
 
 ### Pagination
-- [ ] Add pagination for GET /api/transaction/
+- [x] Add pagination for GET /api/transaction/
 - [ ] Add pagination for GET /api/limit/
 - [ ] Default limit: 20, Max: 100
 

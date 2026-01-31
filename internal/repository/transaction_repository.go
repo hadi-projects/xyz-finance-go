@@ -8,7 +8,9 @@ import (
 type TransactionRepository interface {
 	Create(transaction *entity.Transaction) error
 	FindByUserID(userId uint) ([]entity.Transaction, error)
+	FindByUserIDPaginated(userId uint, offset, limit int) ([]entity.Transaction, int64, error)
 	FindAll() ([]entity.Transaction, error)
+	FindAllPaginated(offset, limit int) ([]entity.Transaction, int64, error)
 	WithTx(tx *gorm.DB) TransactionRepository
 }
 
@@ -26,14 +28,51 @@ func (r *transactionRepository) Create(transaction *entity.Transaction) error {
 
 func (r *transactionRepository) FindByUserID(userId uint) ([]entity.Transaction, error) {
 	var transactions []entity.Transaction
-	err := r.db.Where("user_id = ?", userId).Find(&transactions).Error
+	err := r.db.Where("user_id = ?", userId).Order("created_at DESC").Find(&transactions).Error
 	return transactions, err
+}
+
+func (r *transactionRepository) FindByUserIDPaginated(userId uint, offset, limit int) ([]entity.Transaction, int64, error) {
+	var transactions []entity.Transaction
+	var total int64
+
+	// Count total
+	if err := r.db.Model(&entity.Transaction{}).Where("user_id = ?", userId).Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	// Get paginated data
+	err := r.db.Where("user_id = ?", userId).
+		Order("created_at DESC").
+		Offset(offset).
+		Limit(limit).
+		Find(&transactions).Error
+
+	return transactions, total, err
 }
 
 func (r *transactionRepository) FindAll() ([]entity.Transaction, error) {
 	var transactions []entity.Transaction
-	err := r.db.Find(&transactions).Error
+	err := r.db.Order("created_at DESC").Find(&transactions).Error
 	return transactions, err
+}
+
+func (r *transactionRepository) FindAllPaginated(offset, limit int) ([]entity.Transaction, int64, error) {
+	var transactions []entity.Transaction
+	var total int64
+
+	// Count total
+	if err := r.db.Model(&entity.Transaction{}).Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	// Get paginated data
+	err := r.db.Order("created_at DESC").
+		Offset(offset).
+		Limit(limit).
+		Find(&transactions).Error
+
+	return transactions, total, err
 }
 
 func (r *transactionRepository) WithTx(tx *gorm.DB) TransactionRepository {
