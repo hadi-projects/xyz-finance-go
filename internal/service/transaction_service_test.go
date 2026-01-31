@@ -20,6 +20,7 @@ func TestTransactionService_CreateTransaction(t *testing.T) {
 
 	mockLimitRepo := mock.NewMockLimitRepository(ctrl)
 	mockTxRepo := mock.NewMockTransactionRepository(ctrl)
+	mockMutationRepo := mock.NewMockLimitMutationRepository(ctrl)
 
 	db, sqlMock, err := sqlmock.New()
 	if err != nil {
@@ -35,7 +36,7 @@ func TestTransactionService_CreateTransaction(t *testing.T) {
 		t.Fatalf("failed to open gorm conn: %v", err)
 	}
 
-	service := services.NewTransactionService(mockTxRepo, mockLimitRepo, gormDB)
+	service := services.NewTransactionService(mockTxRepo, mockLimitRepo, mockMutationRepo, gormDB)
 
 	t.Run("Success", func(t *testing.T) {
 		req := dto.CreateTransactionRequest{
@@ -57,14 +58,24 @@ func TestTransactionService_CreateTransaction(t *testing.T) {
 
 		mockLimitRepo.EXPECT().WithTx(gomock.Any()).Return(mockLimitRepo)
 		mockTxRepo.EXPECT().WithTx(gomock.Any()).Return(mockTxRepo)
+		mockMutationRepo.EXPECT().WithTx(gomock.Any()).Return(mockMutationRepo)
 
 		mockLimitRepo.EXPECT().FindByUserID(userId).Return([]entity.TenorLimit{
-			{TenorMonth: 1, LimitAmount: 20000},
+			{ID: 123, TenorMonth: 1, LimitAmount: 20000},
 		}, nil)
 
 		mockTxRepo.EXPECT().FindByUserID(userId).Return([]entity.Transaction{}, nil)
 
 		mockTxRepo.EXPECT().Create(gomock.Any()).Return(nil)
+
+		// Expect Mutation Logging
+		mockMutationRepo.EXPECT().Create(gomock.Any()).Do(func(m *entity.LimitMutation) {
+			assert.Equal(t, entity.MutationUsage, m.Action)
+			assert.Equal(t, uint(123), m.TenorLimitID)
+			assert.Equal(t, 20000.0, m.OldAmount)
+			assert.Equal(t, 20000.0, m.NewAmount)
+			assert.Contains(t, m.Reason, "Transaction Usage")
+		}).Return(nil)
 
 		sqlMock.ExpectCommit()
 
@@ -91,6 +102,19 @@ func TestTransactionService_CreateTransaction(t *testing.T) {
 
 		mockLimitRepo.EXPECT().WithTx(gomock.Any()).Return(mockLimitRepo)
 		mockTxRepo.EXPECT().WithTx(gomock.Any()).Return(mockTxRepo)
+		// Note: Mutation repo might not be called if error happens early, or WithTx might be called.
+		// Depending on implementation order. In current impl, WithTx is called early.
+		// mockMutationRepo.EXPECT().WithTx(gomock.Any()).Return(mockMutationRepo) // Not called because WithTx is called inside transaction block, and limit check fails inside. Wait.
+		// The WithTx calls are at the beginning of Transaction block. So expectations needed.
+		// But in the "Success" test above, I saw WithTx being called.
+		// Let's re-read the code.
+		// Service code:
+		// limitRepoTx := s.limitRepo.WithTx(tx)
+		// transactionRepoTx := s.transactionRepo.WithTx(tx)
+		// ... Limit Check ...
+		// If limit check fails, it returns error, triggering Rollback.
+		// Mutation Create is NOT called.
+		// So we need WithTx expectation, but NO Create expectation.
 
 		mockLimitRepo.EXPECT().FindByUserID(userId).Return([]entity.TenorLimit{
 			{TenorMonth: 1, LimitAmount: 20000},

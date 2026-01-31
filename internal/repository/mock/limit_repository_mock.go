@@ -129,6 +129,21 @@ func (mr *MockLimitRepositoryMockRecorder) Update(user any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockLimitRepository)(nil).Update), user)
 }
 
+// GetUserIDByLimitID mocks base method.
+func (m *MockLimitRepository) GetUserIDByLimitID(limitID uint) (uint, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUserIDByLimitID", limitID)
+	ret0, _ := ret[0].(uint)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUserIDByLimitID indicates an expected call of GetUserIDByLimitID.
+func (mr *MockLimitRepositoryMockRecorder) GetUserIDByLimitID(limitID any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserIDByLimitID", reflect.TypeOf((*MockLimitRepository)(nil).GetUserIDByLimitID), limitID)
+}
+
 // WithTx mocks base method.
 func (m *MockLimitRepository) WithTx(tx *gorm.DB) repository.LimitRepository {
 	m.ctrl.T.Helper()
