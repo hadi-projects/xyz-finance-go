@@ -65,5 +65,8 @@ func (s *limitService) CreateLimit(req dto.CreateLimitRequest) error {
 }
 
 func (s *limitService) DeleteLimit(id uint) error {
+	if _, err := s.limitRepo.FindByID(id); err != nil {
+		return errors.New("limit not found")
+	}
 	return s.limitRepo.Delete(id)
 }

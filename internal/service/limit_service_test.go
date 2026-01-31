@@ -86,17 +86,29 @@ func TestLimitService_DeleteLimit(t *testing.T) {
 
 	t.Run("Success", func(t *testing.T) {
 		limitID := uint(10)
+		mockLimitRepo.EXPECT().FindByID(limitID).Return(&entity.TenorLimit{ID: 10}, nil)
 		mockLimitRepo.EXPECT().Delete(limitID).Return(nil)
 
 		err := service.DeleteLimit(limitID)
 		assert.NoError(t, err)
 	})
 
-	t.Run("Error", func(t *testing.T) {
+	t.Run("NotFound", func(t *testing.T) {
 		limitID := uint(10)
+		mockLimitRepo.EXPECT().FindByID(limitID).Return(nil, errors.New("record not found"))
+
+		err := service.DeleteLimit(limitID)
+		assert.Error(t, err)
+		assert.Equal(t, "limit not found", err.Error())
+	})
+
+	t.Run("DeleteError", func(t *testing.T) {
+		limitID := uint(10)
+		mockLimitRepo.EXPECT().FindByID(limitID).Return(&entity.TenorLimit{ID: 10}, nil)
 		mockLimitRepo.EXPECT().Delete(limitID).Return(errors.New("delete failed"))
 
 		err := service.DeleteLimit(limitID)
 		assert.Error(t, err)
+		assert.Equal(t, "delete failed", err.Error())
 	})
 }

@@ -28,7 +28,7 @@ func (r *limitRepository) Create(limit *entity.TenorLimit) error {
 
 func (r *limitRepository) FindByID(id uint) (*entity.TenorLimit, error) {
 	var limit entity.TenorLimit
-	err := r.db.Preload("Profile").First(&limit, id).Error
+	err := r.db.First(&limit, id).Error
 	if err != nil {
 		return nil, err
 	}
