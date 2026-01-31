@@ -11,7 +11,7 @@ import (
 )
 
 func SeedRBAC(db *gorm.DB) {
-	seedRole(db, "admin", []entity.Permission{{Name: "create-limit"}, {Name: "delete-limit"}})
+	seedRole(db, "admin", []entity.Permission{{Name: "create-limit"}, {Name: "delete-limit"}, {Name: "edit-limit"}})
 	seedRole(db, "user", []entity.Permission{{Name: "get-limit"}, {Name: "create-transaction"}})
 
 	fmt.Println("✅ RBAC Seeding Completed!")

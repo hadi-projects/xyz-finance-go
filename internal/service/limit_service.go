@@ -11,6 +11,7 @@ import (
 type LimitService interface {
 	GetLimitsByUserID(userId uint) ([]entity.TenorLimit, error)
 	CreateLimit(req dto.CreateLimitRequest) error
+	UpdateLimit(id uint, req dto.UpdateLimitRequest) error
 	DeleteLimit(id uint) error
 }
 
@@ -62,6 +63,23 @@ func (s *limitService) CreateLimit(req dto.CreateLimitRequest) error {
 	}
 
 	return nil
+}
+
+func (s *limitService) UpdateLimit(id uint, req dto.UpdateLimitRequest) error {
+	validTenors := map[int]bool{1: true, 2: true, 3: true, 6: true}
+	if !validTenors[req.TenorMonth] {
+		return errors.New("invalid tenor month: must be 1, 2, 3, or 6")
+	}
+
+	limit, err := s.limitRepo.FindByID(id)
+	if err != nil {
+		return errors.New("limit not found")
+	}
+
+	limit.TenorMonth = entity.Tenor(req.TenorMonth)
+	limit.LimitAmount = req.LimitAmount
+
+	return s.limitRepo.Update(limit)
 }
 
 func (s *limitService) DeleteLimit(id uint) error {

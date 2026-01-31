@@ -137,6 +137,26 @@ Response:
 {
     "message":"Limit deleted successfully"
 }
+```
+
+## Update Limit
+
+```shell
+curl -X PUT http://localhost:8080/api/limit/11 \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIiwiZXhwIjoxNzY5OTI1MjY4LCJpYXQiOjE3Njk4Mzg4Njh9.LT2nnrbi4YrUc9eySLsW7x1oU15Wqi7WrKF-Kg3mAWQ" \
+  -d '{
+    "tenor_month": 1,
+    "limit_amount": 100000
+}'
+```
+
+Response:
+```json
+{
+    "message":"Limit updated successfully"
+}
 
 ## Reject Transaction
 

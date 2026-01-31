@@ -112,3 +112,48 @@ func TestLimitService_DeleteLimit(t *testing.T) {
 		assert.Equal(t, "delete failed", err.Error())
 	})
 }
+
+func TestLimitService_UpdateLimit(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	mockLimitRepo := mock.NewMockLimitRepository(ctrl)
+	mockUserRepo := mock.NewMockUserRepository(ctrl)
+	service := services.NewLimitService(mockLimitRepo, mockUserRepo)
+
+	t.Run("Success", func(t *testing.T) {
+		limitID := uint(1)
+		req := dto.UpdateLimitRequest{
+			TenorMonth:  1,
+			LimitAmount: 200000,
+		}
+
+		mockLimitRepo.EXPECT().FindByID(limitID).Return(&entity.TenorLimit{ID: 1, TenorMonth: 2, LimitAmount: 100000}, nil)
+		mockLimitRepo.EXPECT().Update(gomock.Any()).DoAndReturn(func(l *entity.TenorLimit) error {
+			assert.Equal(t, entity.Tenor(1), l.TenorMonth)
+			assert.Equal(t, 200000.0, l.LimitAmount)
+			return nil
+		})
+
+		err := service.UpdateLimit(limitID, req)
+		assert.NoError(t, err)
+	})
+
+	t.Run("InvalidTenor", func(t *testing.T) {
+		limitID := uint(1)
+		req := dto.UpdateLimitRequest{TenorMonth: 5, LimitAmount: 200000}
+		err := service.UpdateLimit(limitID, req)
+		assert.Error(t, err)
+		assert.Equal(t, "invalid tenor month: must be 1, 2, 3, or 6", err.Error())
+	})
+
+	t.Run("NotFound", func(t *testing.T) {
+		limitID := uint(1)
+		req := dto.UpdateLimitRequest{TenorMonth: 1, LimitAmount: 200000}
+		mockLimitRepo.EXPECT().FindByID(limitID).Return(nil, errors.New("record not found"))
+
+		err := service.UpdateLimit(limitID, req)
+		assert.Error(t, err)
+		assert.Equal(t, "limit not found", err.Error())
+	})
+}
