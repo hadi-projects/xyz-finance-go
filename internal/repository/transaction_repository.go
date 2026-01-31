@@ -8,6 +8,7 @@ import (
 type TransactionRepository interface {
 	Create(transaction *entity.Transaction) error
 	FindByUserID(userId uint) ([]entity.Transaction, error)
+	WithTx(tx *gorm.DB) TransactionRepository
 }
 
 type transactionRepository struct {
@@ -26,4 +27,8 @@ func (r *transactionRepository) FindByUserID(userId uint) ([]entity.Transaction,
 	var transactions []entity.Transaction
 	err := r.db.Where("user_id = ?", userId).Find(&transactions).Error
 	return transactions, err
+}
+
+func (r *transactionRepository) WithTx(tx *gorm.DB) TransactionRepository {
+	return &transactionRepository{db: tx}
 }

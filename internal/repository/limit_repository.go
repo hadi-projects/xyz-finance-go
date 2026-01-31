@@ -12,6 +12,7 @@ type LimitRepository interface {
 	Update(user *entity.TenorLimit) error
 	Delete(id uint) error
 	FindByUserID(userId uint) ([]entity.TenorLimit, error)
+	WithTx(tx *gorm.DB) LimitRepository
 }
 
 type limitRepository struct {
@@ -59,4 +60,8 @@ func (r *limitRepository) FindByUserID(userId uint) ([]entity.TenorLimit, error)
 		return nil, err
 	}
 	return limits, nil
+}
+
+func (r *limitRepository) WithTx(tx *gorm.DB) LimitRepository {
+	return &limitRepository{db: tx}
 }

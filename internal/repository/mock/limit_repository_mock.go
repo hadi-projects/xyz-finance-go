@@ -10,10 +10,12 @@
 package mock
 
 import (
-	reflect "reflect"
+	"reflect"
 
 	entity "github.com/hadi-projects/xyz-finance-go/internal/entity"
+	"github.com/hadi-projects/xyz-finance-go/internal/repository"
 	gomock "go.uber.org/mock/gomock"
+	"gorm.io/gorm"
 )
 
 // MockLimitRepository is a mock of LimitRepository interface.
@@ -125,4 +127,18 @@ func (m *MockLimitRepository) Update(user *entity.TenorLimit) error {
 func (mr *MockLimitRepositoryMockRecorder) Update(user any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockLimitRepository)(nil).Update), user)
+}
+
+// WithTx mocks base method.
+func (m *MockLimitRepository) WithTx(tx *gorm.DB) repository.LimitRepository {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "WithTx", tx)
+	ret0, _ := ret[0].(repository.LimitRepository)
+	return ret0
+}
+
+// WithTx indicates an expected call of WithTx.
+func (mr *MockLimitRepositoryMockRecorder) WithTx(tx any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WithTx", reflect.TypeOf((*MockLimitRepository)(nil).WithTx), tx)
 }

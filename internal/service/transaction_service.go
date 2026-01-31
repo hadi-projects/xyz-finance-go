@@ -29,7 +29,16 @@ func NewTransactionService(transactionRepo repository.TransactionRepository, lim
 
 func (s *transactionService) CreateTransaction(userId uint, req dto.CreateTransactionRequest) error {
 	return s.db.Transaction(func(tx *gorm.DB) error {
-		limits, err := s.limitRepo.FindByUserID(userId)
+		// 1. Lock User Row (prevents race condition for this user)
+		if err := tx.Exec("SELECT id FROM users WHERE id = ? FOR UPDATE", userId).Error; err != nil {
+			return err
+		}
+
+		// 2. Use repositories with the transaction instance
+		limitRepoTx := s.limitRepo.WithTx(tx)
+		transactionRepoTx := s.transactionRepo.WithTx(tx)
+
+		limits, err := limitRepoTx.FindByUserID(userId)
 		if err != nil {
 			return err
 		}
@@ -47,7 +56,7 @@ func (s *transactionService) CreateTransaction(userId uint, req dto.CreateTransa
 			return errors.New("limit not found for the requested tenor")
 		}
 
-		existingTransactions, err := s.transactionRepo.FindByUserID(userId)
+		existingTransactions, err := transactionRepoTx.FindByUserID(userId)
 		if err != nil {
 			return err
 		}
@@ -74,7 +83,7 @@ func (s *transactionService) CreateTransaction(userId uint, req dto.CreateTransa
 			Tenor:             req.Tenor,
 		}
 
-		if err := tx.Create(transaction).Error; err != nil {
+		if err := transactionRepoTx.Create(transaction); err != nil {
 			return err
 		}
 

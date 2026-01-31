@@ -50,6 +50,13 @@ func TestTransactionService_CreateTransaction(t *testing.T) {
 		userId := uint(1)
 
 		sqlMock.ExpectBegin()
+		// Expect row locking
+		sqlMock.ExpectExec("SELECT id FROM users WHERE id = \\? FOR UPDATE").
+			WithArgs(userId).
+			WillReturnResult(sqlmock.NewResult(1, 1)) // Return success
+
+		mockLimitRepo.EXPECT().WithTx(gomock.Any()).Return(mockLimitRepo)
+		mockTxRepo.EXPECT().WithTx(gomock.Any()).Return(mockTxRepo)
 
 		mockLimitRepo.EXPECT().FindByUserID(userId).Return([]entity.TenorLimit{
 			{TenorMonth: 1, LimitAmount: 20000},
@@ -78,6 +85,13 @@ func TestTransactionService_CreateTransaction(t *testing.T) {
 		userId := uint(1)
 
 		sqlMock.ExpectBegin()
+		// Expect row locking
+		sqlMock.ExpectExec("SELECT id FROM users WHERE id = \\? FOR UPDATE").
+			WithArgs(userId).
+			WillReturnResult(sqlmock.NewResult(1, 1))
+
+		mockLimitRepo.EXPECT().WithTx(gomock.Any()).Return(mockLimitRepo)
+		mockTxRepo.EXPECT().WithTx(gomock.Any()).Return(mockTxRepo)
 
 		mockLimitRepo.EXPECT().FindByUserID(userId).Return([]entity.TenorLimit{
 			{TenorMonth: 1, LimitAmount: 20000},
