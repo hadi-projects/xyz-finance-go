@@ -26,7 +26,7 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 
 func (r *userRepository) Create(user *entity.User) error {
 	if user.RoleID == 0 {
-		user.RoleID = 1
+		user.RoleID = 2
 	}
 	return r.db.Create(user).Error
 }

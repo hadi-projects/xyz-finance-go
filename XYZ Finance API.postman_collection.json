@@ -1447,6 +1447,407 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Log",
+      "item": [
+        {
+          "name": "Get Auth Log",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-API-KEY",
+                "value": "biytf7rciyubyt6r7g89py"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/logs/auth",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "logs",
+                "auth"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-API-KEY",
+                    "value": "biytf7rciyubyt6r7g89py"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:8081/api/logs/audit",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8081",
+                  "path": [
+                    "api",
+                    "logs",
+                    "audit"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "X-Request-Id",
+                  "value": "f3eaa879-be8c-48d9-a361-38de2926fed5"
+                },
+                {
+                  "key": "X-Xss-Protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 31 Jan 2026 09:44:00 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "41"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error\": \"Unauthorized: Invalid API Key\"\n}"
+            },
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-API-KEY",
+                    "value": "biytf7rciyubyt6r7g89py"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:8080/api/logs/auth",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "logs",
+                    "auth"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "X-Request-Id",
+                  "value": "2f0f34e3-3508-472c-9262-0d33763e3c5b"
+                },
+                {
+                  "key": "X-Xss-Protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 31 Jan 2026 09:58:09 GMT"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": [\n        \"{\\\"level\\\":\\\"info\\\",\\\"request_id\\\":\\\"9290cb71-d18b-4ec8-8093-6c549fccfa7c\\\",\\\"method\\\":\\\"POST\\\",\\\"path\\\":\\\"/api/auth/login\\\",\\\"status\\\":200,\\\"ip\\\":\\\"::1\\\",\\\"user_agent\\\":\\\"PostmanRuntime/7.51.0\\\",\\\"latency\\\":91.959084,\\\"time\\\":\\\"2026-01-31T16:55:39+07:00\\\",\\\"message\\\":\\\"handled request\\\"}\",\n        \"{\\\"level\\\":\\\"info\\\",\\\"request_id\\\":\\\"618b1beb-f81d-48c3-b6cd-cdefad0330a5\\\",\\\"method\\\":\\\"POST\\\",\\\"path\\\":\\\"/api/auth/login\\\",\\\"status\\\":200,\\\"ip\\\":\\\"::1\\\",\\\"user_agent\\\":\\\"PostmanRuntime/7.51.0\\\",\\\"latency\\\":93.916958,\\\"time\\\":\\\"2026-01-31T16:55:33+07:00\\\",\\\"message\\\":\\\"handled request\\\"}\",\n        \"{\\\"level\\\":\\\"info\\\",\\\"request_id\\\":\\\"4b4f361c-7163-40d9-a404-e2fb0b4b34da\\\",\\\"method\\\":\\\"POST\\\",\\\"path\\\":\\\"/api/auth/login\\\",\\\"status\\\":200,\\\"ip\\\":\\\"::1\\\",\\\"user_agent\\\":\\\"curl/8.7.1\\\",\\\"latency\\\":71.912708,\\\"time\\\":\\\"2026-01-31T16:47:27+07:00\\\",\\\"message\\\":\\\"handled request\\\"}\",\n        \"{\\\"level\\\":\\\"info\\\",\\\"request_id\\\":\\\"13bcee2a-26e4-4832-adcf-37ab7467977f\\\",\\\"method\\\":\\\"POST\\\",\\\"path\\\":\\\"/api/auth/login\\\",\\\"status\\\":200,\\\"ip\\\":\\\"::1\\\",\\\"user_agent\\\":\\\"curl/8.7.1\\\",\\\"latency\\\":70.497584,\\\"time\\\":\\\"2026-01-31T16:47:17+07:00\\\",\\\"message\\\":\\\"handled request\\\"}\",\n        \"{\\\"level\\\":\\\"info\\\",\\\"request_id\\\":\\\"e37ca5a8-c2de-4fb7-a923-b3abf7857418\\\",\\\"method\\\":\\\"POST\\\",\\\"path\\\":\\\"/api/auth/register\\\",\\\"status\\\":201,\\\"ip\\\":\\\"::1\\\",\\\"user_agent\\\":\\\"curl/8.7.1\\\",\\\"latency\\\":70.391917,\\\"time\\\":\\\"2026-01-31T16:47:17+07:00\\\",\\\"message\\\":\\\"handled request\\\"}\",\n        \"{\\\"level\\\":\\\"info\\\",\\\"request_id\\\":\\\"1a64ab54-d329-41ef-8d4b-98ad696a5800\\\",\\\"method\\\":\\\"POST\\\",\\\"path\\\":\\\"/api/auth/login\\\",\\\"status\\\":200,\\\"ip\\\":\\\"::1\\\",\\\"user_agent\\\":\\\"curl/8.7.1\\\",\\\"latency\\\":73.915958,\\\"time\\\":\\\"2026-01-31T16:45:09+07:00\\\",\\\"message\\\":\\\"handled request\\\"}\",\n        \"{\\\"level\\\":\\\"info\\\",\\\"request_id\\\":\\\"8593b2b7-0733-4bc4-9d0b-23b4a53bf250\\\",\\\"method\\\":\\\"POST\\\",\\\"path\\\":\\\"/api/auth/login\\\",\\\"status\\\":200,\\\"ip\\\":\\\"::1\\\",\\\"user_agent\\\":\\\"curl/8.7.1\\\",\\\"latency\\\":173.48075,\\\"time\\\":\\\"2026-01-31T16:42:54+07:00\\\",\\\"message\\\":\\\"handled request\\\"}\",\n        \"{\\\"level\\\":\\\"info\\\",\\\"request_id\\\":\\\"0c91a85d-7d4e-4b30-b021-73a230ff145e\\\",\\\"method\\\":\\\"POST\\\",\\\"path\\\":\\\"/api/auth/login\\\",\\\"status\\\":200,\\\"ip\\\":\\\"::1\\\",\\\"user_agent\\\":\\\"curl/8.7.1\\\",\\\"latency\\\":77.464917,\\\"time\\\":\\\"2026-01-31T16:32:30+07:00\\\",\\\"message\\\":\\\"handled request\\\"}\",\n        \"{\\\"level\\\":\\\"info\\\",\\\"request_id\\\":\\\"26942c5c-4526-474c-bd89-3b282c84c06c\\\",\\\"method\\\":\\\"POST\\\",\\\"path\\\":\\\"/api/auth/login\\\",\\\"status\\\":200,\\\"ip\\\":\\\"::1\\\",\\\"user_agent\\\":\\\"curl/8.7.1\\\",\\\"latency\\\":71.142458,\\\"time\\\":\\\"2026-01-31T16:22:54+07:00\\\",\\\"message\\\":\\\"handled request\\\"}\",\n        \"{\\\"level\\\":\\\"info\\\",\\\"request_id\\\":\\\"c3a57f08-1c87-4b9d-ba87-1deb1d8f4db8\\\",\\\"method\\\":\\\"POST\\\",\\\"path\\\":\\\"/api/auth/login\\\",\\\"status\\\":200,\\\"ip\\\":\\\"::1\\\",\\\"user_agent\\\":\\\"curl/8.7.1\\\",\\\"latency\\\":167.497917,\\\"time\\\":\\\"2026-01-31T16:21:30+07:00\\\",\\\"message\\\":\\\"handled request\\\"}\",\n        \"{\\\"level\\\":\\\"info\\\",\\\"request_id\\\":\\\"c23180f8-59cf-44dc-aeee-f5e9e70ba1de\\\",\\\"method\\\":\\\"POST\\\",\\\"path\\\":\\\"/api/auth/register\\\",\\\"status\\\":201,\\\"ip\\\":\\\"::1\\\",\\\"user_agent\\\":\\\"curl/8.7.1\\\",\\\"latency\\\":74.510917,\\\"time\\\":\\\"2026-01-31T16:21:30+07:00\\\",\\\"message\\\":\\\"handled request\\\"}\",\n        \"{\\\"level\\\":\\\"info\\\",\\\"request_id\\\":\\\"64fc9404-f96b-47ed-8864-5813623e0fd9\\\",\\\"method\\\":\\\"POST\\\",\\\"path\\\":\\\"/api/auth/login\\\",\\\"status\\\":200,\\\"ip\\\":\\\"::1\\\",\\\"user_agent\\\":\\\"curl/8.7.1\\\",\\\"latency\\\":69.416917,\\\"time\\\":\\\"2026-01-31T16:17:46+07:00\\\",\\\"message\\\":\\\"handled request\\\"}\",\n        \"{\\\"level\\\":\\\"info\\\",\\\"request_id\\\":\\\"b64ea9ee-e0da-4f26-83be-f6a75762c484\\\",\\\"method\\\":\\\"POST\\\",\\\"path\\\":\\\"/api/auth/register\\\",\\\"status\\\":201,\\\"ip\\\":\\\"::1\\\",\\\"user_agent\\\":\\\"curl/8.7.1\\\",\\\"latency\\\":74.526083,\\\"time\\\":\\\"2026-01-31T16:17:39+07:00\\\",\\\"message\\\":\\\"handled request\\\"}\",\n        \"{\\\"level\\\":\\\"info\\\",\\\"request_id\\\":\\\"dbbcf07e-e598-42c1-8188-4b0620a2cdbb\\\",\\\"method\\\":\\\"POST\\\",\\\"path\\\":\\\"/api/auth/register\\\",\\\"status\\\":400,\\\"ip\\\":\\\"::1\\\",\\\"user_agent\\\":\\\"curl/8.7.1\\\",\\\"latency\\\":0.481292,\\\"time\\\":\\\"2026-01-31T16:17:29+07:00\\\",\\\"message\\\":\\\"handled request\\\"}\",\n        \"{\\\"level\\\":\\\"info\\\",\\\"request_id\\\":\\\"4417d75f-1777-4c2d-8774-986a2b901f9b\\\",\\\"method\\\":\\\"POST\\\",\\\"path\\\":\\\"/api/auth/login\\\",\\\"status\\\":200,\\\"ip\\\":\\\"::1\\\",\\\"user_agent\\\":\\\"PostmanRuntime/7.51.0\\\",\\\"latency\\\":178.852416,\\\"time\\\":\\\"2026-01-31T16:05:00+07:00\\\",\\\"message\\\":\\\"handled request\\\"}\",\n        \"{\\\"level\\\":\\\"info\\\",\\\"request_id\\\":\\\"e36e5be1-a99d-47a6-bb95-214728ebf1a7\\\",\\\"method\\\":\\\"POST\\\",\\\"path\\\":\\\"/api/auth/register\\\",\\\"status\\\":201,\\\"ip\\\":\\\"::1\\\",\\\"user_agent\\\":\\\"PostmanRuntime/7.51.0\\\",\\\"latency\\\":97.667,\\\"time\\\":\\\"2026-01-31T16:04:00+07:00\\\",\\\"message\\\":\\\"handled request\\\"}\"\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Audit Log",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-API-KEY",
+                "value": "biytf7rciyubyt6r7g89py"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/limit/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "limit",
+                ""
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-API-KEY",
+                    "value": "biytf7rciyubyt6r7g89py"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:8081/api/logs/audit",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8081",
+                  "path": [
+                    "api",
+                    "logs",
+                    "audit"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "X-Request-Id",
+                  "value": "f3eaa879-be8c-48d9-a361-38de2926fed5"
+                },
+                {
+                  "key": "X-Xss-Protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 31 Jan 2026 09:44:00 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "41"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error\": \"Unauthorized: Invalid API Key\"\n}"
+            },
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-API-KEY",
+                    "value": "biytf7rciyubyt6r7g89py"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:8080/api/logs/audit",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "logs",
+                    "audit"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "X-Request-Id",
+                  "value": "94030e1f-df3a-4f8f-aebe-6e92c1ea94b2"
+                },
+                {
+                  "key": "X-Xss-Protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 31 Jan 2026 09:57:59 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "742"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": [\n        \"{\\\"level\\\":\\\"info\\\",\\\"action\\\":\\\"register_user\\\",\\\"email\\\":\\\"audit_test4@example.com\\\",\\\"user_id\\\":7,\\\"time\\\":\\\"2026-01-31T16:47:17+07:00\\\",\\\"message\\\":\\\"New user registered\\\"}\",\n        \"{\\\"level\\\":\\\"info\\\",\\\"action\\\":\\\"register_user\\\",\\\"email\\\":\\\"audit_test3@example.com\\\",\\\"user_id\\\":6,\\\"time\\\":\\\"2026-01-31T16:21:30+07:00\\\",\\\"message\\\":\\\"New user registered\\\"}\",\n        \"{\\\"level\\\":\\\"info\\\",\\\"action\\\":\\\"register_user\\\",\\\"email\\\":\\\"audit_test2@example.com\\\",\\\"user_id\\\":5,\\\"time\\\":\\\"2026-01-31T16:17:39+07:00\\\",\\\"message\\\":\\\"New user registered\\\"}\",\n        \"{\\\"level\\\":\\\"info\\\",\\\"user_id\\\":2,\\\"limit_id\\\":2,\\\"amount\\\":6000,\\\"contract_number\\\":\\\"CTR-2024-0027\\\",\\\"time\\\":\\\"2026-01-31T16:05:26+07:00\\\",\\\"message\\\":\\\"Transaction Created (Limit Usage)\\\"}\"\n    ]\n}"
+            }
+          ]
+        }
+      ]
     }
   ],
   "variable": [

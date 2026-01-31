@@ -23,6 +23,9 @@ func PermissionMiddleware(userRepo repository.UserRepository, requiredPermission
 			return
 		}
 
+		// DEBUG LOG
+		// fmt.Printf("DEBUG: UserID: %d, Role: %s, Permissions: %v\n", user.ID, user.Role.Name, user.Role.Permissions)
+
 		hasPermission := false
 		for _, perm := range user.Role.Permissions {
 			if perm.Name == requiredPermission {

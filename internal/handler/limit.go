@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/hadi-projects/xyz-finance-go/internal/dto"
 	services "github.com/hadi-projects/xyz-finance-go/internal/service"
+	"github.com/hadi-projects/xyz-finance-go/pkg/logger"
 )
 
 type LimitHandler struct {
@@ -60,6 +61,13 @@ func (h *LimitHandler) CreateLimit(c *gin.Context) {
 			LimitAmount: req.LimitAmount,
 		},
 	})
+
+	logger.AuditLogger.Info().
+		Str("action", "create_limit").
+		Uint("target_user_id", req.TargetUserID).
+		Int("tenor_month", req.TenorMonth).
+		Float64("limit_amount", req.LimitAmount).
+		Msg("Start limit created")
 }
 
 func (h *LimitHandler) UpdateLimit(c *gin.Context) {
@@ -82,6 +90,12 @@ func (h *LimitHandler) UpdateLimit(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Limit updated successfully"})
+
+	logger.AuditLogger.Info().
+		Str("action", "update_limit").
+		Uint("limit_id", uint(id)).
+		Float64("new_limit_amount", req.LimitAmount).
+		Msg("Limit updated")
 }
 
 func (h *LimitHandler) DeleteLimit(c *gin.Context) {
@@ -98,4 +112,9 @@ func (h *LimitHandler) DeleteLimit(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Limit deleted successfully"})
+
+	logger.AuditLogger.Info().
+		Str("action", "delete_limit").
+		Uint("limit_id", uint(id)).
+		Msg("Limit deleted")
 }

@@ -29,5 +29,11 @@ func (r *Router) setupPrivateRoutes(api *gin.Engine) {
 			transaction.POST("/", middleware.PermissionMiddleware(r.UserRepo, "create-transaction"), r.TransactionHandler.CreateTransaction)
 			transaction.GET("/", middleware.PermissionMiddleware(r.UserRepo, "get-transactions"), r.TransactionHandler.GetTransactions)
 		}
+
+		logs := protected.Group("/logs")
+		{
+			logs.GET("/audit", middleware.PermissionMiddleware(r.UserRepo, "get-audit-log"), r.LogHandler.GetAuditLog)
+			logs.GET("/auth", middleware.PermissionMiddleware(r.UserRepo, "get-auth-log"), r.LogHandler.GetAuthLog)
+		}
 	}
 }

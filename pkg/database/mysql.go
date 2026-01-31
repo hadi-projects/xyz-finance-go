@@ -12,7 +12,7 @@ import (
 )
 
 // NewMySQLConnection menginisialisasi koneksi database.
-func NewMySQLConnection(cfg *config.Config) (*gorm.DB, error) {
+func NewMySQLConnection(cfg *config.AppConfig) (*gorm.DB, error) {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		cfg.DBUser,
 		cfg.DBPassword,

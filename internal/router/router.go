@@ -11,20 +11,22 @@ import (
 )
 
 type Router struct {
-	Config             *config.Config
+	Config             *config.AppConfig
 	AuthHandler        *handler.AuthHandler
 	LimitHandler       *handler.LimitHandler
 	UserHandler        *handler.UserHandler
 	TransactionHandler *handler.TransactionHandler
+	LogHandler         *handler.LogHandler
 	UserRepo           repository.UserRepository
 }
 
 func NewRouter(
-	cfg *config.Config,
+	cfg *config.AppConfig,
 	authHandler *handler.AuthHandler,
 	limitHandler *handler.LimitHandler,
 	userHandler *handler.UserHandler,
 	transactionHandler *handler.TransactionHandler,
+	logHandler *handler.LogHandler,
 	userRepo repository.UserRepository,
 ) *Router {
 	return &Router{
@@ -33,6 +35,7 @@ func NewRouter(
 		LimitHandler:       limitHandler,
 		UserHandler:        userHandler,
 		TransactionHandler: transactionHandler,
+		LogHandler:         logHandler,
 		UserRepo:           userRepo,
 	}
 }
@@ -45,6 +48,7 @@ func (r *Router) SetupRoutes() *gin.Engine {
 
 	router := gin.New()
 
+	router.Use(middleware.RequestLogger())
 	router.Use(middleware.CORS(r.Config.Security.CORSAllowedOrigins, r.Config.Security.CORSAllowCredentials))
 	router.Use(middleware.RateLimiter(r.Config.Security.RateLimitRPS, r.Config.Security.RateLimitBurst))
 	router.Use(middleware.RequestCancellation(time.Duration(r.Config.Security.RequestTimeout) * time.Second))

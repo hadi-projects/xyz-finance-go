@@ -6,6 +6,7 @@ import (
 	"github.com/hadi-projects/xyz-finance-go/internal/dto"
 	"github.com/hadi-projects/xyz-finance-go/internal/entity"
 	"github.com/hadi-projects/xyz-finance-go/internal/repository"
+	"github.com/hadi-projects/xyz-finance-go/pkg/logger"
 	"gorm.io/gorm"
 )
 
@@ -110,26 +111,18 @@ func (s *transactionService) CreateTransaction(userId uint, req dto.CreateTransa
 			Reason:       "Transaction Usage: " + req.ContractNumber,
 			Action:       entity.MutationUsage,
 		}
-		// Note: Ideally "NewAmount" for usage would be the "Remaining Limit" or just the "Usage Amount"
-		// But based on the schema (OldAmount, NewAmount), it seems to track the Limit Value.
-		// If we want to track Usage, we might misuse these fields or rely on Reason/Action.
-		// Let's stick to the prompt's implication: "Limit Mutation" usually tracks the Limit Ceiling.
-		// If this is a "Ledger", maybe we should store the txn amount?
-		// User said: "tujuannya sebagai ledger untuk audit".
-		// Let's store: OldAmount = Used Before, NewAmount = Used After?
-		// Or: OldAmount = Limit, NewAmount = Limit (no change to limit), but Action=USAGE.
-		// I will set OldAmount and NewAmount to the Limit Value to show the limit wasn't changed,
-		// but the Action USAGE implies usage occurred. The logic above calculates usage dynamically.
 
-		// Alternative interpretation: Store the Transaction Amount in NewAmount? No, that's confusing.
-		// Let's stick to: Old/New Amount refers to the Limit Ceiling. For USAGE, they are equal.
-		// WE ADD Transaction Amount in Reason? Or maybe we need a new field?
-		// Given the constraints, I'll put the OTR in the reason or just use it as is.
-
-		// Let's just log it.
 		if err := s.mutationRepo.WithTx(tx).Create(mutation); err != nil {
 			return err
 		}
+
+		// Log to Audit File
+		logger.AuditLogger.Info().
+			Uint("user_id", userId).
+			Uint("limit_id", limitID).
+			Float64("amount", req.OTR).
+			Str("contract_number", req.ContractNumber).
+			Msg("Transaction Created (Limit Usage)")
 
 		return nil
 	})

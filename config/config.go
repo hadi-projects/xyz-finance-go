@@ -9,8 +9,9 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type Config struct {
+type AppConfig struct {
 	AppPort    string
+	AppEnv     string
 	DBUser     string
 	DBPassword string
 	DBHost     string
@@ -35,11 +36,12 @@ type JWTConfig struct {
 }
 
 // NewConfig menerapkan Constructor Pattern.
-func NewConfig() (*Config, error) {
+func NewConfig() (*AppConfig, error) {
 	_ = godotenv.Load()
 
-	cfg := &Config{
+	cfg := &AppConfig{
 		AppPort:    getEnv("APP_PORT", "8080"),
+		AppEnv:     getEnv("APP_ENV", "development"),
 		DBUser:     getEnv("DB_USER", ""),
 		DBPassword: getEnv("DB_PASSWORD", ""),
 		DBHost:     getEnv("DB_HOST", ""),
