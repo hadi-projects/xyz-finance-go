@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	services "github.com/hadi-projects/xyz-finance-go/internal/service"
+	"github.com/hadi-projects/xyz-finance-go/pkg/logger"
 	"github.com/hadi-projects/xyz-finance-go/pkg/validator"
 )
 
@@ -57,6 +58,12 @@ func (h *AuthHandler) Register(c *gin.Context) {
 			"email": user.Email,
 		},
 	})
+
+	logger.AuditLogger.Info().
+		Str("action", "register_user").
+		Str("email", user.Email).
+		Uint("user_id", user.ID).
+		Msg("New user registered")
 }
 
 // Login handles user authentication

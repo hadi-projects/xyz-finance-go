@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/hadi-projects/xyz-finance-go/internal/dto"
 	services "github.com/hadi-projects/xyz-finance-go/internal/service"
+	"github.com/hadi-projects/xyz-finance-go/pkg/logger"
 )
 
 type TransactionHandler struct {
@@ -35,4 +36,12 @@ func (h *TransactionHandler) CreateTransaction(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, gin.H{"message": "Transaction created successfully"})
+
+	logger.AuditLogger.Info().
+		Str("action", "create_transaction").
+		Uint("user_id", userId.(uint)).
+		Float64("otr", req.OTR).
+		Float64("installment", req.InstallmentAmount).
+		Int("tenor", req.Tenor).
+		Msg("Transaction created")
 }
