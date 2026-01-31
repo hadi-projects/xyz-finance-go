@@ -105,7 +105,10 @@ func (app *Application) setupRouter() {
 	transactionService := services.NewTransactionService(transactionRepo, limitRepo, mutationRepo, app.DB)
 	transactionHandler := handler.NewTransactionHandler(transactionService)
 
-	appRouter := router.NewRouter(app.Config, authHandler, limitHandler, userHandler, transactionHandler, userRepo)
+	logService := services.NewLogService("logs") // Hardcoded log directory
+	logHandler := handler.NewLogHandler(logService)
+
+	appRouter := router.NewRouter(app.Config, authHandler, limitHandler, userHandler, transactionHandler, logHandler, userRepo)
 	app.Router = appRouter.SetupRoutes()
 
 	logger.SystemLogger.Info().Msg("Router configured successfully")

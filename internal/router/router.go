@@ -16,6 +16,7 @@ type Router struct {
 	LimitHandler       *handler.LimitHandler
 	UserHandler        *handler.UserHandler
 	TransactionHandler *handler.TransactionHandler
+	LogHandler         *handler.LogHandler
 	UserRepo           repository.UserRepository
 }
 
@@ -25,6 +26,7 @@ func NewRouter(
 	limitHandler *handler.LimitHandler,
 	userHandler *handler.UserHandler,
 	transactionHandler *handler.TransactionHandler,
+	logHandler *handler.LogHandler,
 	userRepo repository.UserRepository,
 ) *Router {
 	return &Router{
@@ -33,6 +35,7 @@ func NewRouter(
 		LimitHandler:       limitHandler,
 		UserHandler:        userHandler,
 		TransactionHandler: transactionHandler,
+		LogHandler:         logHandler,
 		UserRepo:           userRepo,
 	}
 }

@@ -53,3 +53,57 @@
 {"level":"info","time":"2026-01-31T16:20:58+07:00","message":"Consumer Seeding Completed!"}
 {"level":"info","time":"2026-01-31T16:20:58+07:00","message":"Router configured successfully"}
 {"level":"info","time":"2026-01-31T16:20:58+07:00","message":"🚀 Server running on port 8081"}
+{"level":"info","request_id":"b4a512cf-2cbc-4f23-a41c-8d6bbd544f12","method":"POST","path":"/api/transaction/","status":403,"ip":"::1","user_agent":"curl/8.7.1","latency":12.254083,"user_id":6,"time":"2026-01-31T16:24:13+07:00","message":"handled request"}
+{"level":"info","time":"2026-01-31T16:27:10+07:00","message":"Shutting down server..."}
+{"level":"info","time":"2026-01-31T16:27:10+07:00","message":"Server exited successfully"}
+{"level":"info","time":"2026-01-31T16:31:41+07:00","message":"Logger initialized"}
+{"level":"info","time":"2026-01-31T16:31:42+07:00","message":"Database migration completed successfully"}
+{"level":"info","time":"2026-01-31T16:31:42+07:00","message":"RBAC Seeding Completed!"}
+{"level":"info","time":"2026-01-31T16:31:42+07:00","message":"User Seeding Completed!"}
+{"level":"info","time":"2026-01-31T16:31:42+07:00","message":"Consumer Limit Seeding Completed!"}
+{"level":"info","time":"2026-01-31T16:31:42+07:00","message":"Consumer Seeding Completed!"}
+{"level":"info","time":"2026-01-31T16:31:42+07:00","message":"Router configured successfully"}
+{"level":"info","time":"2026-01-31T16:31:42+07:00","message":"🚀 Server running on port 8081"}
+{"level":"error","request_id":"c0e60d95-89d9-4560-94bb-8b3e4e877707","method":"POST","path":"/api/limit/","status":500,"ip":"::1","user_agent":"curl/8.7.1","latency":6.84625,"user_id":1,"time":"2026-01-31T16:32:43+07:00","message":"handled request"}
+{"level":"info","time":"2026-01-31T16:35:04+07:00","message":"Shutting down server..."}
+{"level":"info","time":"2026-01-31T16:35:04+07:00","message":"Server exited successfully"}
+{"level":"info","time":"2026-01-31T16:41:21+07:00","message":"Logger initialized"}
+{"level":"info","time":"2026-01-31T16:41:22+07:00","message":"Database migration completed successfully"}
+{"level":"info","time":"2026-01-31T16:41:22+07:00","message":"RBAC Seeding Completed!"}
+{"level":"info","time":"2026-01-31T16:41:22+07:00","message":"User Seeding Completed!"}
+{"level":"info","time":"2026-01-31T16:41:22+07:00","message":"Consumer Limit Seeding Completed!"}
+{"level":"info","time":"2026-01-31T16:41:22+07:00","message":"Consumer Seeding Completed!"}
+{"level":"info","time":"2026-01-31T16:41:22+07:00","message":"Router configured successfully"}
+{"level":"info","time":"2026-01-31T16:41:22+07:00","message":"🚀 Server running on port 8081"}
+{"level":"info","request_id":"35ae8ef5-d1b0-4b24-9f9a-596f19360506","method":"GET","path":"/api/logs/audit","status":200,"ip":"::1","user_agent":"curl/8.7.1","latency":10.694333,"user_id":1,"time":"2026-01-31T16:43:09+07:00","message":"handled request"}
+{"level":"info","request_id":"39ef79eb-89c4-46c9-a940-98fc7218de79","method":"GET","path":"/api/limit/","status":401,"ip":"::1","user_agent":"PostmanRuntime/7.51.0","latency":0.18275,"time":"2026-01-31T16:43:18+07:00","message":"handled request"}
+{"level":"info","request_id":"6a5590f3-895a-4519-abb3-780f24dbe4e8","method":"GET","path":"/api/get-auth-log/","status":404,"ip":"::1","user_agent":"PostmanRuntime/7.51.0","latency":0.110667,"time":"2026-01-31T16:43:30+07:00","message":"handled request"}
+{"level":"info","request_id":"c1c2e38c-1e24-4bee-931a-6b83de70b109","method":"GET","path":"/api/logs/audit","status":200,"ip":"::1","user_agent":"curl/8.7.1","latency":4.177958,"user_id":1,"time":"2026-01-31T16:43:38+07:00","message":"handled request"}
+{"level":"info","request_id":"f3eaa879-be8c-48d9-a361-38de2926fed5","method":"GET","path":"/api/logs/audit","status":401,"ip":"::1","user_agent":"PostmanRuntime/7.51.0","latency":0.243125,"time":"2026-01-31T16:44:00+07:00","message":"handled request"}
+{"level":"info","request_id":"cdc0904f-63a4-46c7-afd9-01d5c11326c8","method":"GET","path":"/api/logs/audit","status":401,"ip":"::1","user_agent":"PostmanRuntime/7.51.0","latency":0.130667,"time":"2026-01-31T16:44:20+07:00","message":"handled request"}
+{"level":"info","request_id":"fc3782b4-5c46-4333-a04c-0ca73b3cf7a8","method":"GET","path":"/api/logs/audit","status":401,"ip":"::1","user_agent":"PostmanRuntime/7.51.0","latency":0.410208,"time":"2026-01-31T16:44:24+07:00","message":"handled request"}
+{"level":"info","request_id":"f9fbb011-a3b3-4947-930a-1c0d6f1cae23","method":"GET","path":"/api/logs/audit","status":401,"ip":"::1","user_agent":"PostmanRuntime/7.51.0","latency":0.15275,"time":"2026-01-31T16:44:25+07:00","message":"handled request"}
+{"level":"info","request_id":"cf048caf-b35f-4791-8992-c9ee2b46b908","method":"GET","path":"/api/logs/audit","status":401,"ip":"::1","user_agent":"PostmanRuntime/7.51.0","latency":0.117417,"time":"2026-01-31T16:44:26+07:00","message":"handled request"}
+{"level":"info","request_id":"de61f106-b7c4-4590-ba72-e2ce1eaccc88","method":"GET","path":"/api/logs/audit","status":200,"ip":"::1","user_agent":"curl/8.7.1","latency":3.211,"user_id":1,"time":"2026-01-31T16:44:35+07:00","message":"handled request"}
+{"level":"info","request_id":"f8a8452c-3611-4f8d-be9c-11b8a3060891","method":"GET","path":"/api/logs/auth","status":200,"ip":"::1","user_agent":"curl/8.7.1","latency":6.981,"user_id":1,"time":"2026-01-31T16:44:59+07:00","message":"handled request"}
+{"level":"info","request_id":"16ede560-6995-455d-b2be-c8b66742a70a","method":"GET","path":"/api/logs/audit","status":200,"ip":"::1","user_agent":"curl/8.7.1","latency":5.024125,"user_id":6,"time":"2026-01-31T16:45:21+07:00","message":"handled request"}
+{"level":"info","time":"2026-01-31T16:47:03+07:00","message":"Shutting down server..."}
+{"level":"info","time":"2026-01-31T16:47:03+07:00","message":"Server exited successfully"}
+{"level":"info","time":"2026-01-31T16:47:06+07:00","message":"Logger initialized"}
+{"level":"info","time":"2026-01-31T16:47:06+07:00","message":"Database migration completed successfully"}
+{"level":"info","time":"2026-01-31T16:47:06+07:00","message":"RBAC Seeding Completed!"}
+{"level":"info","time":"2026-01-31T16:47:06+07:00","message":"User Seeding Completed!"}
+{"level":"info","time":"2026-01-31T16:47:06+07:00","message":"Consumer Limit Seeding Completed!"}
+{"level":"info","time":"2026-01-31T16:47:06+07:00","message":"Consumer Seeding Completed!"}
+{"level":"info","time":"2026-01-31T16:47:06+07:00","message":"Router configured successfully"}
+{"level":"info","time":"2026-01-31T16:47:06+07:00","message":"🚀 Server running on port 8081"}
+{"level":"info","time":"2026-01-31T16:55:17+07:00","message":"Logger initialized"}
+{"level":"info","time":"2026-01-31T16:55:17+07:00","message":"Database migration completed successfully"}
+{"level":"info","time":"2026-01-31T16:55:17+07:00","message":"RBAC Seeding Completed!"}
+{"level":"info","time":"2026-01-31T16:55:17+07:00","message":"User Seeding Completed!"}
+{"level":"info","time":"2026-01-31T16:55:17+07:00","message":"Consumer Limit Seeding Completed!"}
+{"level":"info","time":"2026-01-31T16:55:17+07:00","message":"Consumer Seeding Completed!"}
+{"level":"info","time":"2026-01-31T16:55:17+07:00","message":"Router configured successfully"}
+{"level":"info","time":"2026-01-31T16:55:17+07:00","message":"🚀 Server running on port 8080"}
+{"level":"info","request_id":"551855e4-c7ae-44f9-974b-4d4535704038","method":"GET","path":"/api/logs/audit","status":403,"ip":"::1","user_agent":"PostmanRuntime/7.51.0","latency":8.182584,"user_id":2,"time":"2026-01-31T16:55:22+07:00","message":"handled request"}
+{"level":"info","request_id":"c4eed2ef-cedb-4a27-b8be-db221ef423ac","method":"GET","path":"/api/logs/audit","status":200,"ip":"::1","user_agent":"PostmanRuntime/7.51.0","latency":5.305542,"user_id":1,"time":"2026-01-31T16:56:00+07:00","message":"handled request"}
