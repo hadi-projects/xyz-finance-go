@@ -11,11 +11,12 @@ import (
 )
 
 type Router struct {
-	Config       *config.Config
-	AuthHandler  *handler.AuthHandler
-	LimitHandler *handler.LimitHandler
-	UserHandler  *handler.UserHandler
-	UserRepo     repository.UserRepository
+	Config             *config.Config
+	AuthHandler        *handler.AuthHandler
+	LimitHandler       *handler.LimitHandler
+	UserHandler        *handler.UserHandler
+	TransactionHandler *handler.TransactionHandler
+	UserRepo           repository.UserRepository
 }
 
 func NewRouter(
@@ -23,14 +24,16 @@ func NewRouter(
 	authHandler *handler.AuthHandler,
 	limitHandler *handler.LimitHandler,
 	userHandler *handler.UserHandler,
+	transactionHandler *handler.TransactionHandler,
 	userRepo repository.UserRepository,
 ) *Router {
 	return &Router{
-		Config:       cfg,
-		AuthHandler:  authHandler,
-		LimitHandler: limitHandler,
-		UserHandler:  userHandler,
-		UserRepo:     userRepo,
+		Config:             cfg,
+		AuthHandler:        authHandler,
+		LimitHandler:       limitHandler,
+		UserHandler:        userHandler,
+		TransactionHandler: transactionHandler,
+		UserRepo:           userRepo,
 	}
 }
 
