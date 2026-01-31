@@ -102,3 +102,33 @@ Response:
 }
 ```
 
+## Create Limit
+
+```shell
+curl -X POST http://localhost:8080/api/limit/  \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIiwiZXhwIjoxNzY5OTI1MjY4LCJpYXQiOjE3Njk4Mzg4Njh9.LT2nnrbi4YrUc9eySLsW7x1oU15Wqi7WrKF-Kg3mAWQ" \
+  -d '{
+    "target_user_id": 2,
+    "tenor_month": 1,
+    "limit_amount": 100000
+}'
+```
+
+Response:
+```json
+{
+    "message":"Limit created successfully"
+}
+```
+
+## Delete Limit
+
+## Create Transaction
+
+## Approve Transaction
+
+## Reject Transaction
+
+## Get Transaction History
