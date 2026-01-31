@@ -13,6 +13,7 @@ import (
 	reflect "reflect"
 
 	dto "github.com/hadi-projects/xyz-finance-go/internal/dto"
+	entity "github.com/hadi-projects/xyz-finance-go/internal/entity"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -52,4 +53,19 @@ func (m *MockTransactionService) CreateTransaction(userId uint, req dto.CreateTr
 func (mr *MockTransactionServiceMockRecorder) CreateTransaction(userId, req any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTransaction", reflect.TypeOf((*MockTransactionService)(nil).CreateTransaction), userId, req)
+}
+
+// GetTransactions mocks base method.
+func (m *MockTransactionService) GetTransactions(userID uint) ([]entity.Transaction, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetTransactions", userID)
+	ret0, _ := ret[0].([]entity.Transaction)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetTransactions indicates an expected call of GetTransactions.
+func (mr *MockTransactionServiceMockRecorder) GetTransactions(userID any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTransactions", reflect.TypeOf((*MockTransactionService)(nil).GetTransactions), userID)
 }

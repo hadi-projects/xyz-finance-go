@@ -11,6 +11,7 @@ import (
 )
 
 func SeedRBAC(db *gorm.DB) {
+<<<<<<< HEAD
 	seedRole(db, "admin", []entity.Permission{
 		{Name: "create-limit"},
 		{Name: "delete-limit"},
@@ -19,6 +20,10 @@ func SeedRBAC(db *gorm.DB) {
 		{Name: "get-auth-log"},
 	})
 	seedRole(db, "user", []entity.Permission{{Name: "get-limit"}, {Name: "create-transaction"}})
+=======
+	seedRole(db, "admin", []entity.Permission{{Name: "get-limit"}, {Name: "create-limit"}, {Name: "delete-limit"}, {Name: "edit-limit"}, {Name: "get-transactions"}})
+	seedRole(db, "user", []entity.Permission{{Name: "get-limit"}, {Name: "create-transaction"}, {Name: "get-transactions"}})
+>>>>>>> 5fed82f136fd4e946b5bcc8b09fd9460e7443e4e
 
 	logger.SystemLogger.Info().Msg("RBAC Seeding Completed!")
 }

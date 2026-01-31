@@ -12,20 +12,23 @@ import (
 
 type TransactionService interface {
 	CreateTransaction(userId uint, req dto.CreateTransactionRequest) error
+	GetTransactions(userID uint) ([]entity.Transaction, error)
 }
 
 type transactionService struct {
 	transactionRepo repository.TransactionRepository
 	limitRepo       repository.LimitRepository
 	mutationRepo    repository.LimitMutationRepository
+	userRepo        repository.UserRepository
 	db              *gorm.DB
 }
 
-func NewTransactionService(transactionRepo repository.TransactionRepository, limitRepo repository.LimitRepository, mutationRepo repository.LimitMutationRepository, db *gorm.DB) TransactionService {
+func NewTransactionService(transactionRepo repository.TransactionRepository, limitRepo repository.LimitRepository, mutationRepo repository.LimitMutationRepository, userRepo repository.UserRepository, db *gorm.DB) TransactionService {
 	return &transactionService{
 		transactionRepo: transactionRepo,
 		limitRepo:       limitRepo,
 		mutationRepo:    mutationRepo,
+		userRepo:        userRepo,
 		db:              db,
 	}
 }
@@ -123,4 +126,17 @@ func (s *transactionService) CreateTransaction(userId uint, req dto.CreateTransa
 
 		return nil
 	})
+}
+
+func (s *transactionService) GetTransactions(userID uint) ([]entity.Transaction, error) {
+	user, err := s.userRepo.FindByID(userID)
+	if err != nil {
+		return nil, err
+	}
+
+	if user.Role.Name == "admin" {
+		return s.transactionRepo.FindAll()
+	}
+
+	return s.transactionRepo.FindByUserID(userID)
 }

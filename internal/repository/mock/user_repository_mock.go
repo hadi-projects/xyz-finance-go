@@ -82,6 +82,21 @@ func (mr *MockUserRepositoryMockRecorder) Delete(id any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockUserRepository)(nil).Delete), id)
 }
 
+// FindAllWithLimits mocks base method.
+func (m *MockUserRepository) FindAllWithLimits() ([]entity.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindAllWithLimits")
+	ret0, _ := ret[0].([]entity.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindAllWithLimits indicates an expected call of FindAllWithLimits.
+func (mr *MockUserRepositoryMockRecorder) FindAllWithLimits() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAllWithLimits", reflect.TypeOf((*MockUserRepository)(nil).FindAllWithLimits))
+}
+
 // FindByEmail mocks base method.
 func (m *MockUserRepository) FindByEmail(email string) (*entity.User, error) {
 	m.ctrl.T.Helper()

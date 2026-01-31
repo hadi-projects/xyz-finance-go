@@ -102,7 +102,7 @@ func (app *Application) setupRouter() {
 	userHandler := handler.NewUserHandler(userRepo)
 
 	transactionRepo := repository.NewTransactionRepository(app.DB)
-	transactionService := services.NewTransactionService(transactionRepo, limitRepo, mutationRepo, app.DB)
+	transactionService := services.NewTransactionService(transactionRepo, limitRepo, mutationRepo, userRepo, app.DB)
 	transactionHandler := handler.NewTransactionHandler(transactionService)
 
 	logService := services.NewLogService("storage/logs")

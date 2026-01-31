@@ -11,7 +11,7 @@ import (
 )
 
 type LimitService interface {
-	GetLimitsByUserID(userId uint) ([]entity.TenorLimit, error)
+	GetLimits(userId uint) ([]dto.LimitResponse, error)
 	CreateLimit(req dto.CreateLimitRequest) error
 	UpdateLimit(id uint, req dto.UpdateLimitRequest) error
 	DeleteLimit(id uint) error
@@ -33,12 +33,49 @@ func NewLimitService(limitRepo repository.LimitRepository, userRepo repository.U
 	}
 }
 
-func (s *limitService) GetLimitsByUserID(userId uint) ([]entity.TenorLimit, error) {
+func (s *limitService) GetLimits(userId uint) ([]dto.LimitResponse, error) {
+	// 1. Get User Role
+	user, err := s.userRepo.FindByID(userId)
+	if err != nil {
+		return nil, err
+	}
+
+	var responses []dto.LimitResponse
+
+	// 2. Admin: Find All Limits (via Users)
+	if user.Role.Name == "admin" {
+		users, err := s.userRepo.FindAllWithLimits()
+		if err != nil {
+			return nil, err
+		}
+
+		for _, u := range users {
+			for _, l := range u.TenorLimit {
+				responses = append(responses, dto.LimitResponse{
+					UserID:      u.ID,
+					TenorMonth:  int(l.TenorMonth),
+					LimitAmount: l.LimitAmount,
+				})
+			}
+		}
+		return responses, nil
+	}
+
+	// 3. User: Find Own Limits
 	limits, err := s.limitRepo.FindByUserID(userId)
 	if err != nil {
 		return nil, err
 	}
-	return limits, nil
+
+	for _, l := range limits {
+		responses = append(responses, dto.LimitResponse{
+			UserID:      userId,
+			TenorMonth:  int(l.TenorMonth),
+			LimitAmount: l.LimitAmount,
+		})
+	}
+
+	return responses, nil
 }
 
 func (s *limitService) CreateLimit(req dto.CreateLimitRequest) error {
