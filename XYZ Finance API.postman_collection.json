@@ -1,0 +1,1459 @@
+{
+  "info": {
+    "_postman_id": "e1781162-ed60-4ad6-bd0e-c48b0228aefb",
+    "name": "XYZ Finance API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "16633136",
+    "_collection_link": "https://go.postman.co/collection/16633136-e1781162-ed60-4ad6-bd0e-c48b0228aefb?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"budi@mail.com\",\n    \"password\": \"pAssword@123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"hadi@mail.com\",\n    \"password\": \"pAssword@198\"\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/auth/register",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "X-Xss-Protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 31 Jan 2026 07:21:26 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "83"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"User registered successfully.\",\n    \"user\": {\n        \"email\": \"hadi@mail.com\",\n        \"id\": 4\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    // \"email\": \"budi@mail.com\",\n    // \"password\": \"pAsswj@1873\"\n    \"email\": \"admin@mail.com\",\n    \"password\": \"pAsswj@123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-API-KEY",
+                "value": "biytf7rciyubyt6r7g89py"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/user/profile",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "user",
+                "profile"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Limit",
+      "item": [
+        {
+          "name": "Get Limits",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-API-KEY",
+                "value": "biytf7rciyubyt6r7g89py"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/limit/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "limit",
+                ""
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-API-KEY",
+                    "value": "biytf7rciyubyt6r7g89py"
+                  }
+                ],
+                "url": {
+                  "raw": "{{host}}api/limit/",
+                  "host": [
+                    "{{host}}api"
+                  ],
+                  "path": [
+                    "limit",
+                    ""
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "X-Xss-Protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 31 Jan 2026 07:16:01 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "41"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error\": \"Authorization header required\"\n}"
+            },
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-API-KEY",
+                    "value": "biytf7rciyubyt6r7g89py"
+                  }
+                ],
+                "url": {
+                  "raw": "{{host}}api/limit/",
+                  "host": [
+                    "{{host}}api"
+                  ],
+                  "path": [
+                    "limit",
+                    ""
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "X-Xss-Protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 31 Jan 2026 07:16:58 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "246"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": [\n        {\n            \"user_id\": 2,\n            \"tenor_month\": 1,\n            \"limit_amount\": 100000\n        },\n        {\n            \"user_id\": 2,\n            \"tenor_month\": 2,\n            \"limit_amount\": 200000\n        },\n        {\n            \"user_id\": 2,\n            \"tenor_month\": 3,\n            \"limit_amount\": 500000\n        },\n        {\n            \"user_id\": 2,\n            \"tenor_month\": 6,\n            \"limit_amount\": 700000\n        }\n    ],\n    \"message\": \"Get User Limits\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create Limit",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-API-KEY",
+                "value": "biytf7rciyubyt6r7g89py"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"target_user_id\": 2,\n    \"tenor_month\": 1,\n    \"limit_amount\": 100000\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/limit/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "limit",
+                ""
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Forbidden",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-API-KEY",
+                    "value": "biytf7rciyubyt6r7g89py"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"target_user_id\": 2,\n    \"tenor_month\": 1,\n    \"limit_amount\": 100000\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/limit/",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "limit",
+                    ""
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "X-Xss-Protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 31 Jan 2026 07:13:16 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "47"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error\": \"Forbidden: insufficient permissions\"\n}"
+            },
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-API-KEY",
+                    "value": "biytf7rciyubyt6r7g89py"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"target_user_id\": 2,\n    \"tenor_month\": 1,\n    \"limit_amount\": 100000\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/limit/",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "limit",
+                    ""
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "X-Xss-Protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 31 Jan 2026 07:17:25 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "41"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error\": \"Authorization header required\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Limit",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-API-KEY",
+                "value": "biytf7rciyubyt6r7g89py"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"tenor_month\": 3,\n    \"limit_amount\": 100000\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/limit/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "limit",
+                "2"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Forbidden",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-API-KEY",
+                    "value": "biytf7rciyubyt6r7g89py"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"tenor_month\": 3,\n    \"limit_amount\": 100000\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/limit/2",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "limit",
+                    "2"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "X-Xss-Protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 31 Jan 2026 07:14:41 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "47"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error\": \"Forbidden: insufficient permissions\"\n}"
+            },
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-API-KEY",
+                    "value": "biytf7rciyubyt6r7g89py"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"tenor_month\": 3,\n    \"limit_amount\": 100000\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/limit/2",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "limit",
+                    "2"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "X-Xss-Protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 31 Jan 2026 07:17:52 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "41"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error\": \"Authorization header required\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete Limit",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-API-KEY",
+                "value": "biytf7rciyubyt6r7g89py"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/limit/11",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "limit",
+                "11"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-API-KEY",
+                    "value": "biytf7rciyubyt6r7g89py"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:8080/api/limit/11",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "limit",
+                    "11"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "X-Xss-Protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 31 Jan 2026 07:15:03 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "41"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error\": \"Authorization header required\"\n}"
+            },
+            {
+              "name": "Forbidden",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-API-KEY",
+                    "value": "biytf7rciyubyt6r7g89py"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:8080/api/limit/11",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "limit",
+                    "11"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "X-Xss-Protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 31 Jan 2026 07:15:33 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "47"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error\": \"Forbidden: insufficient permissions\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Transaction",
+      "item": [
+        {
+          "name": "Create Transaction",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-API-KEY",
+                "value": "biytf7rciyubyt6r7g89py"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"contract_number\": \"CTR-2024-001\",\n    \"otr\": 600000,\n    \"admin_fee\": 10000,\n    \"installment_amount\": 105000,\n    \"interest_amount\": 10000,\n    \"asset_name\": \"Samsung Galaxy A05\",\n    \"tenor\": 6\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/transaction/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "transaction",
+                ""
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-API-KEY",
+                    "value": "biytf7rciyubyt6r7g89py"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"contract_number\": \"CTR-2024-001\",\n    \"otr\": 600000,\n    \"admin_fee\": 10000,\n    \"installment_amount\": 105000,\n    \"interest_amount\": 10000,\n    \"asset_name\": \"Samsung Galaxy A05\",\n    \"tenor\": 6\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/transaction/",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "transaction",
+                    ""
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "X-Xss-Protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 31 Jan 2026 07:26:45 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "41"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error\": \"Authorization header required\"\n}"
+            },
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-API-KEY",
+                    "value": "biytf7rciyubyt6r7g89py"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"contract_number\": \"CTR-2024-001\",\n    \"otr\": 6000,\n    \"admin_fee\": 1000,\n    \"installment_amount\": 1000,\n    \"interest_amount\": 1000,\n    \"asset_name\": \"Samsung Galaxy A05\",\n    \"tenor\": 2\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/transaction/",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "transaction",
+                    ""
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "X-Xss-Protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 31 Jan 2026 07:27:38 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "46"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Transaction created successfully\"\n}"
+            },
+            {
+              "name": "Forbidden",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-API-KEY",
+                    "value": "biytf7rciyubyt6r7g89py"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"contract_number\": \"CTR-2024-001\",\n    \"otr\": 6000,\n    \"admin_fee\": 1000,\n    \"installment_amount\": 1000,\n    \"interest_amount\": 1000,\n    \"asset_name\": \"Samsung Galaxy A05\",\n    \"tenor\": 2\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/transaction/",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "transaction",
+                    ""
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "X-Xss-Protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 31 Jan 2026 07:29:51 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "47"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error\": \"Forbidden: insufficient permissions\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Transactions",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-API-KEY",
+                "value": "biytf7rciyubyt6r7g89py"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"contract_number\": \"CTR-2024-001\",\n    \"otr\": 600000,\n    \"admin_fee\": 10000,\n    \"installment_amount\": 105000,\n    \"interest_amount\": 10000,\n    \"asset_name\": \"Samsung Galaxy A05\",\n    \"tenor\": 6\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/transaction/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "transaction",
+                ""
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-API-KEY",
+                    "value": "biytf7rciyubyt6r7g89py"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"contract_number\": \"CTR-2024-001\",\n    \"otr\": 600000,\n    \"admin_fee\": 10000,\n    \"installment_amount\": 105000,\n    \"interest_amount\": 10000,\n    \"asset_name\": \"Samsung Galaxy A05\",\n    \"tenor\": 6\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/transaction",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "transaction"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "X-Xss-Protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 31 Jan 2026 08:26:51 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "36"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error\": \"Invalid or expired token\"\n}"
+            },
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-API-KEY",
+                    "value": "biytf7rciyubyt6r7g89py"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"contract_number\": \"CTR-2024-001\",\n    \"otr\": 600000,\n    \"admin_fee\": 10000,\n    \"installment_amount\": 105000,\n    \"interest_amount\": 10000,\n    \"asset_name\": \"Samsung Galaxy A05\",\n    \"tenor\": 6\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/transaction",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "transaction"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self'"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Permissions-Policy",
+                  "value": "geolocation=(), microphone=(), camera=()"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "strict-origin-when-cross-origin"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "X-Xss-Protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 31 Jan 2026 08:27:21 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1148"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"user_id\": 2,\n            \"contract_number\": \"CTR-2024-001\",\n            \"otr\": 6000,\n            \"admin_fee\": 1000,\n            \"installment_amount\": 1000,\n            \"interest_amount\": 1000,\n            \"asset_name\": \"Samsung Galaxy A05\",\n            \"status\": \"pending\",\n            \"tenor\": 2,\n            \"created_at\": \"2026-01-31T15:05:06.288+07:00\",\n            \"updated_at\": \"2026-01-31T15:05:06.288+07:00\"\n        },\n        {\n            \"id\": 3,\n            \"user_id\": 2,\n            \"contract_number\": \"CTR-2024-026\",\n            \"otr\": 6000,\n            \"admin_fee\": 1000,\n            \"installment_amount\": 1000,\n            \"interest_amount\": 1000,\n            \"asset_name\": \"Samsung Galaxy A05\",\n            \"status\": \"pending\",\n            \"tenor\": 2,\n            \"created_at\": \"2026-01-31T15:07:05.774+07:00\",\n            \"updated_at\": \"2026-01-31T15:07:05.774+07:00\"\n        },\n        {\n            \"id\": 5,\n            \"user_id\": 2,\n            \"contract_number\": \"CTR-2024-087\",\n            \"otr\": 6000,\n            \"admin_fee\": 1000,\n            \"installment_amount\": 1000,\n            \"interest_amount\": 1000,\n            \"asset_name\": \"Samsung Galaxy A05\",\n            \"status\": \"pending\",\n            \"tenor\": 2,\n            \"created_at\": \"2026-01-31T15:14:06.182+07:00\",\n            \"updated_at\": \"2026-01-31T15:14:06.182+07:00\"\n        },\n        {\n            \"id\": 6,\n            \"user_id\": 2,\n            \"contract_number\": \"CTR-2024-01117\",\n            \"otr\": 6000,\n            \"admin_fee\": 1000,\n            \"installment_amount\": 1000,\n            \"interest_amount\": 1000,\n            \"asset_name\": \"Samsung Galaxy A05\",\n            \"status\": \"pending\",\n            \"tenor\": 2,\n            \"created_at\": \"2026-01-31T15:14:24.818+07:00\",\n            \"updated_at\": \"2026-01-31T15:14:24.818+07:00\"\n        }\n    ]\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "token",
+      "value": "YOUR_JWT_TOKEN",
+      "type": "string"
+    }
+  ]
+}
