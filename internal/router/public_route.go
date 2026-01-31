@@ -8,6 +8,9 @@ import (
 
 func (r *Router) setupPublicRoutes(router *gin.Engine) {
 
+	// Serve static files from storage/uploads
+	router.Static("/uploads", "./storage/uploads")
+
 	router.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"status":  "UP",
