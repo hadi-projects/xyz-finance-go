@@ -1,0 +1,10 @@
+.env
+storage/logs/*
+storage/uploads/ktp/*
+storage/uploads/selfie/*
+
+!storage/uploads/selfie/budi.jpeg
+!storage/uploads/selfie/annisa.jpeg
+
+!storage/uploads/ktp/annisa.jpeg
+!storage/uploads/ktp/budi.webp

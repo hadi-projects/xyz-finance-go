@@ -1,0 +1,186 @@
+# XYZ Finance API
+
+## Register
+```shell
+curl -X POST http://localhost:8080/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "budi@mail.com",
+    "password": "pAssword@123"
+}'
+```
+
+Response:
+```json
+{
+    "message":"User registered successfully.",
+    "user":{
+        "email":"budi@mail.com",
+        "id":1
+    }
+}
+```
+
+## Login
+```shell
+curl -X POST http://localhost:8080/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "budi@mail.com",
+    "password": "pAsswj@1873"
+}'
+```
+
+Response:
+```json
+{
+    "message":"Login successful",
+    "user":{
+        "email":"user@example.com",
+        "id":1
+    }
+}
+```
+
+## Get Profile
+```shell
+curl -X GET http://localhost:8080/api/user/profile \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6ImJ1ZGlAbWFpbC5jb20iLCJleHAiOjE3Njk5MjQ5NDAsImlhdCI6MTc2OTgzODU0MH0._SA7QNtqzBF6PrLMbun8MoRPSHkHyWkjbmemwTK6iKA"
+```
+
+Response:
+```json
+{
+    "data":{
+        "user_id":2,
+        "email":"budi@mail.com",
+        "consumer":{
+            "nik":"1234567890123456","full_name":"Budi Santoso","legal_name":"Budi Santoso","place_of_birth":"Jakarta","date_of_birth":"1990-01-01T00:00:00+07:00",
+            "salary":10000000,"ktp_image":"ktp_placeholder.jpg","selfie_image":"selfie_placeholder.jpg"
+        }
+    },
+    "message":"Get User Profile"
+}
+```
+
+## Get Limit
+```shell
+curl -X GET http://localhost:8080/api/limit/ \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6ImJ1ZGlAbWFpbC5jb20iLCJleHAiOjE3Njk5Mjc2MzgsImlhdCI6MTc2OTg0MTIzOH0.Bd7qUpg0Yu5pqiwvHDFyvJ-tgCDHw_rUyBSSANWZkGQ"
+```
+
+Response:
+```json
+{
+    "data": [
+        {
+            "user_id": 2,
+            "tenor_month": 1,
+            "limit_amount": 100000
+        },
+        {
+            "user_id": 2,
+            "tenor_month": 2,
+            "limit_amount": 200000
+        },
+        {
+            "user_id": 2,
+            "tenor_month": 3,
+            "limit_amount": 500000
+        },
+        {
+            "user_id": 2,
+            "tenor_month": 6,
+            "limit_amount": 700000
+        }
+    ],
+    "message": "Get User Limits"
+}
+```
+
+## Create Limit
+
+```shell
+curl -X POST http://localhost:8080/api/limit/  \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIiwiZXhwIjoxNzY5OTI1MjY4LCJpYXQiOjE3Njk4Mzg4Njh9.LT2nnrbi4YrUc9eySLsW7x1oU15Wqi7WrKF-Kg3mAWQ" \
+  -d '{
+    "target_user_id": 2,
+    "tenor_month": 1,
+    "limit_amount": 100000
+}'
+```
+
+Response:
+```json
+{
+    "message":"Limit created successfully"
+}
+```
+
+## Delete Limit
+
+```shell
+curl -X DELETE http://localhost:8080/api/limit/11 \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIiwiZXhwIjoxNzY5OTI1MjY4LCJpYXQiOjE3Njk4Mzg4Njh9.LT2nnrbi4YrUc9eySLsW7x1oU15Wqi7WrKF-Kg3mAWQ"
+```
+
+Response:
+```json
+{
+    "message":"Limit deleted successfully"
+}
+```
+
+## Update Limit
+
+```shell
+curl -X PUT http://localhost:8080/api/limit/2 \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIiwiZXhwIjoxNzY5OTI1MjY4LCJpYXQiOjE3Njk4Mzg4Njh9.LT2nnrbi4YrUc9eySLsW7x1oU15Wqi7WrKF-Kg3mAWQ" \
+  -d '{
+    "tenor_month": 3,
+    "limit_amount": 100000
+}'
+```
+
+Response:
+```json
+{
+    "message":"Limit updated successfully"
+}
+```
+
+## Create Transaction
+```shell
+curl -X POST http://localhost:8080/api/transaction/  \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6ImJ1ZGlAbWFpbC5jb20iLCJleHAiOjE3Njk5Mjc2MzgsImlhdCI6MTc2OTg0MTIzOH0.Bd7qUpg0Yu5pqiwvHDFyvJ-tgCDHw_rUyBSSANWZkGQ" \
+  -d '{
+    "contract_number": "CTR-2024-001",
+    "otr": 600000,
+    "admin_fee": 10000,
+    "installment_amount": 105000,
+    "interest_amount": 10000,
+    "asset_name": "Samsung Galaxy A05",
+    "tenor": 6
+}'
+```
+
+Response:
+```json
+{
+    "message":"Transaction created successfully"
+}
+```
+
+## Get Transaction History

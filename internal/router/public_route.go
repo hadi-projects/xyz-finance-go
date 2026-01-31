@@ -1,0 +1,31 @@
+package router
+
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
+
+func (r *Router) setupPublicRoutes(router *gin.Engine) {
+
+	// Serve static files from storage/uploads
+	router.Static("/uploads", "./storage/uploads")
+
+	router.GET("/health", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  "UP",
+			"app":     "XYZ Multifinance",
+			"version": "1.0.0",
+		})
+	})
+
+	api := router.Group("/api")
+	{
+		auth := api.Group("/auth")
+		{
+			auth.POST("/register", r.AuthHandler.Register)
+			auth.POST("/login", r.AuthHandler.Login)
+		}
+	}
+
+}
