@@ -115,6 +115,30 @@ make build
 ./bin/api
 ```
 
+### Running with Docker
+
+```bash
+# Build and start all services
+make docker-up
+
+# View logs
+make docker-logs
+
+# Stop all services
+make docker-down
+
+# Rebuild and restart
+make docker-build
+make docker-restart
+
+# Clean up (remove volumes and images)
+make docker-clean
+```
+
+**Docker Services:**
+- **API**: `http://localhost:8080`
+- **MySQL**: `localhost:3307` (mapped to container port 3306)
+
 ### Running Tests
 
 ```bash
