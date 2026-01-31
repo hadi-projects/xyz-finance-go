@@ -34,7 +34,7 @@ func main() {
 
 	// Initialize Logger
 	logger.Init(logger.Config{
-		LogDir:      "logs",
+		LogDir:      "storage/logs",
 		Environment: app.Config.AppEnv,
 	})
 	logger.SystemLogger.Info().Msg("Logger initialized")
@@ -105,7 +105,7 @@ func (app *Application) setupRouter() {
 	transactionService := services.NewTransactionService(transactionRepo, limitRepo, mutationRepo, app.DB)
 	transactionHandler := handler.NewTransactionHandler(transactionService)
 
-	logService := services.NewLogService("logs") // Hardcoded log directory
+	logService := services.NewLogService("storage/logs")
 	logHandler := handler.NewLogHandler(logService)
 
 	appRouter := router.NewRouter(app.Config, authHandler, limitHandler, userHandler, transactionHandler, logHandler, userRepo)

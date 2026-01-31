@@ -1,2 +1,5 @@
 .env
-storage
+storage/logs
+storage/uploads
+!storage/uploads/selfie/budi.jpeg
+!storage/uploads/selfie/annisa.jpeg
