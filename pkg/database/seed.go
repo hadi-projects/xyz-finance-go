@@ -11,7 +11,6 @@ import (
 )
 
 func SeedRBAC(db *gorm.DB) {
-<<<<<<< HEAD
 	seedRole(db, "admin", []entity.Permission{
 		{Name: "create-limit"},
 		{Name: "delete-limit"},
@@ -20,10 +19,6 @@ func SeedRBAC(db *gorm.DB) {
 		{Name: "get-auth-log"},
 	})
 	seedRole(db, "user", []entity.Permission{{Name: "get-limit"}, {Name: "create-transaction"}})
-=======
-	seedRole(db, "admin", []entity.Permission{{Name: "get-limit"}, {Name: "create-limit"}, {Name: "delete-limit"}, {Name: "edit-limit"}, {Name: "get-transactions"}})
-	seedRole(db, "user", []entity.Permission{{Name: "get-limit"}, {Name: "create-transaction"}, {Name: "get-transactions"}})
->>>>>>> 5fed82f136fd4e946b5bcc8b09fd9460e7443e4e
 
 	logger.SystemLogger.Info().Msg("RBAC Seeding Completed!")
 }
@@ -129,13 +124,13 @@ func seedLimit(db *gorm.DB, userId uint, tenor int, limitAmount float64) {
 }
 
 func SeedConsumer(db *gorm.DB) {
-	seedConsumerData(db, 2, "1234567890123456", "Budi Santoso", "Budi Santoso", "Jakarta", "1990-01-01", 10000000)
-	seedConsumerData(db, 3, "6543210987654321", "Annisa Putri", "Annisa Putri", "Bandung", "1992-05-15", 15000000)
+	seedConsumerData(db, 2, "1234567890123456", "Budi Santoso", "Budi Santoso", "Jakarta", "1990-01-01", 10000000, "budi.webp", "budi.jpeg")
+	seedConsumerData(db, 3, "6543210987654321", "Annisa Putri", "Annisa Putri", "Bandung", "1992-05-15", 15000000, "annisa.jpeg", "annisa.jpeg")
 
 	logger.SystemLogger.Info().Msg("Consumer Seeding Completed!")
 }
 
-func seedConsumerData(db *gorm.DB, userId uint, nik, fullName, legalName, pob, dob string, salary float64) {
+func seedConsumerData(db *gorm.DB, userId uint, nik, fullName, legalName, pob, dob string, salary float64, ktpImage, selfieImage string) {
 	consumer := entity.Consumer{
 		UserID:       userId,
 		NIK:          nik,
@@ -144,8 +139,8 @@ func seedConsumerData(db *gorm.DB, userId uint, nik, fullName, legalName, pob, d
 		PlaceOfBirth: pob,
 		DateOfBirth:  dob,
 		Salary:       salary,
-		KTPImage:     "ktp_placeholder.jpg",
-		SelfieImage:  "selfie_placeholder.jpg",
+		KTPImage:     ktpImage,
+		SelfieImage:  selfieImage,
 	}
 
 	var existing entity.Consumer

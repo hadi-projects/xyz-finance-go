@@ -31,6 +31,13 @@ func (h *UserHandler) GetProfile(c *gin.Context) {
 		return
 	}
 
+	// Build base URL for static files
+	scheme := "http"
+	if c.Request.TLS != nil {
+		scheme = "https"
+	}
+	baseURL := scheme + "://" + c.Request.Host
+
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Get User Profile",
 		"data": dto.UserProfileResponse{
@@ -45,8 +52,8 @@ func (h *UserHandler) GetProfile(c *gin.Context) {
 						PlaceOfBirth: user.Consumer.PlaceOfBirth,
 						DateOfBirth:  user.Consumer.DateOfBirth,
 						Salary:       user.Consumer.Salary,
-						KTPImage:     user.Consumer.KTPImage,
-						SelfieImage:  user.Consumer.SelfieImage,
+						KTPImage:     baseURL + "/uploads/ktp/" + user.Consumer.KTPImage,
+						SelfieImage:  baseURL + "/uploads/selfie/" + user.Consumer.SelfieImage,
 					}
 				}
 				return nil

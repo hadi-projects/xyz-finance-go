@@ -38,7 +38,7 @@ func (h *TransactionHandler) CreateTransaction(c *gin.Context) {
 
 	logger.AuditLogger.Info().
 		Str("action", "create_transaction").
-		Uint("user_id", userId.(uint)).
+		Uint("user_id", userId).
 		Float64("otr", req.OTR).
 		Float64("installment", req.InstallmentAmount).
 		Int("tenor", req.Tenor).
