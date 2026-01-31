@@ -70,7 +70,7 @@ func TestLimitHandler_GetLimits(t *testing.T) {
 
 	t.Run("Success", func(t *testing.T) {
 		userId := uint(1)
-		limits := []entity.TenorLimit{{ID: 1, TenorMonth: 12, LimitAmount: 10000}}
+		limits := []entity.TenorLimit{{ID: 1, TenorMonth: entity.Tenor(12), LimitAmount: 10000}}
 
 		mockLimitService.EXPECT().GetLimitsByUserID(userId).Return(limits, nil)
 

@@ -106,7 +106,7 @@ func seedLimit(db *gorm.DB, userId uint, tenor int, limitAmount float64) {
 		return // Limit already exists
 	}
 
-	limit := entity.TenorLimit{TenorMonth: tenor, LimitAmount: limitAmount}
+	limit := entity.TenorLimit{TenorMonth: entity.Tenor(tenor), LimitAmount: limitAmount}
 	if err := repository.NewLimitRepository(db).Create(&limit); err != nil {
 		fmt.Printf("Failed to create limit %d: %v\n", tenor, err)
 	}

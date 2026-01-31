@@ -23,9 +23,13 @@ func TestLimitService_CreateLimit(t *testing.T) {
 	t.Run("Success", func(t *testing.T) {
 		req := dto.CreateLimitRequest{
 			TargetUserID: 1,
-			TenorMonth:   12,
+			TenorMonth:   12, // Note: This will fail now due to validation
 			LimitAmount:  1000000,
 		}
+		// Adjust test data for success
+		req.TenorMonth = 1
+
+		mockUserRepo.EXPECT().FindByID(req.TargetUserID).Return(&entity.User{ID: 1}, nil)
 
 		limitMatcher := gomock.AssignableToTypeOf(&entity.TenorLimit{})
 
@@ -44,8 +48,26 @@ func TestLimitService_CreateLimit(t *testing.T) {
 		assert.NoError(t, err)
 	})
 
+	t.Run("InvalidTenor", func(t *testing.T) {
+		req := dto.CreateLimitRequest{TargetUserID: 1, TenorMonth: 5, LimitAmount: 100}
+		err := service.CreateLimit(req)
+		assert.Error(t, err)
+		assert.Equal(t, "invalid tenor month: must be 1, 2, 3, or 6", err.Error())
+	})
+
+	t.Run("UserNotFound", func(t *testing.T) {
+		req := dto.CreateLimitRequest{TargetUserID: 99, TenorMonth: 1, LimitAmount: 100}
+		mockUserRepo.EXPECT().FindByID(req.TargetUserID).Return(nil, errors.New("record not found"))
+
+		err := service.CreateLimit(req)
+		assert.Error(t, err)
+		assert.Equal(t, "target user not found", err.Error())
+	})
+
 	t.Run("LimitRepoError", func(t *testing.T) {
-		req := dto.CreateLimitRequest{TargetUserID: 1, TenorMonth: 12, LimitAmount: 100}
+		req := dto.CreateLimitRequest{TargetUserID: 1, TenorMonth: 1, LimitAmount: 100}
+
+		mockUserRepo.EXPECT().FindByID(req.TargetUserID).Return(&entity.User{ID: 1}, nil)
 		mockLimitRepo.EXPECT().Create(gomock.Any()).Return(errors.New("db error"))
 
 		err := service.CreateLimit(req)

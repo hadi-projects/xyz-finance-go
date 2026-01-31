@@ -36,7 +36,7 @@ func (s *transactionService) CreateTransaction(userId uint, req dto.CreateTransa
 		var limitAmount float64
 		found := false
 		for _, limit := range limits {
-			if limit.TenorMonth == req.Tenor {
+			if int(limit.TenorMonth) == req.Tenor {
 				limitAmount = limit.LimitAmount
 				found = true
 				break

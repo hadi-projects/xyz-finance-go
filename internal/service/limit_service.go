@@ -1,6 +1,8 @@
 package services
 
 import (
+	"errors"
+
 	"github.com/hadi-projects/xyz-finance-go/internal/dto"
 	"github.com/hadi-projects/xyz-finance-go/internal/entity"
 	"github.com/hadi-projects/xyz-finance-go/internal/repository"
@@ -33,8 +35,19 @@ func (s *limitService) GetLimitsByUserID(userId uint) ([]entity.TenorLimit, erro
 }
 
 func (s *limitService) CreateLimit(req dto.CreateLimitRequest) error {
+	// Validate Tenor
+	validTenors := map[int]bool{1: true, 2: true, 3: true, 6: true}
+	if !validTenors[req.TenorMonth] {
+		return errors.New("invalid tenor month: must be 1, 2, 3, or 6")
+	}
+
+	// Validate User Exists
+	if _, err := s.userRepo.FindByID(req.TargetUserID); err != nil {
+		return errors.New("target user not found")
+	}
+
 	limit := &entity.TenorLimit{
-		TenorMonth:  req.TenorMonth,
+		TenorMonth:  entity.Tenor(req.TenorMonth),
 		LimitAmount: req.LimitAmount,
 	}
 

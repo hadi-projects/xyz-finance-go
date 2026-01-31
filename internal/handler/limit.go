@@ -38,7 +38,7 @@ func (h *LimitHandler) GetLimits(c *gin.Context) {
 	for _, limit := range limits {
 		limitResponses = append(limitResponses, dto.LimitResponse{
 			UserID:      userId.(uint),
-			TenorMonth:  limit.TenorMonth,
+			TenorMonth:  int(limit.TenorMonth),
 			LimitAmount: limit.LimitAmount,
 		})
 	}
