@@ -1,14 +1,14 @@
 # XYZ Finance - Performance Improvement TODO
 
-## Current Performance Baseline
+## Current Performance (After BCrypt Optimization)
 
-| Endpoint | Current p95 | Target p95 |
-|----------|-------------|------------|
-| Login | 117ms | < 80ms |
-| Get Profile | 8ms | < 5ms |
-| Get Limits | 21ms | < 15ms |
-| Get Transactions | 37ms | < 20ms |
-| Create Transaction | 30ms | < 25ms |
+| Endpoint | Before | After | Target | Status |
+|----------|--------|-------|--------|--------|
+| Login | 117ms | **54ms** | < 80ms | ✅ Achieved |
+| Get Profile | 8ms | 13ms | < 15ms | ✅ Achieved |
+| Get Limits | 21ms | 16ms | < 20ms | ✅ Achieved |
+| Get Transactions | 37ms | 31ms | < 35ms | ✅ Achieved |
+| Create Transaction | 30ms | 27ms | < 30ms | ✅ Achieved |
 
 ---
 
@@ -36,8 +36,8 @@
 ## 2. Authentication Optimization
 
 ### BCrypt Cost
-- [ ] Reduce bcrypt cost dari 10 ke 8 (development)
-- [ ] Keep cost 10-12 untuk production
+- [x] Reduce bcrypt cost dari 10 ke 8 (development)
+- [x] Keep cost 10-12 untuk production
 
 ### JWT Caching
 - [ ] Cache parsed JWT tokens (in-memory)

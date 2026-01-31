@@ -28,6 +28,7 @@ type SecurityConfig struct {
 	CORSAllowCredentials bool
 	RequestTimeout       int
 	APIKey               string
+	BCryptCost           int
 }
 
 type JWTConfig struct {
@@ -54,6 +55,7 @@ func NewConfig() (*AppConfig, error) {
 			CORSAllowCredentials: getEnvAsBool("CORS_ALLOW_CREDENTIALS", true),
 			RequestTimeout:       getEnvAsInt("REQUEST_TIMEOUT", 10),
 			APIKey:               getEnv("API_KEY", ""),
+			BCryptCost:           getEnvAsInt("BCRYPT_COST", 10),
 		},
 		JWT: JWTConfig{
 			Secret:      getEnv("JWT_SECRET", ""),

@@ -80,7 +80,7 @@ func (app *Application) initializeDatabase() {
 	logger.SystemLogger.Info().Msg("Database migration completed successfully")
 
 	database.SeedRBAC(app.DB)
-	database.SeedUser(app.DB)
+	database.SeedUser(app.DB, app.Config.Security.BCryptCost)
 	database.SeedConsumerLimit(app.DB)
 	database.SeedConsumer(app.DB)
 
@@ -90,7 +90,7 @@ func (app *Application) initializeDatabase() {
 func (app *Application) setupRouter() {
 
 	userRepo := repository.NewUserRepository(app.DB)
-	authService := services.NewAuthService(userRepo)
+	authService := services.NewAuthService(userRepo, app.Config)
 	refreshTokenRepo := repository.NewRefreshTokenRepository(app.DB)
 	jwtService := services.NewJWTService(app.Config.JWT.Secret, app.Config.JWT.ExpiryHours, refreshTokenRepo)
 	authHandler := handler.NewAuthHandler(authService, jwtService)

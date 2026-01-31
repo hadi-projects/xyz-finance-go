@@ -179,24 +179,26 @@ JSON Response
 
 Hasil load testing menggunakan k6 dengan skenario: **Smoke (1 VU)**, **Load (10 VUs)**, **Stress (20 VUs)**.
 
+> **Note:** BCrypt cost dioptimasi dari 10 ke 8 untuk development environment.
+
 ### Response Time
 
 | Endpoint | Average | p95 | p99 |
 |----------|---------|-----|-----|
-| Login | 93ms | 117ms | 123ms |
-| Get Profile | 4ms | 8ms | 12ms |
-| Get Limits | 8ms | 21ms | 25ms |
-| Get Transactions | 16ms | 37ms | 45ms |
-| Create Transaction | 14ms | 30ms | 35ms |
+| Login | 40ms | 54ms | 84ms |
+| Get Profile | 6ms | 13ms | 15ms |
+| Get Limits | 8ms | 16ms | 20ms |
+| Get Transactions | 14ms | 31ms | 40ms |
+| Create Transaction | 14ms | 27ms | 35ms |
 
 ### Throughput & Reliability
 
 | Metric | Value |
 |--------|-------|
-| Requests/second | 20 req/s |
+| Requests/second | 21 req/s |
 | Success Rate | 100% |
 | Error Rate (app logic) | 0% |
-| Total Iterations | 1,489 |
+| Total Iterations | 1,519 |
 | Duration | 6 minutes |
 
 ### Test Configuration
@@ -213,11 +215,16 @@ BASE_URL=http://localhost:8080 API_KEY=your-key k6 run performance-test.js
 
 | Metric | Threshold | Result |
 |--------|-----------|--------|
-| http_req_duration p(95) | < 500ms | ✅ 103ms |
-| http_req_duration p(99) | < 1000ms | ✅ 123ms |
-| Login p(95) | < 300ms | ✅ 117ms |
-| Get Profile p(95) | < 200ms | ✅ 8ms |
-| Get Limits p(95) | < 200ms | ✅ 21ms |
-| Get Transactions p(95) | < 300ms | ✅ 37ms |
-| Create Transaction p(95) | < 500ms | ✅ 30ms |
+| http_req_duration p(95) | < 500ms | ✅ 46ms |
+| http_req_duration p(99) | < 1000ms | ✅ 84ms |
+| Login p(95) | < 300ms | ✅ 54ms |
+| Get Profile p(95) | < 200ms | ✅ 13ms |
+| Get Limits p(95) | < 200ms | ✅ 16ms |
+| Get Transactions p(95) | < 300ms | ✅ 31ms |
+| Create Transaction p(95) | < 500ms | ✅ 27ms |
 
+### Performance Optimization Applied
+
+| Optimization | Before | After | Improvement |
+|--------------|--------|-------|-------------|
+| BCrypt Cost (10→8) | 93ms login | 40ms login | ⬇️ 57% faster |
