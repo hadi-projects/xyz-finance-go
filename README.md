@@ -70,7 +70,7 @@ Response:
 curl -X GET http://localhost:8080/api/limit/ \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6ImJ1ZGlAbWFpbC5jb20iLCJleHAiOjE3Njk5MjQ5NDAsImlhdCI6MTc2OTgzODU0MH0._SA7QNtqzBF6PrLMbun8MoRPSHkHyWkjbmemwTK6iKA"
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6ImJ1ZGlAbWFpbC5jb20iLCJleHAiOjE3Njk5Mjc2MzgsImlhdCI6MTc2OTg0MTIzOH0.Bd7qUpg0Yu5pqiwvHDFyvJ-tgCDHw_rUyBSSANWZkGQ"
 ```
 
 Response:
@@ -142,12 +142,12 @@ Response:
 ## Update Limit
 
 ```shell
-curl -X PUT http://localhost:8080/api/limit/11 \
+curl -X PUT http://localhost:8080/api/limit/2 \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIiwiZXhwIjoxNzY5OTI1MjY4LCJpYXQiOjE3Njk4Mzg4Njh9.LT2nnrbi4YrUc9eySLsW7x1oU15Wqi7WrKF-Kg3mAWQ" \
   -d '{
-    "tenor_month": 1,
+    "tenor_month": 3,
     "limit_amount": 100000
 }'
 ```
@@ -157,7 +157,30 @@ Response:
 {
     "message":"Limit updated successfully"
 }
+```
 
-## Reject Transaction
+## Create Transaction
+```shell
+curl -X POST http://localhost:8080/api/transaction/  \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6ImJ1ZGlAbWFpbC5jb20iLCJleHAiOjE3Njk5Mjc2MzgsImlhdCI6MTc2OTg0MTIzOH0.Bd7qUpg0Yu5pqiwvHDFyvJ-tgCDHw_rUyBSSANWZkGQ" \
+  -d '{
+    "contract_number": "CTR-2024-001",
+    "otr": 600000,
+    "admin_fee": 10000,
+    "installment_amount": 105000,
+    "interest_amount": 10000,
+    "asset_name": "Samsung Galaxy A05",
+    "tenor": 6
+}'
+```
+
+Response:
+```json
+{
+    "message":"Transaction created successfully"
+}
+```
 
 ## Get Transaction History
