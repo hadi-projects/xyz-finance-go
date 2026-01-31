@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -18,11 +17,12 @@ import (
 	"github.com/hadi-projects/xyz-finance-go/internal/router"
 	services "github.com/hadi-projects/xyz-finance-go/internal/service"
 	"github.com/hadi-projects/xyz-finance-go/pkg/database"
+	"github.com/hadi-projects/xyz-finance-go/pkg/logger"
 	"gorm.io/gorm"
 )
 
 type Application struct {
-	Config *config.Config
+	Config *config.AppConfig
 	DB     *gorm.DB
 	Router *gin.Engine
 	Server *http.Server
@@ -31,6 +31,14 @@ type Application struct {
 func main() {
 	app := &Application{}
 	app.initializeConfig()
+
+	// Initialize Logger
+	logger.Init(logger.Config{
+		LogDir:      "logs",
+		Environment: app.Config.AppEnv,
+	})
+	logger.SystemLogger.Info().Msg("Logger initialized")
+
 	app.initializeDatabase()
 	app.setupRouter()
 	app.run()
@@ -43,6 +51,7 @@ func (app *Application) initializeConfig() {
 		log.Fatalf("Failed to load configuration: %v", err)
 	}
 	app.Config = cfg
+	// Using std log here because logger is not init yet
 	log.Println("Configuration loaded successfully")
 }
 
@@ -50,7 +59,7 @@ func (app *Application) initializeConfig() {
 func (app *Application) initializeDatabase() {
 	db, err := database.NewMySQLConnection(app.Config)
 	if err != nil {
-		log.Fatalf("Failed to connect to database: %v", err)
+		logger.SystemLogger.Fatal().Err(err).Msg("Failed to connect to database")
 	}
 	app.DB = db
 
@@ -66,9 +75,9 @@ func (app *Application) initializeDatabase() {
 		&entity.Transaction{},
 		&entity.LimitMutation{},
 	); err != nil {
-		log.Fatalf("Failed to migrate database: %v", err)
+		logger.SystemLogger.Fatal().Err(err).Msg("Failed to migrate database")
 	}
-	log.Println("Database migration completed successfully")
+	logger.SystemLogger.Info().Msg("Database migration completed successfully")
 
 	database.SeedRBAC(app.DB)
 	database.SeedUser(app.DB)
@@ -99,7 +108,7 @@ func (app *Application) setupRouter() {
 	appRouter := router.NewRouter(app.Config, authHandler, limitHandler, userHandler, transactionHandler, userRepo)
 	app.Router = appRouter.SetupRoutes()
 
-	log.Println("Router configured successfully")
+	logger.SystemLogger.Info().Msg("Router configured successfully")
 }
 
 // run starts the HTTP server and handles graceful shutdown
@@ -114,9 +123,9 @@ func (app *Application) run() {
 
 	// Start server in goroutine
 	go func() {
-		fmt.Printf("🚀 Server running on port %s\n", app.Config.AppPort)
+		logger.SystemLogger.Info().Msgf("🚀 Server running on port %s", app.Config.AppPort)
 		if err := app.Server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("❌ Server failed to start: %v", err)
+			logger.SystemLogger.Fatal().Err(err).Msg("❌ Server failed to start")
 		}
 	}()
 
@@ -125,15 +134,15 @@ func (app *Application) run() {
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 
-	log.Println("Shutting down server...")
+	logger.SystemLogger.Info().Msg("Shutting down server...")
 
 	// Graceful shutdown with 5 second timeout
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	if err := app.Server.Shutdown(ctx); err != nil {
-		log.Fatalf("Server forced to shutdown: %v", err)
+		logger.SystemLogger.Fatal().Err(err).Msg("Server forced to shutdown")
 	}
 
-	log.Println("Server exited successfully")
+	logger.SystemLogger.Info().Msg("Server exited successfully")
 }

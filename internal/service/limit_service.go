@@ -6,6 +6,7 @@ import (
 	"github.com/hadi-projects/xyz-finance-go/internal/dto"
 	"github.com/hadi-projects/xyz-finance-go/internal/entity"
 	"github.com/hadi-projects/xyz-finance-go/internal/repository"
+	"github.com/hadi-projects/xyz-finance-go/pkg/logger"
 	"gorm.io/gorm"
 )
 
@@ -105,6 +106,13 @@ func (s *limitService) CreateLimit(req dto.CreateLimitRequest) error {
 			return err
 		}
 
+		// Log to Audit File
+		logger.AuditLogger.Info().
+			Uint("user_id", req.TargetUserID).
+			Uint("limit_id", uint(limit.ID)).
+			Float64("limit_amount", req.LimitAmount).
+			Msg("Limit Created")
+
 		return nil
 	})
 }
@@ -152,6 +160,14 @@ func (s *limitService) UpdateLimit(id uint, req dto.UpdateLimitRequest) error {
 			return err
 		}
 
+		// Log to Audit File
+		logger.AuditLogger.Info().
+			Uint("user_id", userID).
+			Uint("limit_id", uint(limit.ID)).
+			Float64("old_amount", oldAmount).
+			Float64("new_amount", req.LimitAmount).
+			Msg("Limit Updated")
+
 		return nil
 	})
 }
@@ -187,6 +203,12 @@ func (s *limitService) DeleteLimit(id uint) error {
 		if err := s.mutationRepo.WithTx(tx).Create(mutation); err != nil {
 			return err
 		}
+
+		// Log to Audit File
+		logger.AuditLogger.Info().
+			Uint("user_id", userID).
+			Uint("limit_id", id).
+			Msg("Limit Deleted")
 
 		return nil
 	})
