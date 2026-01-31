@@ -28,24 +28,15 @@ func (h *LimitHandler) GetLimits(c *gin.Context) {
 		return
 	}
 
-	limits, err := h.limitService.GetLimitsByUserID(userId.(uint))
+	limits, err := h.limitService.GetLimits(userId.(uint))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	var limitResponses []dto.LimitResponse
-	for _, limit := range limits {
-		limitResponses = append(limitResponses, dto.LimitResponse{
-			UserID:      userId.(uint),
-			TenorMonth:  int(limit.TenorMonth),
-			LimitAmount: limit.LimitAmount,
-		})
-	}
-
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Get User Limits",
-		"data":    limitResponses,
+		"data":    limits,
 	})
 }
 

@@ -198,3 +198,56 @@ func TestLimitService_DeleteLimit(t *testing.T) {
 		assert.NoError(t, err)
 	})
 }
+
+func TestLimitService_GetLimits(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	db, _, err := sqlmock.New()
+	if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+	defer db.Close()
+
+	gormDB, err := gorm.Open(mysql.New(mysql.Config{Conn: db, SkipInitializeWithVersion: true}), &gorm.Config{})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	mockLimitRepo := mock.NewMockLimitRepository(ctrl)
+	mockUserRepo := mock.NewMockUserRepository(ctrl)
+	mockMutationRepo := mock.NewMockLimitMutationRepository(ctrl)
+	service := services.NewLimitService(mockLimitRepo, mockUserRepo, mockMutationRepo, gormDB)
+
+	t.Run("Admin_Success", func(t *testing.T) {
+		userID := uint(1)
+		adminRole := entity.Role{Name: "admin"}
+		user := &entity.User{ID: userID, Role: adminRole}
+
+		mockUserRepo.EXPECT().FindByID(userID).Return(user, nil)
+		mockUserRepo.EXPECT().FindAllWithLimits().Return([]entity.User{
+			{ID: 2, TenorLimit: []entity.TenorLimit{{TenorMonth: 1, LimitAmount: 100}}},
+		}, nil)
+
+		limits, err := service.GetLimits(userID)
+		assert.NoError(t, err)
+		assert.Len(t, limits, 1)
+		assert.Equal(t, uint(2), limits[0].UserID)
+	})
+
+	t.Run("User_Success", func(t *testing.T) {
+		userID := uint(2)
+		userRole := entity.Role{Name: "user"}
+		user := &entity.User{ID: userID, Role: userRole}
+
+		mockUserRepo.EXPECT().FindByID(userID).Return(user, nil)
+		mockLimitRepo.EXPECT().FindByUserID(userID).Return([]entity.TenorLimit{
+			{TenorMonth: 1, LimitAmount: 100},
+		}, nil)
+
+		limits, err := service.GetLimits(userID)
+		assert.NoError(t, err)
+		assert.Len(t, limits, 1)
+		assert.Equal(t, userID, limits[0].UserID)
+	})
+}

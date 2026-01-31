@@ -21,6 +21,7 @@ func TestTransactionService_CreateTransaction(t *testing.T) {
 	mockLimitRepo := mock.NewMockLimitRepository(ctrl)
 	mockTxRepo := mock.NewMockTransactionRepository(ctrl)
 	mockMutationRepo := mock.NewMockLimitMutationRepository(ctrl)
+	mockUserRepo := mock.NewMockUserRepository(ctrl)
 
 	db, sqlMock, err := sqlmock.New()
 	if err != nil {
@@ -36,7 +37,7 @@ func TestTransactionService_CreateTransaction(t *testing.T) {
 		t.Fatalf("failed to open gorm conn: %v", err)
 	}
 
-	service := services.NewTransactionService(mockTxRepo, mockLimitRepo, mockMutationRepo, gormDB)
+	service := services.NewTransactionService(mockTxRepo, mockLimitRepo, mockMutationRepo, mockUserRepo, gormDB)
 
 	t.Run("Success", func(t *testing.T) {
 		req := dto.CreateTransactionRequest{
@@ -127,5 +128,40 @@ func TestTransactionService_CreateTransaction(t *testing.T) {
 		err := service.CreateTransaction(userId, req)
 		assert.Error(t, err)
 		assert.Equal(t, "insufficient limit", err.Error())
+	})
+
+	t.Run("GetTransactions_Admin", func(t *testing.T) {
+		userID := uint(1)
+		adminRole := entity.Role{Name: "admin"}
+		user := &entity.User{ID: userID, Role: adminRole}
+
+		expectedTransactions := []entity.Transaction{
+			{ID: 1, ContractNumber: "CTR-001"},
+			{ID: 2, ContractNumber: "CTR-002"},
+		}
+
+		mockUserRepo.EXPECT().FindByID(userID).Return(user, nil)
+		mockTxRepo.EXPECT().FindAll().Return(expectedTransactions, nil)
+
+		result, err := service.GetTransactions(userID)
+		assert.NoError(t, err)
+		assert.Equal(t, expectedTransactions, result)
+	})
+
+	t.Run("GetTransactions_User", func(t *testing.T) {
+		userID := uint(2)
+		userRole := entity.Role{Name: "user"}
+		user := &entity.User{ID: userID, Role: userRole}
+
+		expectedTransactions := []entity.Transaction{
+			{ID: 2, ContractNumber: "CTR-002"},
+		}
+
+		mockUserRepo.EXPECT().FindByID(userID).Return(user, nil)
+		mockTxRepo.EXPECT().FindByUserID(userID).Return(expectedTransactions, nil)
+
+		result, err := service.GetTransactions(userID)
+		assert.NoError(t, err)
+		assert.Equal(t, expectedTransactions, result)
 	})
 }

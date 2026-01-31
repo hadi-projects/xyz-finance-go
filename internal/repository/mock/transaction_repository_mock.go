@@ -13,9 +13,9 @@ import (
 	reflect "reflect"
 
 	entity "github.com/hadi-projects/xyz-finance-go/internal/entity"
-	"github.com/hadi-projects/xyz-finance-go/internal/repository"
+	repository "github.com/hadi-projects/xyz-finance-go/internal/repository"
 	gomock "go.uber.org/mock/gomock"
-	"gorm.io/gorm"
+	gorm "gorm.io/gorm"
 )
 
 // MockTransactionRepository is a mock of TransactionRepository interface.
@@ -54,6 +54,21 @@ func (m *MockTransactionRepository) Create(transaction *entity.Transaction) erro
 func (mr *MockTransactionRepositoryMockRecorder) Create(transaction any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockTransactionRepository)(nil).Create), transaction)
+}
+
+// FindAll mocks base method.
+func (m *MockTransactionRepository) FindAll() ([]entity.Transaction, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindAll")
+	ret0, _ := ret[0].([]entity.Transaction)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindAll indicates an expected call of FindAll.
+func (mr *MockTransactionRepositoryMockRecorder) FindAll() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAll", reflect.TypeOf((*MockTransactionRepository)(nil).FindAll))
 }
 
 // FindByUserID mocks base method.
