@@ -32,7 +32,7 @@ func (r *userRepository) Create(user *entity.User) error {
 
 func (r *userRepository) FindByID(id uint) (*entity.User, error) {
 	var user entity.User
-	err := r.db.Preload("Role.Permissions").First(&user, id).Error
+	err := r.db.Preload("Role.Permissions").Preload("Consumer").First(&user, id).Error
 	if err != nil {
 		return nil, err
 	}
@@ -62,8 +62,6 @@ func (r *userRepository) CreateUserHasTenorLimit(userId uint, limitID uint) erro
 		panic(err)
 	}
 	var limit entity.TenorLimit
-	// GORM auto-casts uint to primary key lookup if passed directly or with Where
-	// To be safe and explicit:
 	if err := r.db.First(&limit, limitID).Error; err != nil {
 		panic(err)
 	}

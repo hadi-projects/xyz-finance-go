@@ -21,5 +21,10 @@ func (r *Router) setupPrivateRoutes(api *gin.Engine) {
 			limit.POST("/", middleware.PermissionMiddleware(r.UserRepo, "create-limit"), r.LimitHandler.CreateLimit)
 			limit.DELETE("/:id", middleware.PermissionMiddleware(r.UserRepo, "delete-limit"), r.LimitHandler.DeleteLimit)
 		}
+
+		transaction := protected.Group("/transaction")
+		{
+			transaction.POST("/", middleware.PermissionMiddleware(r.UserRepo, "create-transaction"), r.TransactionHandler.CreateTransaction)
+		}
 	}
 }

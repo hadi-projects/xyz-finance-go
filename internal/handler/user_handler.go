@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/hadi-projects/xyz-finance-go/internal/dto"
 	"github.com/hadi-projects/xyz-finance-go/internal/repository"
 )
 
@@ -32,6 +33,24 @@ func (h *UserHandler) GetProfile(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Get User Profile",
-		"data":    user,
+		"data": dto.UserProfileResponse{
+			UserID: user.ID,
+			Email:  user.Email,
+			Consumer: func() *dto.ConsumerResponse {
+				if user.Consumer != nil {
+					return &dto.ConsumerResponse{
+						NIK:          user.Consumer.NIK,
+						FullName:     user.Consumer.FullName,
+						LegalName:    user.Consumer.LegalName,
+						PlaceOfBirth: user.Consumer.PlaceOfBirth,
+						DateOfBirth:  user.Consumer.DateOfBirth,
+						Salary:       user.Consumer.Salary,
+						KTPImage:     user.Consumer.KTPImage,
+						SelfieImage:  user.Consumer.SelfieImage,
+					}
+				}
+				return nil
+			}(),
+		},
 	})
 }

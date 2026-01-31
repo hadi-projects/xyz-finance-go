@@ -33,9 +33,19 @@ func (h *LimitHandler) GetLimits(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
+	var limitResponses []dto.LimitResponse
+	for _, limit := range limits {
+		limitResponses = append(limitResponses, dto.LimitResponse{
+			UserID:      userId.(uint),
+			TenorMonth:  limit.TenorMonth,
+			LimitAmount: limit.LimitAmount,
+		})
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Get User Limits",
-		"data":    limits,
+		"data":    limitResponses,
 	})
 }
 

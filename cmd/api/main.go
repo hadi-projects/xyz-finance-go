@@ -61,7 +61,9 @@ func (app *Application) initializeDatabase() {
 		&entity.User{},
 		&entity.RefreshToken{},
 		&entity.TenorLimit{},
+
 		&entity.Consumer{},
+		&entity.Transaction{},
 	); err != nil {
 		log.Fatalf("Failed to migrate database: %v", err)
 	}
@@ -88,7 +90,11 @@ func (app *Application) setupRouter() {
 	limitHandler := handler.NewLimitHandler(limitService)
 	userHandler := handler.NewUserHandler(userRepo)
 
-	appRouter := router.NewRouter(app.Config, authHandler, limitHandler, userHandler, userRepo)
+	transactionRepo := repository.NewTransactionRepository(app.DB)
+	transactionService := services.NewTransactionService(transactionRepo, limitRepo, app.DB)
+	transactionHandler := handler.NewTransactionHandler(transactionService)
+
+	appRouter := router.NewRouter(app.Config, authHandler, limitHandler, userHandler, transactionHandler, userRepo)
 	app.Router = appRouter.SetupRoutes()
 
 	log.Println("Router configured successfully")
