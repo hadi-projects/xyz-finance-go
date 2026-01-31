@@ -16,16 +16,19 @@ import (
 	"github.com/hadi-projects/xyz-finance-go/internal/repository"
 	"github.com/hadi-projects/xyz-finance-go/internal/router"
 	services "github.com/hadi-projects/xyz-finance-go/internal/service"
+	"github.com/hadi-projects/xyz-finance-go/pkg/cache"
 	"github.com/hadi-projects/xyz-finance-go/pkg/database"
 	"github.com/hadi-projects/xyz-finance-go/pkg/logger"
 	"gorm.io/gorm"
 )
 
 type Application struct {
-	Config *config.AppConfig
-	DB     *gorm.DB
-	Router *gin.Engine
-	Server *http.Server
+	Config    *config.AppConfig
+	DB        *gorm.DB
+	Redis     *cache.RedisClient
+	PermCache *cache.PermissionCache
+	Router    *gin.Engine
+	Server    *http.Server
 }
 
 func main() {
@@ -88,6 +91,14 @@ func (app *Application) initializeDatabase() {
 
 // setupRouter initializes all dependencies and configures routes
 func (app *Application) setupRouter() {
+	// Initialize Redis (optional - continues if Redis is unavailable)
+	redisClient, err := cache.NewRedisClient(&app.Config.Redis)
+	if err != nil {
+		logger.SystemLogger.Warn().Err(err).Msg("Redis unavailable - running without cache")
+	} else {
+		app.Redis = redisClient
+		app.PermCache = cache.NewPermissionCache(redisClient)
+	}
 
 	userRepo := repository.NewUserRepository(app.DB)
 	authService := services.NewAuthService(userRepo, app.Config)
@@ -108,7 +119,7 @@ func (app *Application) setupRouter() {
 	logService := services.NewLogService("storage/logs")
 	logHandler := handler.NewLogHandler(logService)
 
-	appRouter := router.NewRouter(app.Config, authHandler, limitHandler, userHandler, transactionHandler, logHandler, userRepo)
+	appRouter := router.NewRouter(app.Config, authHandler, limitHandler, userHandler, transactionHandler, logHandler, userRepo, app.PermCache)
 	app.Router = appRouter.SetupRoutes()
 
 	logger.SystemLogger.Info().Msg("Router configured successfully")

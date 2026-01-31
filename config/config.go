@@ -19,6 +19,7 @@ type AppConfig struct {
 	DBName     string
 	Security   SecurityConfig
 	JWT        JWTConfig
+	Redis      RedisConfig
 }
 
 type SecurityConfig struct {
@@ -34,6 +35,13 @@ type SecurityConfig struct {
 type JWTConfig struct {
 	Secret      string
 	ExpiryHours int
+}
+
+type RedisConfig struct {
+	Host     string
+	Port     string
+	Password string
+	DB       int
 }
 
 // NewConfig menerapkan Constructor Pattern.
@@ -60,6 +68,12 @@ func NewConfig() (*AppConfig, error) {
 		JWT: JWTConfig{
 			Secret:      getEnv("JWT_SECRET", ""),
 			ExpiryHours: getEnvAsInt("JWT_EXPIRY_HOURS", 1),
+		},
+		Redis: RedisConfig{
+			Host:     getEnv("REDIS_HOST", "localhost"),
+			Port:     getEnv("REDIS_PORT", "6379"),
+			Password: getEnv("REDIS_PASSWORD", ""),
+			DB:       getEnvAsInt("REDIS_DB", 0),
 		},
 	}
 

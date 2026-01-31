@@ -8,6 +8,7 @@ import (
 	"github.com/hadi-projects/xyz-finance-go/internal/handler"
 	"github.com/hadi-projects/xyz-finance-go/internal/middleware"
 	"github.com/hadi-projects/xyz-finance-go/internal/repository"
+	"github.com/hadi-projects/xyz-finance-go/pkg/cache"
 )
 
 type Router struct {
@@ -18,6 +19,7 @@ type Router struct {
 	TransactionHandler *handler.TransactionHandler
 	LogHandler         *handler.LogHandler
 	UserRepo           repository.UserRepository
+	PermCache          *cache.PermissionCache
 }
 
 func NewRouter(
@@ -28,6 +30,7 @@ func NewRouter(
 	transactionHandler *handler.TransactionHandler,
 	logHandler *handler.LogHandler,
 	userRepo repository.UserRepository,
+	permCache *cache.PermissionCache,
 ) *Router {
 	return &Router{
 		Config:             cfg,
@@ -37,6 +40,7 @@ func NewRouter(
 		TransactionHandler: transactionHandler,
 		LogHandler:         logHandler,
 		UserRepo:           userRepo,
+		PermCache:          permCache,
 	}
 }
 

@@ -40,21 +40,21 @@
 - [x] Keep cost 10-12 untuk production
 
 ### JWT Caching
-- [ ] Cache parsed JWT tokens (in-memory)
-- [ ] Cache user permissions lookup
+- [x] Cache parsed JWT tokens (in-memory)
+- [x] Cache user permissions lookup
 
 ---
 
 ## 3. Caching Layer (Redis)
 
 ### Setup
-- [ ] Add Redis to docker-compose
-- [ ] Implement Redis client wrapper
+- [x] Add Redis to docker-compose
+- [x] Implement Redis client wrapper
 
 ### Cache Strategies
-- [ ] Cache user profile (TTL: 5 min)
-- [ ] Cache tenor limits (TTL: 10 min)
-- [ ] Cache permissions (TTL: 5 min)
+- [x] Cache user profile (TTL: 5 min)
+- [x] Cache tenor limits (TTL: 10 min)
+- [x] Cache permissions (TTL: 5 min)
 - [ ] Implement cache invalidation
 
 ---

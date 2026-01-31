@@ -179,17 +179,17 @@ JSON Response
 
 Hasil load testing menggunakan k6 dengan skenario: **Smoke (1 VU)**, **Load (10 VUs)**, **Stress (20 VUs)**.
 
-> **Note:** BCrypt cost dioptimasi dari 10 ke 8 untuk development environment.
+> **Note:** BCrypt cost 8 (dev) + Redis permission caching (TTL 5 min).
 
 ### Response Time
 
 | Endpoint | Average | p95 | p99 |
 |----------|---------|-----|-----|
-| Login | 40ms | 54ms | 84ms |
-| Get Profile | 6ms | 13ms | 15ms |
-| Get Limits | 8ms | 16ms | 20ms |
-| Get Transactions | 14ms | 31ms | 40ms |
-| Create Transaction | 14ms | 27ms | 35ms |
+| Login | 38ms | 49ms | 67ms |
+| Get Profile | 5ms | 16ms | 20ms |
+| Get Limits | 8ms | 17ms | 25ms |
+| Get Transactions | 16ms | 29ms | 35ms |
+| Create Transaction | 14ms | 34ms | 40ms |
 
 ### Throughput & Reliability
 
@@ -198,7 +198,7 @@ Hasil load testing menggunakan k6 dengan skenario: **Smoke (1 VU)**, **Load (10 
 | Requests/second | 21 req/s |
 | Success Rate | 100% |
 | Error Rate (app logic) | 0% |
-| Total Iterations | 1,519 |
+| Total Iterations | 1,521 |
 | Duration | 6 minutes |
 
 ### Test Configuration
@@ -215,16 +215,19 @@ BASE_URL=http://localhost:8080 API_KEY=your-key k6 run performance-test.js
 
 | Metric | Threshold | Result |
 |--------|-----------|--------|
-| http_req_duration p(95) | < 500ms | ✅ 46ms |
-| http_req_duration p(99) | < 1000ms | ✅ 84ms |
-| Login p(95) | < 300ms | ✅ 54ms |
-| Get Profile p(95) | < 200ms | ✅ 13ms |
-| Get Limits p(95) | < 200ms | ✅ 16ms |
-| Get Transactions p(95) | < 300ms | ✅ 31ms |
-| Create Transaction p(95) | < 500ms | ✅ 27ms |
+| http_req_duration p(95) | < 500ms | ✅ 43ms |
+| http_req_duration p(99) | < 1000ms | ✅ 67ms |
+| Login p(95) | < 300ms | ✅ 49ms |
+| Get Profile p(95) | < 200ms | ✅ 16ms |
+| Get Limits p(95) | < 200ms | ✅ 17ms |
+| Get Transactions p(95) | < 300ms | ✅ 29ms |
+| Create Transaction p(95) | < 500ms | ✅ 34ms |
 
 ### Performance Optimization Applied
 
 | Optimization | Before | After | Improvement |
 |--------------|--------|-------|-------------|
-| BCrypt Cost (10→8) | 93ms login | 40ms login | ⬇️ 57% faster |
+| BCrypt Cost (10→8) | 98ms login | 40ms login | ⬇️ 59% faster |
+| Redis Permission Cache | 40ms login | 38ms login | ⬇️ 5% faster |
+| **Total** | **98ms** | **38ms** | **⬇️ 61% faster** |
+
