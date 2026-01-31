@@ -10,7 +10,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/hadi-projects/xyz-finance-go/internal/dto"
-	"github.com/hadi-projects/xyz-finance-go/internal/entity"
 	"github.com/hadi-projects/xyz-finance-go/internal/handler"
 	"github.com/hadi-projects/xyz-finance-go/internal/service/mock"
 	"github.com/stretchr/testify/assert"
@@ -70,9 +69,9 @@ func TestLimitHandler_GetLimits(t *testing.T) {
 
 	t.Run("Success", func(t *testing.T) {
 		userId := uint(1)
-		limits := []entity.TenorLimit{{ID: 1, TenorMonth: entity.Tenor(12), LimitAmount: 10000}}
+		limits := []dto.LimitResponse{{UserID: 1, TenorMonth: 12, LimitAmount: 10000}}
 
-		mockLimitService.EXPECT().GetLimitsByUserID(userId).Return(limits, nil)
+		mockLimitService.EXPECT().GetLimits(userId).Return(limits, nil)
 
 		w := httptest.NewRecorder()
 		c, _ := gin.CreateTestContext(w)

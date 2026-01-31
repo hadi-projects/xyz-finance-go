@@ -17,22 +17,32 @@ func NewTransactionHandler(transactionService services.TransactionService) *Tran
 }
 
 func (h *TransactionHandler) CreateTransaction(c *gin.Context) {
-	userId, exists := c.Get("user_id")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
-		return
-	}
-
 	var req dto.CreateTransactionRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err := h.transactionService.CreateTransaction(userId.(uint), req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	userId := c.GetUint("user_id")
+	if err := h.transactionService.CreateTransaction(userId, req); err != nil {
+		if err.Error() == "insufficient limit" {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusCreated, gin.H{"message": "Transaction created successfully"})
+}
+
+func (h *TransactionHandler) GetTransactions(c *gin.Context) {
+	userId := c.GetUint("user_id")
+	transactions, err := h.transactionService.GetTransactions(userId)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": transactions})
 }

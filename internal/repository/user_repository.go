@@ -13,6 +13,7 @@ type UserRepository interface {
 	Delete(id uint) error
 	CreateUserHasTenorLimit(userId uint, limitID uint) error
 	GetLimitsByUserID(userID uint) ([]entity.TenorLimit, error)
+	FindAllWithLimits() ([]entity.User, error)
 }
 
 type userRepository struct {
@@ -79,4 +80,11 @@ func (r *userRepository) GetLimitsByUserID(userID uint) ([]entity.TenorLimit, er
 	err := r.db.Model(&entity.User{ID: userID}).Association("TenorLimit").Find(&limits)
 
 	return limits, err
+}
+
+func (r *userRepository) FindAllWithLimits() ([]entity.User, error) {
+	var users []entity.User
+	// Preload TenorLimit to get the limits for each user
+	err := r.db.Preload("TenorLimit").Find(&users).Error
+	return users, err
 }

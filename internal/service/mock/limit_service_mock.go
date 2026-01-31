@@ -13,7 +13,6 @@ import (
 	reflect "reflect"
 
 	dto "github.com/hadi-projects/xyz-finance-go/internal/dto"
-	entity "github.com/hadi-projects/xyz-finance-go/internal/entity"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -69,19 +68,19 @@ func (mr *MockLimitServiceMockRecorder) DeleteLimit(id any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteLimit", reflect.TypeOf((*MockLimitService)(nil).DeleteLimit), id)
 }
 
-// GetLimitsByUserID mocks base method.
-func (m *MockLimitService) GetLimitsByUserID(userId uint) ([]entity.TenorLimit, error) {
+// GetLimits mocks base method.
+func (m *MockLimitService) GetLimits(userId uint) ([]dto.LimitResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetLimitsByUserID", userId)
-	ret0, _ := ret[0].([]entity.TenorLimit)
+	ret := m.ctrl.Call(m, "GetLimits", userId)
+	ret0, _ := ret[0].([]dto.LimitResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetLimitsByUserID indicates an expected call of GetLimitsByUserID.
-func (mr *MockLimitServiceMockRecorder) GetLimitsByUserID(userId any) *gomock.Call {
+// GetLimits indicates an expected call of GetLimits.
+func (mr *MockLimitServiceMockRecorder) GetLimits(userId any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLimitsByUserID", reflect.TypeOf((*MockLimitService)(nil).GetLimitsByUserID), userId)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLimits", reflect.TypeOf((*MockLimitService)(nil).GetLimits), userId)
 }
 
 // UpdateLimit mocks base method.

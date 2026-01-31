@@ -27,6 +27,7 @@ func (r *Router) setupPrivateRoutes(api *gin.Engine) {
 		transaction := protected.Group("/transaction")
 		{
 			transaction.POST("/", middleware.PermissionMiddleware(r.UserRepo, "create-transaction"), r.TransactionHandler.CreateTransaction)
+			transaction.GET("/", middleware.PermissionMiddleware(r.UserRepo, "get-transactions"), r.TransactionHandler.GetTransactions)
 		}
 	}
 }
