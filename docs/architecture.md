@@ -145,15 +145,7 @@ JSON Response
 
 ### Entity Relationships
 
-```
-users ─────────────┬──────────────── roles
-  │                │                   │
-  │ 1:N            │ N:1               │ N:M
-  ↓                ↓                   ↓
-consumers    refresh_tokens      permissions
-transactions
-limit_mutations ←── tenor_limits
-```
+![Entity Relationships](./ERD.png)    
 
 ### Tables
 
@@ -182,3 +174,50 @@ limit_mutations ←── tenor_limits
 | Logging | Zerolog |
 | Container | Docker |
 | Orchestration | Docker Compose |
+
+## Performance Benchmark
+
+Hasil load testing menggunakan k6 dengan skenario: **Smoke (1 VU)**, **Load (10 VUs)**, **Stress (20 VUs)**.
+
+### Response Time
+
+| Endpoint | Average | p95 | p99 |
+|----------|---------|-----|-----|
+| Login | 93ms | 117ms | 123ms |
+| Get Profile | 4ms | 8ms | 12ms |
+| Get Limits | 8ms | 21ms | 25ms |
+| Get Transactions | 16ms | 37ms | 45ms |
+| Create Transaction | 14ms | 30ms | 35ms |
+
+### Throughput & Reliability
+
+| Metric | Value |
+|--------|-------|
+| Requests/second | 20 req/s |
+| Success Rate | 100% |
+| Error Rate (app logic) | 0% |
+| Total Iterations | 1,489 |
+| Duration | 6 minutes |
+
+### Test Configuration
+
+```bash
+# Run performance test
+k6 run performance-test.js
+
+# With custom environment
+BASE_URL=http://localhost:8080 API_KEY=your-key k6 run performance-test.js
+```
+
+### Thresholds (SLA)
+
+| Metric | Threshold | Result |
+|--------|-----------|--------|
+| http_req_duration p(95) | < 500ms | ✅ 103ms |
+| http_req_duration p(99) | < 1000ms | ✅ 123ms |
+| Login p(95) | < 300ms | ✅ 117ms |
+| Get Profile p(95) | < 200ms | ✅ 8ms |
+| Get Limits p(95) | < 200ms | ✅ 21ms |
+| Get Transactions p(95) | < 300ms | ✅ 37ms |
+| Create Transaction p(95) | < 500ms | ✅ 30ms |
+

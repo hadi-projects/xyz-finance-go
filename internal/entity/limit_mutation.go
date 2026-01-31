@@ -23,3 +23,5 @@ type LimitMutation struct {
 	Action       MutationAction `json:"action"` // CREATE, UPDATE, DELETE
 	CreatedAt    time.Time      `json:"created_at"`
 }
+
+func (LimitMutation) TableName() string { return "limit_mutations" }
