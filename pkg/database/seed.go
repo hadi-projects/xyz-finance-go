@@ -18,16 +18,25 @@ func SeedRBAC(db *gorm.DB) {
 }
 
 func seedRole(db *gorm.DB, roleName string, perms []entity.Permission) {
+	var finalPerms []entity.Permission
+	for _, p := range perms {
+		var perm entity.Permission
+		if err := db.Where("name = ?", p.Name).FirstOrCreate(&perm, entity.Permission{Name: p.Name}).Error; err != nil {
+			fmt.Printf("Failed to seed permission %s: %v\n", p.Name, err)
+			continue
+		}
+		finalPerms = append(finalPerms, perm)
+	}
+
 	var role entity.Role
 	err := db.Where("name = ?", roleName).First(&role).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		role = entity.Role{Name: roleName, Permissions: perms}
+		role = entity.Role{Name: roleName, Permissions: finalPerms}
 		if err := db.Create(&role).Error; err != nil {
 			fmt.Printf("Failed to create role %s: %v\n", roleName, err)
 		}
 	} else {
-		// Sync permissions for existing role
-		if err := db.Model(&role).Association("Permissions").Replace(perms); err != nil {
+		if err := db.Model(&role).Association("Permissions").Replace(finalPerms); err != nil {
 			fmt.Printf("Failed to update permissions for role %s: %v\n", roleName, err)
 		}
 	}
@@ -58,7 +67,12 @@ func SeedUser(db *gorm.DB) {
 }
 
 func seedUser(db *gorm.DB, email string, password []byte, roleId uint) {
-	user := entity.User{Email: email, Password: string(password), RoleID: roleId}
+	var user entity.User
+	if err := db.Where("email = ?", email).First(&user).Error; err == nil {
+		return // User already exists
+	}
+
+	user = entity.User{Email: email, Password: string(password), RoleID: roleId}
 	if err := repository.NewUserRepository(db).Create(&user); err != nil {
 		fmt.Printf("Failed to create user %s: %v\n", email, err)
 	}
@@ -81,6 +95,17 @@ func SeedConsumerLimit(db *gorm.DB) {
 }
 
 func seedLimit(db *gorm.DB, userId uint, tenor int, limitAmount float64) {
+	// Check if user already has this limit
+	var count int64
+	db.Table("tenor_limits").
+		Joins("JOIN user_has_tenor_limit ON user_has_tenor_limit.tenor_limit_id = tenor_limits.id").
+		Where("user_has_tenor_limit.user_id = ? AND tenor_limits.tenor_month = ?", userId, tenor).
+		Count(&count)
+
+	if count > 0 {
+		return // Limit already exists
+	}
+
 	limit := entity.TenorLimit{TenorMonth: tenor, LimitAmount: limitAmount}
 	if err := repository.NewLimitRepository(db).Create(&limit); err != nil {
 		fmt.Printf("Failed to create limit %d: %v\n", tenor, err)

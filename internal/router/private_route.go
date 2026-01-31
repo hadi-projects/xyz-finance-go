@@ -8,6 +8,7 @@ import (
 func (r *Router) setupPrivateRoutes(api *gin.Engine) {
 
 	protected := api.Group("/api")
+	protected.Use(middleware.APIKeyMiddleware(r.Config.Security.APIKey))
 	protected.Use(middleware.JWTAuth(r.Config.JWT.Secret))
 	{
 		user := protected.Group("/user")

@@ -46,6 +46,7 @@ Response:
 ```shell
 curl -X GET http://localhost:8080/api/user/profile \
   -H "Content-Type: application/json" \
+  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6ImJ1ZGlAbWFpbC5jb20iLCJleHAiOjE3Njk5MjA4MzUsImlhdCI6MTc2OTgzNDQzNX0.Rt6_rhXrOcYcxSAKNO31NbWkrs8Sd28ROEaK0oKCr30"
 ```
 
@@ -70,6 +71,7 @@ Response:
 ```shell
 curl -X GET http://localhost:8080/api/limit/ \
   -H "Content-Type: application/json" \
+  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6ImJ1ZGlAbWFpbC5jb20iLCJleHAiOjE3Njk5MjA4MzUsImlhdCI6MTc2OTgzNDQzNX0.Rt6_rhXrOcYcxSAKNO31NbWkrs8Sd28ROEaK0oKCr30"
 ```
 
