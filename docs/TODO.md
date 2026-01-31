@@ -67,8 +67,8 @@
 
 ### Pagination
 - [x] Add pagination for GET /api/transaction/
-- [ ] Add pagination for GET /api/limit/
-- [ ] Default limit: 20, Max: 100
+- [x] Add pagination for GET /api/limit/
+- [x] Default limit: 20, Max: 100
 
 ---
 

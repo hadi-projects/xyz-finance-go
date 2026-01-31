@@ -12,6 +12,7 @@ import (
 
 type LimitService interface {
 	GetLimits(userId uint) ([]dto.LimitResponse, error)
+	GetLimitsPaginated(userId uint, page, limit int) ([]dto.LimitResponse, int64, error)
 	CreateLimit(req dto.CreateLimitRequest) error
 	UpdateLimit(id uint, req dto.UpdateLimitRequest) error
 	DeleteLimit(id uint) error
@@ -76,6 +77,70 @@ func (s *limitService) GetLimits(userId uint) ([]dto.LimitResponse, error) {
 	}
 
 	return responses, nil
+}
+
+func (s *limitService) GetLimitsPaginated(userId uint, page, limit int) ([]dto.LimitResponse, int64, error) {
+	// Get User Role
+	user, err := s.userRepo.FindByID(userId)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	var responses []dto.LimitResponse
+	var total int64
+	offset := (page - 1) * limit
+
+	// Admin: Find All Limits (via Users) with pagination
+	if user.Role.Name == "admin" {
+		users, err := s.userRepo.FindAllWithLimits()
+		if err != nil {
+			return nil, 0, err
+		}
+
+		// Collect all limits
+		var allLimits []dto.LimitResponse
+		for _, u := range users {
+			for _, l := range u.TenorLimit {
+				allLimits = append(allLimits, dto.LimitResponse{
+					UserID:      u.ID,
+					TenorMonth:  int(l.TenorMonth),
+					LimitAmount: l.LimitAmount,
+				})
+			}
+		}
+
+		total = int64(len(allLimits))
+
+		// Apply pagination in-memory (for small datasets)
+		start := offset
+		if start > len(allLimits) {
+			start = len(allLimits)
+		}
+		end := offset + limit
+		if end > len(allLimits) {
+			end = len(allLimits)
+		}
+		responses = allLimits[start:end]
+
+		return responses, total, nil
+	}
+
+	// User: Find Own Limits (no pagination needed, max 4 tenors)
+	limits, err := s.limitRepo.FindByUserID(userId)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	for _, l := range limits {
+		responses = append(responses, dto.LimitResponse{
+			UserID:      userId,
+			TenorMonth:  int(l.TenorMonth),
+			LimitAmount: l.LimitAmount,
+		})
+	}
+
+	total = int64(len(responses))
+	return responses, total, nil
 }
 
 func (s *limitService) CreateLimit(req dto.CreateLimitRequest) error {

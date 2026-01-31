@@ -29,16 +29,21 @@ func (h *LimitHandler) GetLimits(c *gin.Context) {
 		return
 	}
 
-	limits, err := h.limitService.GetLimits(userId.(uint))
+	// Parse pagination params
+	var paginationReq dto.PaginationRequest
+	if err := c.ShouldBindQuery(&paginationReq); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	paginationReq.SetDefaults()
+
+	limits, total, err := h.limitService.GetLimitsPaginated(userId.(uint), paginationReq.Page, paginationReq.Limit)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Get User Limits",
-		"data":    limits,
-	})
+	c.JSON(http.StatusOK, dto.NewPaginatedResponse(limits, paginationReq.Page, paginationReq.Limit, total))
 }
 
 func (h *LimitHandler) CreateLimit(c *gin.Context) {
