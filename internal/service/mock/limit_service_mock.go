@@ -83,3 +83,17 @@ func (mr *MockLimitServiceMockRecorder) GetLimitsByUserID(userId any) *gomock.Ca
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLimitsByUserID", reflect.TypeOf((*MockLimitService)(nil).GetLimitsByUserID), userId)
 }
+
+// UpdateLimit mocks base method.
+func (m *MockLimitService) UpdateLimit(id uint, req dto.UpdateLimitRequest) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateLimit", id, req)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateLimit indicates an expected call of UpdateLimit.
+func (mr *MockLimitServiceMockRecorder) UpdateLimit(id, req any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateLimit", reflect.TypeOf((*MockLimitService)(nil).UpdateLimit), id, req)
+}

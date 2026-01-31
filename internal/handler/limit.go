@@ -38,7 +38,7 @@ func (h *LimitHandler) GetLimits(c *gin.Context) {
 	for _, limit := range limits {
 		limitResponses = append(limitResponses, dto.LimitResponse{
 			UserID:      userId.(uint),
-			TenorMonth:  limit.TenorMonth,
+			TenorMonth:  int(limit.TenorMonth),
 			LimitAmount: limit.LimitAmount,
 		})
 	}
@@ -63,7 +63,34 @@ func (h *LimitHandler) CreateLimit(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "Limit created successfully",
+		"data": dto.LimitResponse{
+			UserID:      req.TargetUserID,
+			TenorMonth:  req.TenorMonth,
+			LimitAmount: req.LimitAmount,
+		},
 	})
+}
+
+func (h *LimitHandler) UpdateLimit(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid limit ID"})
+		return
+	}
+
+	var req dto.UpdateLimitRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := h.limitService.UpdateLimit(uint(id), req); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Limit updated successfully"})
 }
 
 func (h *LimitHandler) DeleteLimit(c *gin.Context) {

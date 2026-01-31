@@ -13,7 +13,9 @@ import (
 	reflect "reflect"
 
 	entity "github.com/hadi-projects/xyz-finance-go/internal/entity"
+	"github.com/hadi-projects/xyz-finance-go/internal/repository"
 	gomock "go.uber.org/mock/gomock"
+	"gorm.io/gorm"
 )
 
 // MockTransactionRepository is a mock of TransactionRepository interface.
@@ -67,4 +69,18 @@ func (m *MockTransactionRepository) FindByUserID(userId uint) ([]entity.Transact
 func (mr *MockTransactionRepositoryMockRecorder) FindByUserID(userId any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByUserID", reflect.TypeOf((*MockTransactionRepository)(nil).FindByUserID), userId)
+}
+
+// WithTx mocks base method.
+func (m *MockTransactionRepository) WithTx(tx *gorm.DB) repository.TransactionRepository {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "WithTx", tx)
+	ret0, _ := ret[0].(repository.TransactionRepository)
+	return ret0
+}
+
+// WithTx indicates an expected call of WithTx.
+func (mr *MockTransactionRepositoryMockRecorder) WithTx(tx any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WithTx", reflect.TypeOf((*MockTransactionRepository)(nil).WithTx), tx)
 }

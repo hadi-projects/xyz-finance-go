@@ -46,10 +46,9 @@ Response:
 ```shell
 curl -X GET http://localhost:8080/api/user/profile \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6ImJ1ZGlAbWFpbC5jb20iLCJleHAiOjE3Njk5MjA4MzUsImlhdCI6MTc2OTgzNDQzNX0.Rt6_rhXrOcYcxSAKNO31NbWkrs8Sd28ROEaK0oKCr30"
+  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6ImJ1ZGlAbWFpbC5jb20iLCJleHAiOjE3Njk5MjQ5NDAsImlhdCI6MTc2OTgzODU0MH0._SA7QNtqzBF6PrLMbun8MoRPSHkHyWkjbmemwTK6iKA"
 ```
-
-user id, email, consumer { nik, fullname, legal name, place of birth, date of birth, salary, ktp image, self image}
 
 Response:
 ```json
@@ -70,62 +69,118 @@ Response:
 ```shell
 curl -X GET http://localhost:8080/api/limit/ \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6ImJ1ZGlAbWFpbC5jb20iLCJleHAiOjE3Njk5MjA4MzUsImlhdCI6MTc2OTgzNDQzNX0.Rt6_rhXrOcYcxSAKNO31NbWkrs8Sd28ROEaK0oKCr30"
+  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6ImJ1ZGlAbWFpbC5jb20iLCJleHAiOjE3Njk5Mjc2MzgsImlhdCI6MTc2OTg0MTIzOH0.Bd7qUpg0Yu5pqiwvHDFyvJ-tgCDHw_rUyBSSANWZkGQ"
 ```
 
 Response:
 ```json
 {
-    "data":[
+    "data": [
         {
-            "id":1,
-            "tenor_month":1,
-            "limit_amount":100000,
-            "created_at":"2026-01-31T06:20:46.255+07:00",
-            "updated_at":"2026-01-31T06:20:46.255+07:00"
-        },{
-            "id":2,
-            "tenor_month":2,
-            "limit_amount":200000,
-            "created_at":"2026-01-31T06:20:46.264+07:00",
-            "updated_at":"2026-01-31T06:20:46.264+07:00"
-        },{
-            "id":3,
-            "tenor_month":3,
-            "limit_amount":500000,
-            "created_at":"2026-01-31T06:20:46.269+07:00",
-            "updated_at":"2026-01-31T06:20:46.269+07:00"
-        },{
-            "id":4,
-            "tenor_month":6,
-            "limit_amount":700000,
-            "created_at":"2026-01-31T06:20:46.271+07:00",
-            "updated_at":"2026-01-31T06:20:46.271+07:00"
-        },{
-            "id":17,
-            "tenor_month":1,
-            "limit_amount":100000,
-            "created_at":"2026-01-31T06:27:02.508+07:00",
-            "updated_at":"2026-01-31T06:27:02.508+07:00"
-        },{
-            "id":18,
-            "tenor_month":2,
-            "limit_amount":200000,
-            "created_at":"2026-01-31T06:27:02.512+07:00",
-            "updated_at":"2026-01-31T06:27:02.512+07:00"
-        },{
-            "id":19,
-            "tenor_month":3,
-            "limit_amount":500000,
-            "created_at":"2026-01-31T06:27:02.515+07:00",
-            "updated_at":"2026-01-31T06:27:02.515+07:00"
-        },{
-            "id":20,
-            "tenor_month":6,
-            "limit_amount":700000,
-            "created_at":"2026-01-31T06:27:02.518+07:00",
-            "updated_at":"2026-01-31T06:27:02.518+07:00"
-        },{
-            "id":25,"tenor_month":1,"limit_amount":100000,"created_at":"2026-01-31T06:46:20.886+07:00","updated_at":"2026-01-31T06:46:20.886+07:00"},{"id":26,"tenor_month":2,"limit_amount":200000,"created_at":"2026-01-31T06:46:20.891+07:00","updated_at":"2026-01-31T06:46:20.891+07:00"},{"id":27,"tenor_month":3,"limit_amount":500000,"created_at":"2026-01-31T06:46:20.893+07:00","updated_at":"2026-01-31T06:46:20.893+07:00"},{"id":28,"tenor_month":6,"limit_amount":700000,"created_at":"2026-01-31T06:46:20.896+07:00","updated_at":"2026-01-31T06:46:20.896+07:00"},{"id":33,"tenor_month":1,"limit_amount":100000,"created_at":"2026-01-31T11:50:14.105+07:00","updated_at":"2026-01-31T11:50:14.105+07:00"},{"id":34,"tenor_month":2,"limit_amount":200000,"created_at":"2026-01-31T11:50:14.11+07:00","updated_at":"2026-01-31T11:50:14.11+07:00"},{"id":35,"tenor_month":3,"limit_amount":500000,"created_at":"2026-01-31T11:50:14.114+07:00","updated_at":"2026-01-31T11:50:14.114+07:00"},{"id":36,"tenor_month":6,"limit_amount":700000,"created_at":"2026-01-31T11:50:14.117+07:00","updated_at":"2026-01-31T11:50:14.117+07:00"}],"message":"Get User Limits"}
+            "user_id": 2,
+            "tenor_month": 1,
+            "limit_amount": 100000
+        },
+        {
+            "user_id": 2,
+            "tenor_month": 2,
+            "limit_amount": 200000
+        },
+        {
+            "user_id": 2,
+            "tenor_month": 3,
+            "limit_amount": 500000
+        },
+        {
+            "user_id": 2,
+            "tenor_month": 6,
+            "limit_amount": 700000
+        }
+    ],
+    "message": "Get User Limits"
+}
 ```
 
+## Create Limit
+
+```shell
+curl -X POST http://localhost:8080/api/limit/  \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIiwiZXhwIjoxNzY5OTI1MjY4LCJpYXQiOjE3Njk4Mzg4Njh9.LT2nnrbi4YrUc9eySLsW7x1oU15Wqi7WrKF-Kg3mAWQ" \
+  -d '{
+    "target_user_id": 2,
+    "tenor_month": 1,
+    "limit_amount": 100000
+}'
+```
+
+Response:
+```json
+{
+    "message":"Limit created successfully"
+}
+```
+
+## Delete Limit
+
+```shell
+curl -X DELETE http://localhost:8080/api/limit/11 \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIiwiZXhwIjoxNzY5OTI1MjY4LCJpYXQiOjE3Njk4Mzg4Njh9.LT2nnrbi4YrUc9eySLsW7x1oU15Wqi7WrKF-Kg3mAWQ"
+```
+
+Response:
+```json
+{
+    "message":"Limit deleted successfully"
+}
+```
+
+## Update Limit
+
+```shell
+curl -X PUT http://localhost:8080/api/limit/2 \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIiwiZXhwIjoxNzY5OTI1MjY4LCJpYXQiOjE3Njk4Mzg4Njh9.LT2nnrbi4YrUc9eySLsW7x1oU15Wqi7WrKF-Kg3mAWQ" \
+  -d '{
+    "tenor_month": 3,
+    "limit_amount": 100000
+}'
+```
+
+Response:
+```json
+{
+    "message":"Limit updated successfully"
+}
+```
+
+## Create Transaction
+```shell
+curl -X POST http://localhost:8080/api/transaction/  \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6ImJ1ZGlAbWFpbC5jb20iLCJleHAiOjE3Njk5Mjc2MzgsImlhdCI6MTc2OTg0MTIzOH0.Bd7qUpg0Yu5pqiwvHDFyvJ-tgCDHw_rUyBSSANWZkGQ" \
+  -d '{
+    "contract_number": "CTR-2024-001",
+    "otr": 600000,
+    "admin_fee": 10000,
+    "installment_amount": 105000,
+    "interest_amount": 10000,
+    "asset_name": "Samsung Galaxy A05",
+    "tenor": 6
+}'
+```
+
+Response:
+```json
+{
+    "message":"Transaction created successfully"
+}
+```
+
+## Get Transaction History

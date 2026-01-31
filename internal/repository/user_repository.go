@@ -59,16 +59,15 @@ func (r *userRepository) Delete(id uint) error {
 func (r *userRepository) CreateUserHasTenorLimit(userId uint, limitID uint) error {
 	var user entity.User
 	if err := r.db.First(&user, userId).Error; err != nil {
-		panic(err)
+		return err
 	}
 	var limit entity.TenorLimit
 	if err := r.db.First(&limit, limitID).Error; err != nil {
-		panic(err)
+		return err
 	}
 
-	err := r.db.Model(&user).Association("TenorLimit").Append(&limit)
-	if err != nil {
-		panic(err)
+	if err := r.db.Model(&user).Association("TenorLimit").Append(&limit); err != nil {
+		return err
 	}
 
 	return nil

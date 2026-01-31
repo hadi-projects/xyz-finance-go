@@ -12,6 +12,8 @@ type LimitRepository interface {
 	Update(user *entity.TenorLimit) error
 	Delete(id uint) error
 	FindByUserID(userId uint) ([]entity.TenorLimit, error)
+	GetUserIDByLimitID(limitID uint) (uint, error)
+	WithTx(tx *gorm.DB) LimitRepository
 }
 
 type limitRepository struct {
@@ -28,7 +30,7 @@ func (r *limitRepository) Create(limit *entity.TenorLimit) error {
 
 func (r *limitRepository) FindByID(id uint) (*entity.TenorLimit, error) {
 	var limit entity.TenorLimit
-	err := r.db.Preload("Profile").First(&limit, id).Error
+	err := r.db.First(&limit, id).Error
 	if err != nil {
 		return nil, err
 	}
@@ -59,4 +61,20 @@ func (r *limitRepository) FindByUserID(userId uint) ([]entity.TenorLimit, error)
 		return nil, err
 	}
 	return limits, nil
+}
+
+func (r *limitRepository) GetUserIDByLimitID(limitID uint) (uint, error) {
+	var userID uint
+	err := r.db.Raw("SELECT user_id FROM user_has_tenor_limit WHERE tenor_limit_id = ?", limitID).Scan(&userID).Error
+	if err != nil {
+		return 0, err
+	}
+	if userID == 0 {
+		return 0, gorm.ErrRecordNotFound
+	}
+	return userID, nil
+}
+
+func (r *limitRepository) WithTx(tx *gorm.DB) LimitRepository {
+	return &limitRepository{db: tx}
 }
