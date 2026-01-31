@@ -31,6 +31,9 @@ func TestLimitService_CreateLimit(t *testing.T) {
 
 		mockUserRepo.EXPECT().FindByID(req.TargetUserID).Return(&entity.User{ID: 1}, nil)
 
+		// Expect check for existing limits (return empty for success)
+		mockLimitRepo.EXPECT().FindByUserID(req.TargetUserID).Return([]entity.TenorLimit{}, nil)
+
 		limitMatcher := gomock.AssignableToTypeOf(&entity.TenorLimit{})
 
 		mockLimitRepo.EXPECT().
@@ -64,10 +67,26 @@ func TestLimitService_CreateLimit(t *testing.T) {
 		assert.Equal(t, "target user not found", err.Error())
 	})
 
+	t.Run("DuplicateLimit", func(t *testing.T) {
+		req := dto.CreateLimitRequest{TargetUserID: 1, TenorMonth: 1, LimitAmount: 100}
+
+		mockUserRepo.EXPECT().FindByID(req.TargetUserID).Return(&entity.User{ID: 1}, nil)
+
+		// Return existing limit for Tenor 1
+		mockLimitRepo.EXPECT().FindByUserID(req.TargetUserID).Return([]entity.TenorLimit{
+			{TenorMonth: 1, LimitAmount: 50000},
+		}, nil)
+
+		err := service.CreateLimit(req)
+		assert.Error(t, err)
+		assert.Equal(t, "limit for this tenor already exists", err.Error())
+	})
+
 	t.Run("LimitRepoError", func(t *testing.T) {
 		req := dto.CreateLimitRequest{TargetUserID: 1, TenorMonth: 1, LimitAmount: 100}
 
 		mockUserRepo.EXPECT().FindByID(req.TargetUserID).Return(&entity.User{ID: 1}, nil)
+		mockLimitRepo.EXPECT().FindByUserID(req.TargetUserID).Return([]entity.TenorLimit{}, nil)
 		mockLimitRepo.EXPECT().Create(gomock.Any()).Return(errors.New("db error"))
 
 		err := service.CreateLimit(req)

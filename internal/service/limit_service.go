@@ -47,6 +47,17 @@ func (s *limitService) CreateLimit(req dto.CreateLimitRequest) error {
 		return errors.New("target user not found")
 	}
 
+	// Check if limit for this tenor already exists
+	existingLimits, err := s.limitRepo.FindByUserID(req.TargetUserID)
+	if err != nil {
+		return err
+	}
+	for _, l := range existingLimits {
+		if int(l.TenorMonth) == req.TenorMonth {
+			return errors.New("limit for this tenor already exists")
+		}
+	}
+
 	limit := &entity.TenorLimit{
 		TenorMonth:  entity.Tenor(req.TenorMonth),
 		LimitAmount: req.LimitAmount,

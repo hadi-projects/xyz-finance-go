@@ -64,8 +64,7 @@ func TestTransactionService_CreateTransaction(t *testing.T) {
 
 		mockTxRepo.EXPECT().FindByUserID(userId).Return([]entity.Transaction{}, nil)
 
-		sqlMock.ExpectExec("INSERT INTO `transactions`").
-			WillReturnResult(sqlmock.NewResult(1, 1))
+		mockTxRepo.EXPECT().Create(gomock.Any()).Return(nil)
 
 		sqlMock.ExpectCommit()
 
