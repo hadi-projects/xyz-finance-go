@@ -8,3 +8,9 @@ storage/uploads/selfie/*
 
 !storage/uploads/ktp/annisa.jpeg
 !storage/uploads/ktp/budi.webp
+
+
+k6-final-results.json
+k6-premerge.json
+k6-results-memory.json
+k6-results.json
