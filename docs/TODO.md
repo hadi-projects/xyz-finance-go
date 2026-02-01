@@ -55,7 +55,7 @@
 - [x] Cache user profile (TTL: 5 min)
 - [x] Cache tenor limits (TTL: 10 min)
 - [x] Cache permissions (TTL: 5 min)
-- [ ] Implement cache invalidation
+- [x] Implement cache invalidation
 
 ---
 
