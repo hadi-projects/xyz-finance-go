@@ -4,7 +4,7 @@ import "time"
 
 type Transaction struct {
 	ID                uint64  `gorm:"primaryKey;autoIncrement" json:"id"`
-	UserID            uint    `gorm:"not null" json:"user_id"`
+	UserID            uint    `gorm:"not null;index:idx_transactions_user_id;index:idx_transactions_user_created,priority:1" json:"user_id"`
 	User              User    `gorm:"foreignKey:UserID" json:"-"`
 	ContractNumber    string  `gorm:"uniqueIndex;type:varchar(50);not null" json:"contract_number"`
 	OTR               float64 `gorm:"type:decimal(15,2);not null" json:"otr"`
@@ -15,7 +15,7 @@ type Transaction struct {
 	Status            string  `gorm:"type:varchar(20);default:'pending'" json:"status"` // pending, approved, rejected
 	Tenor             int     `gorm:"type:int;not null" json:"tenor"`
 
-	CreatedAt time.Time `json:"created_at"`
+	CreatedAt time.Time `gorm:"index:idx_transactions_user_created,priority:2" json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
 

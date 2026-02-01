@@ -47,11 +47,21 @@ func (h *TransactionHandler) CreateTransaction(c *gin.Context) {
 
 func (h *TransactionHandler) GetTransactions(c *gin.Context) {
 	userId := c.GetUint("user_id")
-	transactions, err := h.transactionService.GetTransactions(userId)
+
+	// Parse pagination params
+	var paginationReq dto.PaginationRequest
+	if err := c.ShouldBindQuery(&paginationReq); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	paginationReq.SetDefaults()
+
+	// Get paginated transactions
+	transactions, total, err := h.transactionService.GetTransactionsPaginated(userId, paginationReq.Page, paginationReq.Limit)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": transactions})
+	c.JSON(http.StatusOK, dto.NewPaginatedResponse(transactions, paginationReq.Page, paginationReq.Limit, total))
 }

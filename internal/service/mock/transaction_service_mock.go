@@ -69,3 +69,19 @@ func (mr *MockTransactionServiceMockRecorder) GetTransactions(userID any) *gomoc
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTransactions", reflect.TypeOf((*MockTransactionService)(nil).GetTransactions), userID)
 }
+
+// GetTransactionsPaginated mocks base method.
+func (m *MockTransactionService) GetTransactionsPaginated(userID uint, page, limit int) ([]entity.Transaction, int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetTransactionsPaginated", userID, page, limit)
+	ret0, _ := ret[0].([]entity.Transaction)
+	ret1, _ := ret[1].(int64)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// GetTransactionsPaginated indicates an expected call of GetTransactionsPaginated.
+func (mr *MockTransactionServiceMockRecorder) GetTransactionsPaginated(userID, page, limit any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTransactionsPaginated", reflect.TypeOf((*MockTransactionService)(nil).GetTransactionsPaginated), userID, page, limit)
+}

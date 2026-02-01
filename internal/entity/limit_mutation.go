@@ -15,7 +15,7 @@ const (
 
 type LimitMutation struct {
 	ID           uint           `gorm:"primaryKey" json:"id"`
-	UserID       uint           `json:"user_id"`
+	UserID       uint           `gorm:"index:idx_limit_mutations_user_id" json:"user_id"`
 	TenorLimitID uint           `json:"tenor_limit_id"`
 	OldAmount    float64        `json:"old_amount"`
 	NewAmount    float64        `json:"new_amount"`

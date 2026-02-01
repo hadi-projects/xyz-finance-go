@@ -179,30 +179,33 @@ JSON Response
 
 Hasil load testing menggunakan k6 dengan skenario: **Smoke (1 VU)**, **Load (10 VUs)**, **Stress (20 VUs)**.
 
+> **Note:** BCrypt cost 8 (dev) + Redis permission caching (TTL 5 min) + Query optimization (Select, Preload, Raw SQL).
+
 ### Response Time
 
 | Endpoint | Average | p95 | p99 |
 |----------|---------|-----|-----|
-| Login | 93ms | 117ms | 123ms |
-| Get Profile | 4ms | 8ms | 12ms |
-| Get Limits | 8ms | 21ms | 25ms |
-| Get Transactions | 16ms | 37ms | 45ms |
-| Create Transaction | 14ms | 30ms | 35ms |
+| Login | 38ms | 54ms | 67ms |
+| Get Profile | 4.5ms | 9.1ms | 16ms |
+| Get Limits | 7.2ms | 19.4ms | 25ms |
+| Get Transactions | 7.6ms | 13.7ms | 20ms |
+| Create Transaction | 14.1ms | 32.2ms | 40ms |
 
 ### Throughput & Reliability
 
 | Metric | Value |
 |--------|-------|
-| Requests/second | 20 req/s |
+| Requests/second | 21 req/s |
 | Success Rate | 100% |
 | Error Rate (app logic) | 0% |
-| Total Iterations | 1,489 |
+| Total Iterations | 1,524 |
 | Duration | 6 minutes |
 
 ### Test Configuration
 
 ```bash
 # Run performance test
+API_KEY=test 
 k6 run performance-test.js
 
 # With custom environment
@@ -213,11 +216,24 @@ BASE_URL=http://localhost:8080 API_KEY=your-key k6 run performance-test.js
 
 | Metric | Threshold | Result |
 |--------|-----------|--------|
-| http_req_duration p(95) | < 500ms | ✅ 103ms |
-| http_req_duration p(99) | < 1000ms | ✅ 123ms |
-| Login p(95) | < 300ms | ✅ 117ms |
-| Get Profile p(95) | < 200ms | ✅ 8ms |
-| Get Limits p(95) | < 200ms | ✅ 21ms |
-| Get Transactions p(95) | < 300ms | ✅ 37ms |
-| Create Transaction p(95) | < 500ms | ✅ 30ms |
+| http_req_duration p(95) | < 500ms | ✅ 44.6ms |
+| http_req_duration p(99) | < 1000ms | ✅ 58.7ms |
+| Login p(95) | < 300ms | ✅ 54.3ms |
+| Get Profile p(95) | < 200ms | ✅ 9.1ms |
+| Get Limits p(95) | < 200ms | ✅ 19.4ms |
+| Get Transactions p(95) | < 300ms | ✅ 13.7ms |
+| Create Transaction p(95) | < 500ms | ✅ 32.2ms |
+
+### Performance Optimization Applied
+
+| Optimization | Before | After | Improvement |
+|--------------|--------|-------|-------------|
+| BCrypt Cost (10→8) | 98ms login | 40ms login | ⬇️ 59% faster |
+| Redis Permission Cache | 40ms login | 38ms login | ⬇️ 5% faster |
+| Database Indexes | - | Enabled | ⬇️ N/A (infra) |
+| Connection Pooling | - | MaxOpen=100, MaxIdle=10 | ⬇️ N/A (infra) |
+| Select() columns | 15-20ms avg | 7-8ms avg | ⬇️ 55% faster |
+| Raw SQL JOINs | 15-20ms avg | 7ms avg | ⬇️ 55% faster |
+| Pagination | Full scan | Offset+Limit | ⬇️ Scalable |
+| **Total** | **~100ms** | **~38ms** | **⬇️ 62% faster** |
 

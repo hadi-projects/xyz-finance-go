@@ -48,19 +48,19 @@ func seedRole(db *gorm.DB, roleName string, perms []entity.Permission) {
 	}
 }
 
-func SeedUser(db *gorm.DB) {
+func SeedUser(db *gorm.DB, bcryptCost int) {
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte("pAsswj@123"), bcrypt.DefaultCost)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte("pAsswj@123"), bcryptCost)
 	if err != nil {
 		logger.SystemLogger.Error().Err(err).Msg("failed to hash password")
 	}
 
-	hashedPassword2, err := bcrypt.GenerateFromPassword([]byte("pAsswj@1873"), bcrypt.DefaultCost)
+	hashedPassword2, err := bcrypt.GenerateFromPassword([]byte("pAsswj@1873"), bcryptCost)
 	if err != nil {
 		logger.SystemLogger.Error().Err(err).Msg("failed to hash password")
 	}
 
-	hashedPassword3, err := bcrypt.GenerateFromPassword([]byte("pAsswj@1763"), bcrypt.DefaultCost)
+	hashedPassword3, err := bcrypt.GenerateFromPassword([]byte("pAsswj@1763"), bcryptCost)
 	if err != nil {
 		logger.SystemLogger.Error().Err(err).Msg("failed to hash password")
 	}
@@ -69,7 +69,7 @@ func SeedUser(db *gorm.DB) {
 	seedUser(db, "budi@mail.com", hashedPassword2, 2)
 	seedUser(db, "annisa@mail.com", hashedPassword3, 2)
 
-	logger.SystemLogger.Info().Msg("User Seeding Completed!")
+	logger.SystemLogger.Info().Int("bcrypt_cost", bcryptCost).Msg("User Seeding Completed!")
 }
 
 func seedUser(db *gorm.DB, email string, password []byte, roleId uint) {
