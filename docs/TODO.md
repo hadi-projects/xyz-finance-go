@@ -75,8 +75,8 @@
 ## 5. Code Optimization
 
 ### Goroutines
-- [ ] Parallel database queries where applicable
-- [ ] Use worker pools untuk batch operations
+- [x] Parallel database queries where applicable
+- [x] Use worker pools untuk batch operations
 
 ### Memory
 - [x] Use sync.Pool untuk frequently allocated objects
