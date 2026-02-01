@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/hadi-projects/xyz-finance-go/config"
 	"github.com/hadi-projects/xyz-finance-go/internal/entity"
 	"github.com/hadi-projects/xyz-finance-go/internal/repository"
 	"golang.org/x/crypto/bcrypt"
@@ -16,14 +17,17 @@ type AuthService interface {
 }
 
 type authService struct {
-	userRepo repository.UserRepository
+	userRepo   repository.UserRepository
+	bcryptCost int
 }
 
 func NewAuthService(
 	userRepo repository.UserRepository,
+	cfg *config.AppConfig,
 ) AuthService {
 	return &authService{
-		userRepo: userRepo,
+		userRepo:   userRepo,
+		bcryptCost: cfg.Security.BCryptCost,
 	}
 }
 
@@ -36,7 +40,7 @@ func (s *authService) Register(email, password string) (*entity.User, error) {
 		return nil, fmt.Errorf("failed to check existing user: %w", err)
 	}
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), s.bcryptCost)
 	if err != nil {
 		return nil, fmt.Errorf("failed to hash password: %w", err)
 	}

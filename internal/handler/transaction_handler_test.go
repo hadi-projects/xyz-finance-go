@@ -113,14 +113,18 @@ func TestTransactionHandler_GetTransactions(t *testing.T) {
 	txHandler := handler.NewTransactionHandler(mockTxService)
 
 	t.Run("Success", func(t *testing.T) {
-		mockTxService.EXPECT().GetTransactions(gomock.Any()).Return([]entity.Transaction{
+		userId := uint(1)
+		var totalCount int64 = 2
+		// Handler now uses GetTransactionsPaginated with default page=1, limit=20
+		mockTxService.EXPECT().GetTransactionsPaginated(userId, 1, 20).Return([]entity.Transaction{
 			{ID: 1, ContractNumber: "CTR-001"},
 			{ID: 2, ContractNumber: "CTR-002"},
-		}, nil)
+		}, totalCount, nil)
 
 		w := httptest.NewRecorder()
 		c, _ := gin.CreateTestContext(w)
 		c.Request, _ = http.NewRequest("GET", "/api/transaction/", nil)
+		c.Set("user_id", userId) // Simulate auth middleware
 
 		txHandler.GetTransactions(c)
 
@@ -128,11 +132,13 @@ func TestTransactionHandler_GetTransactions(t *testing.T) {
 	})
 
 	t.Run("ServiceError", func(t *testing.T) {
-		mockTxService.EXPECT().GetTransactions(gomock.Any()).Return(nil, errors.New("db error"))
+		userId := uint(1)
+		mockTxService.EXPECT().GetTransactionsPaginated(userId, 1, 20).Return(nil, int64(0), errors.New("db error"))
 
 		w := httptest.NewRecorder()
 		c, _ := gin.CreateTestContext(w)
 		c.Request, _ = http.NewRequest("GET", "/api/transaction/", nil)
+		c.Set("user_id", userId)
 
 		txHandler.GetTransactions(c)
 

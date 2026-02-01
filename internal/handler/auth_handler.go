@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/hadi-projects/xyz-finance-go/internal/dto"
 	services "github.com/hadi-projects/xyz-finance-go/internal/service"
 	"github.com/hadi-projects/xyz-finance-go/pkg/logger"
 	"github.com/hadi-projects/xyz-finance-go/pkg/validator"
@@ -22,19 +23,9 @@ func NewAuthHandler(authService services.AuthService, jwtService services.JWTSer
 	}
 }
 
-type RegisterRequest struct {
-	Email    string `json:"email" binding:"required,email"`
-	Password string `json:"password" binding:"required,min=6"`
-}
-
-type LoginRequest struct {
-	Email    string `json:"email" binding:"required,email"`
-	Password string `json:"password" binding:"required"`
-}
-
 // Register handles user registration
 func (h *AuthHandler) Register(c *gin.Context) {
-	var req RegisterRequest
+	var req dto.RegisterRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -68,7 +59,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 
 // Login handles user authentication
 func (h *AuthHandler) Login(c *gin.Context) {
-	var req LoginRequest
+	var req dto.LoginRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

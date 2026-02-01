@@ -13,6 +13,7 @@ import (
 type TransactionService interface {
 	CreateTransaction(userId uint, req dto.CreateTransactionRequest) error
 	GetTransactions(userID uint) ([]entity.Transaction, error)
+	GetTransactionsPaginated(userID uint, page, limit int) ([]entity.Transaction, int64, error)
 }
 
 type transactionService struct {
@@ -139,4 +140,19 @@ func (s *transactionService) GetTransactions(userID uint) ([]entity.Transaction,
 	}
 
 	return s.transactionRepo.FindByUserID(userID)
+}
+
+func (s *transactionService) GetTransactionsPaginated(userID uint, page, limit int) ([]entity.Transaction, int64, error) {
+	user, err := s.userRepo.FindByID(userID)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	offset := (page - 1) * limit
+
+	if user.Role.Name == "admin" {
+		return s.transactionRepo.FindAllPaginated(offset, limit)
+	}
+
+	return s.transactionRepo.FindByUserIDPaginated(userID, offset, limit)
 }

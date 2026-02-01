@@ -84,7 +84,9 @@ func (r *userRepository) GetLimitsByUserID(userID uint) ([]entity.TenorLimit, er
 
 func (r *userRepository) FindAllWithLimits() ([]entity.User, error) {
 	var users []entity.User
-	// Preload TenorLimit to get the limits for each user
-	err := r.db.Preload("TenorLimit").Find(&users).Error
+	// Optimized: Select only needed columns and Preload TenorLimit
+	err := r.db.Select("id", "email", "role_id").
+		Preload("TenorLimit").
+		Find(&users).Error
 	return users, err
 }

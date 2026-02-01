@@ -99,3 +99,35 @@ func (mr *MockTransactionRepositoryMockRecorder) WithTx(tx any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WithTx", reflect.TypeOf((*MockTransactionRepository)(nil).WithTx), tx)
 }
+
+// FindByUserIDPaginated mocks base method.
+func (m *MockTransactionRepository) FindByUserIDPaginated(userId uint, offset, limit int) ([]entity.Transaction, int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindByUserIDPaginated", userId, offset, limit)
+	ret0, _ := ret[0].([]entity.Transaction)
+	ret1, _ := ret[1].(int64)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// FindByUserIDPaginated indicates an expected call of FindByUserIDPaginated.
+func (mr *MockTransactionRepositoryMockRecorder) FindByUserIDPaginated(userId, offset, limit any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByUserIDPaginated", reflect.TypeOf((*MockTransactionRepository)(nil).FindByUserIDPaginated), userId, offset, limit)
+}
+
+// FindAllPaginated mocks base method.
+func (m *MockTransactionRepository) FindAllPaginated(offset, limit int) ([]entity.Transaction, int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindAllPaginated", offset, limit)
+	ret0, _ := ret[0].([]entity.Transaction)
+	ret1, _ := ret[1].(int64)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// FindAllPaginated indicates an expected call of FindAllPaginated.
+func (mr *MockTransactionRepositoryMockRecorder) FindAllPaginated(offset, limit any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAllPaginated", reflect.TypeOf((*MockTransactionRepository)(nil).FindAllPaginated), offset, limit)
+}

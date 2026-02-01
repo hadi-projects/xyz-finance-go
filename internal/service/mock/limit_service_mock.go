@@ -96,3 +96,19 @@ func (mr *MockLimitServiceMockRecorder) UpdateLimit(id, req any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateLimit", reflect.TypeOf((*MockLimitService)(nil).UpdateLimit), id, req)
 }
+
+// GetLimitsPaginated mocks base method.
+func (m *MockLimitService) GetLimitsPaginated(userId uint, page, limit int) ([]dto.LimitResponse, int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetLimitsPaginated", userId, page, limit)
+	ret0, _ := ret[0].([]dto.LimitResponse)
+	ret1, _ := ret[1].(int64)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// GetLimitsPaginated indicates an expected call of GetLimitsPaginated.
+func (mr *MockLimitServiceMockRecorder) GetLimitsPaginated(userId, page, limit any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLimitsPaginated", reflect.TypeOf((*MockLimitService)(nil).GetLimitsPaginated), userId, page, limit)
+}

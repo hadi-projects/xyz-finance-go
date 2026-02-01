@@ -1,186 +1,115 @@
 # XYZ Finance API
 
-## Register
-```shell
-curl -X POST http://localhost:8080/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "budi@mail.com",
-    "password": "pAssword@123"
-}'
+Backend API untuk aplikasi pembiayaan XYZ Finance yang dibangun menggunakan Go dengan Gin Framework.
+
+**[Lihat Dokumentasi Arsitektur](docs/ARCHITECTURE.md)** - Layer structure, security flow, database schema
+
+## Tech Stack
+
+| Component | Technology |
+|-----------|------------|
+| Language | Go 1.25+ |
+| Framework | [Gin](https://github.com/gin-gonic/gin) |
+| Database | MySQL 8.0 + [GORM](https://gorm.io/) |
+| Auth | JWT + API Key |
+| Logging | [Zerolog](https://github.com/rs/zerolog) |
+| Testing | [Testify](https://github.com/stretchr/testify) + [GoMock](https://github.com/uber-go/mock) |
+| Container | Docker + Docker Compose |
+
+## Quick Start
+
+### Prerequisites
+- Go 1.25+
+- MySQL 8.0+
+- Docker (optional)
+
+### Installation
+
+```bash
+# Clone repository
+git clone https://github.com/hadi-projects/xyz-finance-go.git
+cd xyz-finance-go
+
+# Setup environment
+cp .env-example .env
+# Edit .env dengan konfigurasi database
+
+# Install dependencies
+go mod tidy
+
+# Run
+make run
 ```
 
-Response:
-```json
-{
-    "message":"User registered successfully.",
-    "user":{
-        "email":"budi@mail.com",
-        "id":1
-    }
-}
+### Running with Docker
+
+```bash
+make docker-up      # Start all services
+make docker-logs    # View logs
+make docker-down    # Stop services
 ```
 
-## Login
-```shell
+**Services:** API (`localhost:8080`) | MySQL (`localhost:3307`)
+
+### Running Tests
+
+```bash
+make test           # Run all tests
+make test-cover     # Run with coverage
+```
+
+## Default Users
+
+| Email              | Password       | Role  |
+|--------------------|----------------|-------|
+| admin@mail.com     | pAsswj@123     | Admin |
+| budi@mail.com      | pAsswj@1873    | User  |
+| annisa@mail.com    | pAsswj@1763    | User  |
+
+## API Endpoints
+
+### Public Routes
+| Method | Endpoint             | Description         |
+|--------|----------------------|---------------------|
+| GET    | `/health`            | Health check        |
+| POST   | `/api/auth/register` | Register user       |
+| POST   | `/api/auth/login`    | Login user          |
+| GET    | `/uploads/*filepath` | Static files        |
+
+### Protected Routes (Requires API Key + JWT)
+| Method | Endpoint              | Permission           | Description            |
+|--------|-----------------------|----------------------|------------------------|
+| GET    | `/api/user/profile`   | -                    | Get user profile       |
+| GET    | `/api/limit/`         | `get-limit`          | Get user limits        |
+| POST   | `/api/limit/`         | `create-limit`       | Create limit (Admin)   |
+| PUT    | `/api/limit/:id`      | `edit-limit`         | Update limit (Admin)   |
+| DELETE | `/api/limit/:id`      | `delete-limit`       | Delete limit (Admin)   |
+| POST   | `/api/transaction/`   | `create-transaction` | Create transaction     |
+| GET    | `/api/transaction/`   | `get-transactions`   | Get transactions       |
+| GET    | `/api/logs/audit`     | `get-audit-log`      | Get audit logs (Admin) |
+| GET    | `/api/logs/auth`      | `get-auth-log`       | Get auth logs (Admin)  |
+
+## API Examples
+
+### Login
+```bash
 curl -X POST http://localhost:8080/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{
-    "email": "budi@mail.com",
-    "password": "pAsswj@1873"
-}'
+  -d '{"email": "budi@mail.com", "password": "pAsswj@1873"}'
 ```
 
-Response:
-```json
-{
-    "message":"Login successful",
-    "user":{
-        "email":"user@example.com",
-        "id":1
-    }
-}
-```
-
-## Get Profile
-```shell
+### Protected Request
+```bash
 curl -X GET http://localhost:8080/api/user/profile \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6ImJ1ZGlAbWFpbC5jb20iLCJleHAiOjE3Njk5MjQ5NDAsImlhdCI6MTc2OTgzODU0MH0._SA7QNtqzBF6PrLMbun8MoRPSHkHyWkjbmemwTK6iKA"
+  -H "X-API-KEY: your-api-key" \
+  -H "Authorization: Bearer <jwt-token>"
 ```
 
-Response:
-```json
-{
-    "data":{
-        "user_id":2,
-        "email":"budi@mail.com",
-        "consumer":{
-            "nik":"1234567890123456","full_name":"Budi Santoso","legal_name":"Budi Santoso","place_of_birth":"Jakarta","date_of_birth":"1990-01-01T00:00:00+07:00",
-            "salary":10000000,"ktp_image":"ktp_placeholder.jpg","selfie_image":"selfie_placeholder.jpg"
-        }
-    },
-    "message":"Get User Profile"
-}
-```
+## Additional Resources
 
-## Get Limit
-```shell
-curl -X GET http://localhost:8080/api/limit/ \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6ImJ1ZGlAbWFpbC5jb20iLCJleHAiOjE3Njk5Mjc2MzgsImlhdCI6MTc2OTg0MTIzOH0.Bd7qUpg0Yu5pqiwvHDFyvJ-tgCDHw_rUyBSSANWZkGQ"
-```
+- **Postman Collection**: `XYZ Finance API.postman_collection.json`
+- **Performance Testing**: `k6 run performance-test.js`
 
-Response:
-```json
-{
-    "data": [
-        {
-            "user_id": 2,
-            "tenor_month": 1,
-            "limit_amount": 100000
-        },
-        {
-            "user_id": 2,
-            "tenor_month": 2,
-            "limit_amount": 200000
-        },
-        {
-            "user_id": 2,
-            "tenor_month": 3,
-            "limit_amount": 500000
-        },
-        {
-            "user_id": 2,
-            "tenor_month": 6,
-            "limit_amount": 700000
-        }
-    ],
-    "message": "Get User Limits"
-}
-```
+## License
 
-## Create Limit
-
-```shell
-curl -X POST http://localhost:8080/api/limit/  \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIiwiZXhwIjoxNzY5OTI1MjY4LCJpYXQiOjE3Njk4Mzg4Njh9.LT2nnrbi4YrUc9eySLsW7x1oU15Wqi7WrKF-Kg3mAWQ" \
-  -d '{
-    "target_user_id": 2,
-    "tenor_month": 1,
-    "limit_amount": 100000
-}'
-```
-
-Response:
-```json
-{
-    "message":"Limit created successfully"
-}
-```
-
-## Delete Limit
-
-```shell
-curl -X DELETE http://localhost:8080/api/limit/11 \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIiwiZXhwIjoxNzY5OTI1MjY4LCJpYXQiOjE3Njk4Mzg4Njh9.LT2nnrbi4YrUc9eySLsW7x1oU15Wqi7WrKF-Kg3mAWQ"
-```
-
-Response:
-```json
-{
-    "message":"Limit deleted successfully"
-}
-```
-
-## Update Limit
-
-```shell
-curl -X PUT http://localhost:8080/api/limit/2 \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIiwiZXhwIjoxNzY5OTI1MjY4LCJpYXQiOjE3Njk4Mzg4Njh9.LT2nnrbi4YrUc9eySLsW7x1oU15Wqi7WrKF-Kg3mAWQ" \
-  -d '{
-    "tenor_month": 3,
-    "limit_amount": 100000
-}'
-```
-
-Response:
-```json
-{
-    "message":"Limit updated successfully"
-}
-```
-
-## Create Transaction
-```shell
-curl -X POST http://localhost:8080/api/transaction/  \
-  -H "Content-Type: application/json" \
-  -H "X-API-KEY: biytf7rciyubyt6r7g89py" \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6ImJ1ZGlAbWFpbC5jb20iLCJleHAiOjE3Njk5Mjc2MzgsImlhdCI6MTc2OTg0MTIzOH0.Bd7qUpg0Yu5pqiwvHDFyvJ-tgCDHw_rUyBSSANWZkGQ" \
-  -d '{
-    "contract_number": "CTR-2024-001",
-    "otr": 600000,
-    "admin_fee": 10000,
-    "installment_amount": 105000,
-    "interest_amount": 10000,
-    "asset_name": "Samsung Galaxy A05",
-    "tenor": 6
-}'
-```
-
-Response:
-```json
-{
-    "message":"Transaction created successfully"
-}
-```
-
-## Get Transaction History
+MIT License
