@@ -79,8 +79,8 @@
 - [ ] Use worker pools untuk batch operations
 
 ### Memory
-- [ ] Use sync.Pool untuk frequently allocated objects
-- [ ] Reduce allocations in hot paths
+- [x] Use sync.Pool untuk frequently allocated objects
+- [x] Reduce allocations in hot paths
 
 ---
 

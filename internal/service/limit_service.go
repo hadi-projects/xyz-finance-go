@@ -62,12 +62,14 @@ func (s *limitService) GetLimits(userId uint) ([]dto.LimitResponse, error) {
 		return responses, nil
 	}
 
-	// 3. User: Find Own Limits
+	// User: Find Own Limits (no pagination needed, max 4 tenors)
 	limits, err := s.limitRepo.FindByUserID(userId)
 	if err != nil {
 		return nil, err
 	}
 
+	// Pre-allocate with known length
+	responses = make([]dto.LimitResponse, 0, len(limits))
 	for _, l := range limits {
 		responses = append(responses, dto.LimitResponse{
 			UserID:      userId,
@@ -97,8 +99,8 @@ func (s *limitService) GetLimitsPaginated(userId uint, page, limit int) ([]dto.L
 			return nil, 0, err
 		}
 
-		// Collect all limits
-		var allLimits []dto.LimitResponse
+		// Pre-allocate with estimated capacity (avg 4 tenors per user)
+		allLimits := make([]dto.LimitResponse, 0, len(users)*4)
 		for _, u := range users {
 			for _, l := range u.TenorLimit {
 				allLimits = append(allLimits, dto.LimitResponse{
