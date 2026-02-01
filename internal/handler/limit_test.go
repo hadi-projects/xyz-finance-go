@@ -70,8 +70,10 @@ func TestLimitHandler_GetLimits(t *testing.T) {
 	t.Run("Success", func(t *testing.T) {
 		userId := uint(1)
 		limits := []dto.LimitResponse{{UserID: 1, TenorMonth: 12, LimitAmount: 10000}}
+		var totalCount int64 = 1
 
-		mockLimitService.EXPECT().GetLimits(userId).Return(limits, nil)
+		// Handler now uses GetLimitsPaginated with default page=1, limit=20
+		mockLimitService.EXPECT().GetLimitsPaginated(userId, 1, 20).Return(limits, totalCount, nil)
 
 		w := httptest.NewRecorder()
 		c, _ := gin.CreateTestContext(w)

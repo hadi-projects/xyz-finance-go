@@ -1,0 +1,289 @@
+{
+    "metrics": {
+        "data_received": {
+            "count": 14837172,
+            "rate": 40927.20626716724
+        },
+        "http_req_receiving": {
+            "p(90)": 0.102,
+            "p(95)": 0.137,
+            "avg": 0.071231430081945,
+            "min": 0.007,
+            "med": 0.042,
+            "max": 16.682
+        },
+        "http_req_duration": {
+            "p(95)": 58.84699999999997,
+            "avg": 16.999314036478985,
+            "min": 1.341,
+            "med": 8.313500000000001,
+            "max": 218.64,
+            "p(90)": 40.238,
+            "thresholds": {
+                "p(95)<500": false,
+                "p(99)<1000": false
+            }
+        },
+        "group_duration": {
+            "avg": 230.10832119960315,
+            "min": 3.704541,
+            "med": 33.348208,
+            "max": 897.829958,
+            "p(90)": 636.602858,
+            "p(95)": 661.7164583
+        },
+        "http_req_blocked": {
+            "avg": 0.015223764208300456,
+            "min": 0,
+            "med": 0.004,
+            "max": 7.357,
+            "p(90)": 0.009,
+            "p(95)": 0.013
+        },
+        "iteration_duration": {
+            "min": 2635.521625,
+            "med": 2676.645583,
+            "max": 3074.318334,
+            "p(90)": 2774.626883,
+            "p(95)": 2814.969842,
+            "avg": 2697.1720636721707
+        },
+        "http_req_failed": {
+            "passes": 1513,
+            "fails": 6053,
+            "thresholds": {
+                "rate<0.01": true
+            },
+            "value": 0.1999735659529474
+        },
+        "login_duration": {
+            "p(95)": 83.87679999999995,
+            "avg": 35.91914672835425,
+            "min": 18.393,
+            "med": 27.261,
+            "max": 200.917,
+            "p(90)": 66.63860000000003,
+            "thresholds": {
+                "p(95)<300": false
+            }
+        },
+        "create_transaction_duration": {
+            "max": 218.64,
+            "p(90)": 42.54380000000001,
+            "p(95)": 61.347799999999985,
+            "avg": 19.041854593522828,
+            "min": 3.59,
+            "med": 10.961,
+            "thresholds": {
+                "p(95)<500": false
+            }
+        },
+        "errors": {
+            "passes": 0,
+            "fails": 7565,
+            "thresholds": {
+                "rate<0.05": false
+            },
+            "value": 0
+        },
+        "http_req_connecting": {
+            "med": 0,
+            "max": 1.733,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.001691250330425588,
+            "min": 0
+        },
+        "vus_max": {
+            "value": 20,
+            "min": 20,
+            "max": 20
+        },
+        "http_reqs": {
+            "count": 7566,
+            "rate": 20.87023339874926
+        },
+        "checks": {
+            "passes": 10592,
+            "fails": 0,
+            "value": 1
+        },
+        "get_limits_duration": {
+            "p(95)": 41.05939999999999,
+            "avg": 10.593252478519505,
+            "min": 2.118,
+            "med": 4.891,
+            "max": 141.949,
+            "p(90)": 23.249200000000002,
+            "thresholds": {
+                "p(95)<200": false
+            }
+        },
+        "data_sent": {
+            "count": 2614202,
+            "rate": 7211.076644392957
+        },
+        "http_req_tls_handshaking": {
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0,
+            "min": 0,
+            "med": 0,
+            "max": 0
+        },
+        "get_profile_duration": {
+            "avg": 8.225707204230025,
+            "min": 1.341,
+            "med": 2.963,
+            "max": 152.29,
+            "p(90)": 21.303000000000004,
+            "p(95)": 37.87239999999999,
+            "thresholds": {
+                "p(95)<200": false
+            }
+        },
+        "get_transactions_duration": {
+            "min": 2.927,
+            "med": 5.628,
+            "max": 189.665,
+            "p(90)": 24.533,
+            "p(95)": 38.08279999999998,
+            "avg": 11.206079973562456,
+            "thresholds": {
+                "p(95)<300": false
+            }
+        },
+        "http_req_sending": {
+            "p(95)": 0.044,
+            "avg": 0.038196933650541276,
+            "min": 0.002,
+            "med": 0.015,
+            "max": 35.81,
+            "p(90)": 0.03
+        },
+        "http_req_waiting": {
+            "avg": 16.889885672746473,
+            "min": 1.313,
+            "med": 8.2285,
+            "max": 218.543,
+            "p(90)": 40.0835,
+            "p(95)": 58.45149999999999
+        },
+        "vus": {
+            "min": 0,
+            "max": 20,
+            "value": 1
+        },
+        "iterations": {
+            "count": 1513,
+            "rate": 4.17349499501819
+        },
+        "http_req_duration{expected_response:true}": {
+            "max": 200.917,
+            "p(90)": 39.469800000000006,
+            "p(95)": 57.906399999999955,
+            "avg": 16.488763257888674,
+            "min": 1.341,
+            "med": 6.46
+        }
+    },
+    "setup_data": {
+        "ready": true
+    },
+    "root_group": {
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {
+            "setup": {
+                "name": "setup",
+                "path": "::setup",
+                "id": "5c0f8025f7e0b6654089e5b00e950f1a",
+                "groups": {},
+                "checks": {
+                        "setup: login successful": {
+                            "path": "::setup::setup: login successful",
+                            "id": "19afc7cfcec34121a8ec6b85169fbdad",
+                            "passes": 1,
+                            "fails": 0,
+                            "name": "setup: login successful"
+                        }
+                    }
+            },
+            "Authentication": {
+                "path": "::Authentication",
+                "id": "e27c07c74d84fc697478e1503d425296",
+                "groups": {},
+                "checks": {
+                        "login: status is 200": {
+                            "passes": 1513,
+                            "fails": 0,
+                            "name": "login: status is 200",
+                            "path": "::Authentication::login: status is 200",
+                            "id": "c03c6f05ccac9e7fb699457a320100be"
+                        },
+                        "login: has access_token": {
+                            "name": "login: has access_token",
+                            "path": "::Authentication::login: has access_token",
+                            "id": "01fdbf00e2c8438d6af361cbf8e88a7e",
+                            "passes": 1513,
+                            "fails": 0
+                        }
+                    },
+                "name": "Authentication"
+            },
+            "Read Operations": {
+                "name": "Read Operations",
+                "path": "::Read Operations",
+                "id": "7eee4b2c27796bc8c6d995c0d84e8a4b",
+                "groups": {},
+                "checks": {
+                        "get profile: status is 200": {
+                            "passes": 1513,
+                            "fails": 0,
+                            "name": "get profile: status is 200",
+                            "path": "::Read Operations::get profile: status is 200",
+                            "id": "7d5c05780632fbcf1ad0e56e47d2fbe4"
+                        },
+                        "get profile: has data": {
+                            "name": "get profile: has data",
+                            "path": "::Read Operations::get profile: has data",
+                            "id": "9736cb6ae6df9c556744bc7a1416620d",
+                            "passes": 1513,
+                            "fails": 0
+                        },
+                        "get limits: status is 200": {
+                            "name": "get limits: status is 200",
+                            "path": "::Read Operations::get limits: status is 200",
+                            "id": "805a358590fc1438c07ea1ac524375c2",
+                            "passes": 1513,
+                            "fails": 0
+                        },
+                        "get transactions: status is 200": {
+                            "fails": 0,
+                            "name": "get transactions: status is 200",
+                            "path": "::Read Operations::get transactions: status is 200",
+                            "id": "efce6f84fb8cc6394ddda94d8db69d43",
+                            "passes": 1513
+                        }
+                    }
+            },
+            "Write Operations": {
+                "groups": {},
+                "checks": {
+                        "create transaction: valid response": {
+                            "name": "create transaction: valid response",
+                            "path": "::Write Operations::create transaction: valid response",
+                            "id": "c642bca9a3e84bb28b1a2ae8ae81c656",
+                            "passes": 1513,
+                            "fails": 0
+                        }
+                    },
+                "name": "Write Operations",
+                "path": "::Write Operations",
+                "id": "a033d57386c7f062677d2e8009471852"
+            }
+        },
+        "checks": {},
+        "name": ""
+    }
+}
