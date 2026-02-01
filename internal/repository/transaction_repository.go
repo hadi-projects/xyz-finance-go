@@ -36,13 +36,12 @@ func (r *transactionRepository) FindByUserIDPaginated(userId uint, offset, limit
 	var transactions []entity.Transaction
 	var total int64
 
-	// Count total
 	if err := r.db.Model(&entity.Transaction{}).Where("user_id = ?", userId).Count(&total).Error; err != nil {
 		return nil, 0, err
 	}
 
-	// Get paginated data
-	err := r.db.Where("user_id = ?", userId).
+	err := r.db.Select("id", "user_id", "contract_number", "otr", "admin_fee", "installment_amount", "interest_amount", "asset_name", "status", "tenor", "created_at", "updated_at").
+		Where("user_id = ?", userId).
 		Order("created_at DESC").
 		Offset(offset).
 		Limit(limit).
@@ -66,8 +65,9 @@ func (r *transactionRepository) FindAllPaginated(offset, limit int) ([]entity.Tr
 		return nil, 0, err
 	}
 
-	// Get paginated data
-	err := r.db.Order("created_at DESC").
+	// Get paginated data with Select for specific columns
+	err := r.db.Select("id", "user_id", "contract_number", "otr", "admin_fee", "installment_amount", "interest_amount", "asset_name", "status", "tenor", "created_at", "updated_at").
+		Order("created_at DESC").
 		Offset(offset).
 		Limit(limit).
 		Find(&transactions).Error

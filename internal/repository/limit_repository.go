@@ -56,7 +56,14 @@ func (r *limitRepository) Delete(id uint) error {
 
 func (r *limitRepository) FindByUserID(userId uint) ([]entity.TenorLimit, error) {
 	var limits []entity.TenorLimit
-	err := r.db.Model(&entity.User{ID: userId}).Association("TenorLimit").Find(&limits)
+	// Optimized: Use raw SQL JOIN instead of Association
+	err := r.db.Raw(`
+		SELECT tl.id, tl.tenor_month, tl.limit_amount, tl.created_at, tl.updated_at
+		FROM tenor_limits tl
+		INNER JOIN user_has_tenor_limit uhtl ON tl.id = uhtl.tenor_limit_id
+		WHERE uhtl.user_id = ?
+		ORDER BY tl.tenor_month ASC
+	`, userId).Scan(&limits).Error
 	if err != nil {
 		return nil, err
 	}

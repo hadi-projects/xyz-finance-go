@@ -15,21 +15,21 @@
 ## 1. Database Optimization
 
 ### Indexes
-- [ ] Add index on `transactions.user_id`
-- [ ] Add index on `limit_mutations.user_id`  
-- [ ] Add index on `users.email`
-- [ ] Add index on `refresh_tokens.user_id`
-- [ ] Add composite index on `transactions(user_id, created_at)`
+- [x] Add index on `transactions.user_id`
+- [x] Add index on `limit_mutations.user_id`  
+- [x] Add index on `users.email`
+- [x] Add index on `refresh_tokens.user_id`
+- [x] Add composite index on `transactions(user_id, created_at)`
 
 ### Connection Pooling
-- [ ] Configure `SetMaxIdleConns(10)`
-- [ ] Configure `SetMaxOpenConns(100)`
-- [ ] Configure `SetConnMaxLifetime(1h)`
+- [x] Configure `SetMaxIdleConns(10)`
+- [x] Configure `SetMaxOpenConns(100)`
+- [x] Configure `SetConnMaxLifetime(1h)`
 
 ### Query Optimization
-- [ ] Use `Select()` untuk limit kolom yang di-query
-- [ ] Replace N+1 queries dengan `Preload`
-- [ ] Use raw SQL untuk complex queries
+- [x] Use `Select()` untuk limit kolom yang di-query
+- [x] Replace N+1 queries dengan `Preload`
+- [x] Use raw SQL untuk complex queries
 
 ---
 

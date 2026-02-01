@@ -2,8 +2,8 @@ package dto
 
 // PaginationRequest for incoming pagination params
 type PaginationRequest struct {
-	Page  int `form:"page" binding:"min=1"`
-	Limit int `form:"limit" binding:"min=1,max=100"`
+	Page  int `form:"page"`
+	Limit int `form:"limit"`
 }
 
 // PaginationMeta for response pagination metadata
