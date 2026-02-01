@@ -58,6 +58,7 @@ func (r *Router) SetupRoutes() *gin.Engine {
 	router.Use(middleware.RequestCancellation(time.Duration(r.Config.Security.RequestTimeout) * time.Second))
 	router.Use(middleware.XSSProtection())
 	router.Use(middleware.SecureHeaders())
+	router.Use(middleware.GzipCompression()) // Enable gzip compression for responses
 
 	r.setupPublicRoutes(router)
 	r.setupPrivateRoutes(router)

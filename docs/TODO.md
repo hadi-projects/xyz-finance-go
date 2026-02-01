@@ -62,8 +62,8 @@
 ## 4. API Response Optimization
 
 ### Response Compression
-- [ ] Enable Gzip compression middleware
-- [ ] Compress responses > 1KB
+- [x] Enable Gzip compression middleware
+- [x] Compress responses > 1KB
 
 ### Pagination
 - [x] Add pagination for GET /api/transaction/
