@@ -2,7 +2,7 @@
 
 Backend API untuk aplikasi pembiayaan XYZ Finance yang dibangun menggunakan Go dengan Gin Framework.
 
-**[Lihat Dokumentasi Arsitektur](docs/ARCHITECTURE.md)** - Layer structure, security flow, database schema
+**[Lihat Dokumentasi Arsitektur](docs/architecture.md)** - Layer structure, security flow, database schema
 
 ## Tech Stack
 
